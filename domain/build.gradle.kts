@@ -1,15 +1,12 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
 }
 
 kotlin {
-
     androidLibrary {
-        namespace = "com.devbilal.designsystem"
+        namespace = "com.devbilal.domain"
         compileSdk = 36
         minSdk = 24
 
@@ -23,7 +20,7 @@ kotlin {
         }
     }
 
-    val xcfName = "designSystemKit"
+    val xcfName = "domainKit"
 
     iosX64 {
         binaries.framework {
@@ -47,14 +44,6 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation(libs.compose.runtime)
-                implementation(libs.compose.foundation)
-                implementation(libs.compose.material3)
-                implementation(libs.compose.ui)
-                implementation(libs.compose.components.resources)
-                implementation(libs.compose.uiToolingPreview)
-                implementation(libs.squircle.shape)
-                implementation(libs.compose.ui.backhandler)
             }
         }
 
