@@ -8,9 +8,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,19 +23,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.dp
-import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.designsystem.theme.theme.Theme
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.ic_selected
+import zat.designsystem.generated.resources.selected
 
 
 @Composable
-fun RadioButton(
+fun BoxRadioButton(
     isSelected: Boolean,
     onClick: (() -> Unit)?,
     label: String? = null,
-    hint: String? = null,
+    icon: Painter? = null,
+    selectedIndicatorIcon: Painter = painterResource(Res.drawable.ic_selected),
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(Theme.radius.full),
     isEnabled: Boolean = true
@@ -70,11 +78,6 @@ fun RadioButton(
             animatedUnselectedLabelColor else Theme.colorScheme.shadePrimary
     )
 
-    val animatedHintColor by animateColorAsState(
-        targetValue = if (isEnabled)
-            animatedUnselectedLabelColor else Theme.colorScheme.shadeTertiary
-    )
-
     val clickableModifier = onClick?.let {
         Modifier.clickable(
             enabled = isEnabled,
@@ -86,41 +89,56 @@ fun RadioButton(
         }
     } ?: Modifier
 
-    Row(
+    Box(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
     ) {
-        Box(
-            modifier = Modifier
-                .size(18.dp)
-                .background(animatedUnselectedContentColor, shape)
-                .border(
-                    width = animatedBorderDp,
-                    color = animatedBorderColor,
-                    shape = shape
+        if (isSelected) {
+            Icon(
+                painter = selectedIndicatorIcon,
+                contentDescription = stringResource(Res.string.selected),
+                tint = Theme.colorScheme.brand.brand,
+                modifier = Modifier.size(12.dp).align(Alignment.TopEnd)
+            )
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+        ) {
+
+
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(animatedUnselectedContentColor, shape)
+                    .border(
+                        width = animatedBorderDp,
+                        color = animatedBorderColor,
+                        shape = shape
+                    )
+                    .clip(shape)
+                    .then(clickableModifier),
+            ) {
+                icon?.let {
+                    Icon(
+                        painter = icon,
+                        contentDescription = label,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            label?.let { text ->
+                Text(
+                    text = text,
+                    color = animatedLabelColor,
+                    style = Theme.typography.headline.small
                 )
-                .clip(shape)
-                .then(clickableModifier),
-        )
+            }
 
-        label?.let { text ->
-            Text(
-                text = text,
-                color = animatedLabelColor,
-                style = Theme.typography.headline.small
-            )
         }
-
-        hint?.let { text ->
-            Text(
-                text = text,
-                color = animatedHintColor,
-                style = Theme.typography.body.small
-            )
-        }
-
     }
+
 }
 
 @Preview

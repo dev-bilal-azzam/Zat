@@ -32,11 +32,11 @@ val colorPalette = ColorPalette(
     ),
     gray = ColorScale(
         shade50 = Color(0xFFFFFFFF),
-        shade100 = Color(0xFFF8FAFC),
+        shade100 = Color(0xFFF1F5F9),
         shade200 = Color(0xFFFF2F4F7),
         shade300 = Color(0xFFEAECF0),
         shade400 = Color(0xFFBEC0CC),
-        shade500 = Color(0xFF818599),
+        shade500 = Color(0xFF94A3B8),
         shade600 = Color(0xFF334155),
         shade700 = Color(0xFF12141C),
         shade800 = Color(0xFF0E1017),
