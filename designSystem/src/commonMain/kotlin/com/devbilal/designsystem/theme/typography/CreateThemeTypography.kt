@@ -6,27 +6,19 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.devbilal.designsystem.theme.theme.Theme
-import zat.designsystem.generated.resources.*
-import com.devbilal.designsystem.util.AppLanguage
 import org.jetbrains.compose.resources.Font
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.cairo_medium
+import zat.designsystem.generated.resources.cairo_regular
+import zat.designsystem.generated.resources.cairo_semi_bold
 
 @Composable
 fun createThemeTypography(appLanguage: String): Typography {
-    val interFontFamily = FontFamily(
-        Font(resource = Res.font.inter_regular, FontWeight.Normal),
-        Font(resource = Res.font.inter_medium, FontWeight.Medium),
-        Font(resource = Res.font.inter_semi_bold, FontWeight.SemiBold),
-    )
-    val cairoFontFamily = FontFamily(
+    val fontFamily = FontFamily(
         Font(resource = Res.font.cairo_regular, FontWeight.Normal),
         Font(resource = Res.font.cairo_medium, FontWeight.Medium),
         Font(resource = Res.font.cairo_semi_bold, FontWeight.SemiBold),
     )
-    val fontFamily = when (appLanguage) {
-        AppLanguage.English.iso -> interFontFamily
-        AppLanguage.Arabic.iso -> cairoFontFamily
-        else -> interFontFamily
-    }
 
     return Typography(
         appName = TextStyle.Default.copy(

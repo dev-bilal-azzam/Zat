@@ -23,11 +23,14 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
+import com.devbilal.presentation.base.ObserveEffects
+import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.features.onboarding.components.AppearanceSection
 import com.devbilal.presentation.features.onboarding.components.LanguageSection
 import com.devbilal.presentation.features.onboarding.components.OnBoardingHeader
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.`continue`
 import zat.presentation.generated.resources.ic_arrow
@@ -35,12 +38,27 @@ import zat.presentation.generated.resources.ic_arrow
 
 @Composable
 fun OnBoardingScreen(
-    language: AppLanguage,
-    theme: AppTheme,
-    onLanguageSelected: (AppLanguage) -> Unit,
-    onThemeSelected: (AppTheme) -> Unit
+    viewModel: OnBoardingViewModel = koinViewModel()
 ) {
+    val state = viewModel.collectState()
 
+    viewModel.ObserveEffects {
+        when(it) {
+            OnBoardingEffect.NavigateToInitSecurity -> { TODO() }
+        }
+    }
+
+    OnBoardingScreenContent(
+        state = state,
+        onIntent = viewModel::handleIntent
+    )
+}
+
+@Composable
+private fun OnBoardingScreenContent(
+    state: OnBoardingState,
+    onIntent: (OnBoardingIntent) -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = Theme.colorScheme.background.surfaceLow
@@ -56,22 +74,22 @@ fun OnBoardingScreen(
                 OnBoardingHeader()
 
                 LanguageSection(
-                    selectedLanguage = language,
-                    onLanguageSelected = onLanguageSelected,
+                    selectedLanguage = state.selectedLanguage,
+                    onLanguageSelected = { onIntent(OnBoardingIntent.OnLanguageSelected(it)) },
                     modifier = Modifier.align(Alignment.Start)
                 )
 
                 AppearanceSection(
-                    selectedTheme = theme,
-                    onThemeSelected = onThemeSelected,
+                    selectedTheme = state.selectedTheme,
+                    onThemeSelected = { onIntent(OnBoardingIntent.OnThemeSelected(it)) },
                     modifier = Modifier.align(Alignment.Start)
                 )
             }
 
             PrimaryButton(
                 text = stringResource(Res.string.`continue`),
-                trailingIcon = painterResource(Res.drawable.ic_arrow),
-                onClick = {},
+                trailingIcon = vectorResource(Res.drawable.ic_arrow),
+                onClick = { onIntent(OnBoardingIntent.OnContinueClicked) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(24.dp)
@@ -95,12 +113,7 @@ fun App() {
         appTheme = theme.name
     ) {
 
-        OnBoardingScreen(
-            language = language,
-            theme = theme,
-            onLanguageSelected = { language = it },
-            onThemeSelected = { theme = it }
-        )
+        OnBoardingScreen()
 
     }
 }

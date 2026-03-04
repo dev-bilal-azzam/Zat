@@ -3,4 +3,9 @@
     <string name="selected">Selected</string>
     <string name="default_language">Default App Language</string>
     <string name="arabic_language">اللغة العربية</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="auto">Auto</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
 </resources>

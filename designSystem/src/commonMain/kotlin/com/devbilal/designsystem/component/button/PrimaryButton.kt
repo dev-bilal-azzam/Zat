@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -20,7 +20,7 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 import sv.lib.squircleshape.SquircleShape
 import zat.designsystem.generated.resources.Res
 import zat.designsystem.generated.resources.ic_cheese_cake
@@ -30,7 +30,7 @@ fun PrimaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    trailingIcon: Painter? = null,
+    trailingIcon: ImageVector? = null,
     iconSize: Dp = 16.dp,
     iconStartPadding: Dp = Theme.spacing._8,
     isEnabled: Boolean = true,
@@ -93,19 +93,19 @@ private fun PrimaryButtonPreview() {
         ) {
             PrimaryButton(
                 text = "Button",
-                trailingIcon = painterResource(resource = Res.drawable.ic_cheese_cake),
+                trailingIcon = vectorResource(resource = Res.drawable.ic_cheese_cake),
                 onClick = {},
                 modifier = Modifier
             )
             PrimaryButton(
                 text = "Click me to test loading",
                 isLoading = primaryButtonLoading,
-                trailingIcon = painterResource(resource = Res.drawable.ic_cheese_cake),
+                trailingIcon = vectorResource(resource = Res.drawable.ic_cheese_cake),
                 onClick = { primaryButtonLoading = !primaryButtonLoading },
             )
             PrimaryButton(
                 text = "Button",
-                trailingIcon = painterResource(resource = Res.drawable.ic_cheese_cake),
+                trailingIcon = vectorResource(resource = Res.drawable.ic_cheese_cake),
                 onClick = {},
                 isEnabled = false,
                 modifier = Modifier

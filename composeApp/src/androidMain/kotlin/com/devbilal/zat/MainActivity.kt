@@ -7,12 +7,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         installSplashScreen()
+
+        val appLocalizer by inject<AppLocalizer>()
+        appLocalizer.applyLocaleToContext()
+
         setContent {
             App()
         }

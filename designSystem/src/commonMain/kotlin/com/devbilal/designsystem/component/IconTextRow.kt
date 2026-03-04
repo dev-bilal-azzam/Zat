@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
@@ -16,7 +16,7 @@ import com.devbilal.designsystem.theme.theme.Theme
 
 @Composable
 fun IconTextRow(
-    icon: Painter,
+    icon: ImageVector,
     text: String,
     contentDescription: String? = null,
     iconTint: Color = Theme.colorScheme.primary.primary,
@@ -30,7 +30,7 @@ fun IconTextRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
-            painter = icon,
+            imageVector = icon,
             contentDescription = contentDescription,
             tint = iconTint,
             modifier = Modifier.size(20.dp)
