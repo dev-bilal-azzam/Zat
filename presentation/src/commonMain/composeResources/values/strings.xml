@@ -2,7 +2,7 @@
 <resources>
     <string name="zat">Zat</string>
     <string name="welcome">Welcome to Zat</string>
-    <string name="welcome_message">Let's customize your experience to make it yours.</string>
+    <string name="welcome_message">Give your inner world a voice.</string>
     <string name="default_language">Default App Language</string>
     <string name="arabic_language">اللغة العربية</string>
     <string name="choose_language">Choose Language</string>

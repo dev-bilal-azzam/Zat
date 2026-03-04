@@ -6,24 +6,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import zat.designsystem.generated.resources.Res
-import zat.designsystem.generated.resources.ic_cheese_cake
 import com.devbilal.designsystem.component.button.content.BaseButtonContent
 import com.devbilal.designsystem.component.preview.PreviewComponent
-import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.theme.theme.Theme
-import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import com.devbilal.designsystem.theme.theme.ZatTheme
+import org.jetbrains.compose.resources.vectorResource
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.ic_cheese_cake
 
 @Composable
 fun NegativeTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     text: String? = null,
-    trailingIcon: Painter? = null,
+    trailingIcon: ImageVector? = null,
     iconSize: Dp = 16.dp,
     contentDescription: String? = null,
     isEnabled: Boolean = true,
@@ -63,13 +63,13 @@ private fun NegativeTextButtonPreview() {
         ) {
             NegativeTextButton(
                 text = "Button",
-                trailingIcon = painterResource(resource = Res.drawable.ic_cheese_cake),
+                trailingIcon = vectorResource(resource = Res.drawable.ic_cheese_cake),
                 onClick = {},
                 modifier = Modifier
             )
             NegativeTextButton(
                 text = "Button",
-                trailingIcon = painterResource(resource = Res.drawable.ic_cheese_cake),
+                trailingIcon = vectorResource(resource = Res.drawable.ic_cheese_cake),
                 onClick = {},
                 isEnabled = false,
                 modifier = Modifier

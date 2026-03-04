@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import com.devbilal.designsystem.component.icon.Icon
@@ -15,7 +15,7 @@ import com.devbilal.designsystem.theme.theme.Theme
 @Composable
 internal fun BaseButtonContent(
     text: String?,
-    trailingIcon: Painter?,
+    trailingIcon: ImageVector?,
     contentColor: Color,
     iconSize: Dp,
     iconStartPadding: Dp,
@@ -33,7 +33,7 @@ internal fun BaseButtonContent(
 
     trailingIcon?.let {
         Icon(
-            painter = trailingIcon,
+            imageVector = trailingIcon,
             contentDescription = contentDescription,
             modifier = Modifier
                 .padding(start = iconStartPadding)

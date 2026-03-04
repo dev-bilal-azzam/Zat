@@ -16,6 +16,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":designSystem"))
+                implementation(project(":domain"))
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.ui)
@@ -23,6 +24,16 @@ kotlin {
                 implementation(libs.compose.uiToolingPreview)
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
+
+                //data time
+                implementation(libs.kotlinx.datetime)
+
+                // Serialization
+                implementation(libs.kotlinx.serialization.json)
+
+                // Koin
+                implementation(libs.bundles.koin.compose)
+
             }
 
         }

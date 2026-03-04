@@ -1,18 +1,31 @@
 package com.devbilal.presentation.features.onboarding.components
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.devbilal.designsystem.component.*
-import com.devbilal.designsystem.theme.theme.*
-import org.jetbrains.compose.resources.*
-import zat.presentation.generated.resources.*
+import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.component.IconTextRow
+import com.devbilal.designsystem.component.button.radioButton.BoxRadioButton
+import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
-import androidx.compose.ui.unit.dp
-import com.devbilal.designsystem.component.button.radioButton.BoxRadioButton
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.appearance
+import zat.presentation.generated.resources.ic_appearance
 
 @Composable
 fun AppearanceSection(
@@ -26,7 +39,7 @@ fun AppearanceSection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         IconTextRow(
-            icon = painterResource(Res.drawable.ic_appearance),
+            icon = vectorResource(Res.drawable.ic_appearance),
             text = stringResource(Res.string.appearance)
         )
 
@@ -40,7 +53,7 @@ fun AppearanceSection(
                 BoxRadioButton(
                     isSelected = selectedTheme == entry,
                     onClick = { onThemeSelected(entry) },
-                    label = entry.name,
+                    label = stringResource(entry.nameRes),
                     icon = painterResource(entry.iconRes),
                     iconTint = entry.tint,
                     iconBackgroundColor = entry.iconBackgroundColor,

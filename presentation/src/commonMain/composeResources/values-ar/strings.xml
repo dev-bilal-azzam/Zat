@@ -2,7 +2,7 @@
 <resources>
     <string name="zat">ذَات</string>
     <string name="welcome">مرحبًا بك في ذات</string>
-    <string name="welcome_message">لنخصص تجربتك لتكون مناسبة لك.</string>
+    <string name="welcome_message">عبر عن ذاتك..مشاعرك..أفكارك</string>
     <string name="default_language">لغة التطبيق الافتراضية</string>
     <string name="arabic_language">اللغة العربية</string>
     <string name="choose_language">اختر اللغة</string>

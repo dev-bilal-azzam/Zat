@@ -20,8 +20,8 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.choose_language
 import zat.presentation.generated.resources.ic_glob
@@ -38,7 +38,7 @@ fun LanguageSection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         IconTextRow(
-            icon = painterResource(Res.drawable.ic_glob),
+            icon = vectorResource(Res.drawable.ic_glob),
             text = stringResource(Res.string.choose_language)
         )
 
@@ -46,8 +46,7 @@ fun LanguageSection(
             RadioButton(
                 isSelected = selectedLanguage == entry,
                 onClick = { onLanguageSelected(entry) },
-                label = entry.name,
-                hint = stringResource(entry.hintResource),
+                label = stringResource(entry.nameRes),
                 modifier = Modifier.fillMaxWidth()
             )
         }
