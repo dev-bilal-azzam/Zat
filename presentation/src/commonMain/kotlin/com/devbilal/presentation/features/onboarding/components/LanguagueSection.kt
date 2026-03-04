@@ -23,9 +23,7 @@ import com.devbilal.designsystem.util.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import zat.presentation.generated.resources.Res
-import zat.presentation.generated.resources.arabic_language
 import zat.presentation.generated.resources.choose_language
-import zat.presentation.generated.resources.default_language
 import zat.presentation.generated.resources.ic_glob
 
 @Composable
@@ -45,17 +43,11 @@ fun LanguageSection(
         )
 
         AppLanguage.entries.forEach { entry ->
-            val hint =
-                if (entry == AppLanguage.Arabic)
-                    stringResource(Res.string.arabic_language)
-                else
-                    stringResource(Res.string.default_language)
-
             RadioButton(
                 isSelected = selectedLanguage == entry,
                 onClick = { onLanguageSelected(entry) },
                 label = entry.name,
-                hint = hint,
+                hint = stringResource(entry.hintResource),
                 modifier = Modifier.fillMaxWidth()
             )
         }

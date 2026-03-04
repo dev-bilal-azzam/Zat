@@ -1,9 +1,13 @@
 package com.devbilal.presentation.features.onboarding
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.scaffold.Scaffold
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
@@ -21,6 +26,11 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.features.onboarding.components.AppearanceSection
 import com.devbilal.presentation.features.onboarding.components.LanguageSection
 import com.devbilal.presentation.features.onboarding.components.OnBoardingHeader
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.`continue`
+import zat.presentation.generated.resources.ic_arrow
 
 
 @Composable
@@ -35,25 +45,40 @@ fun OnBoardingScreen(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = Theme.colorScheme.background.surfaceLow
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(40.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            OnBoardingHeader()
+            Column(
+                modifier = Modifier.fillMaxSize().padding(24.dp).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                OnBoardingHeader()
 
-            LanguageSection(
-                selectedLanguage = language,
-                onLanguageSelected = onLanguageSelected,
-                modifier = Modifier.align(Alignment.Start)
-            )
+                LanguageSection(
+                    selectedLanguage = language,
+                    onLanguageSelected = onLanguageSelected,
+                    modifier = Modifier.align(Alignment.Start)
+                )
 
-            AppearanceSection(
-                selectedTheme = theme,
-                onThemeSelected = onThemeSelected,
-                modifier = Modifier.align(Alignment.Start)
+                AppearanceSection(
+                    selectedTheme = theme,
+                    onThemeSelected = onThemeSelected,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+            }
+
+            PrimaryButton(
+                text = stringResource(Res.string.`continue`),
+                trailingIcon = painterResource(Res.drawable.ic_arrow),
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+                    .align(Alignment.BottomCenter)
             )
         }
+
     }
 }
 
@@ -63,7 +88,7 @@ fun OnBoardingScreen(
 fun App() {
 
     var language by remember { mutableStateOf(AppLanguage.English) }
-    var theme by remember { mutableStateOf(AppTheme.LIGHT) }
+    var theme by remember { mutableStateOf(AppTheme.DARK) }
 
     ZatTheme(
         language = language.iso,

@@ -2,4 +2,6 @@
 <resources>
 
     <string name="selected">تم تحديده</string>
+    <string name="default_language">لغة التطبيق التلقائية</string>
+    <string name="arabic_language">Arabic Language</string>
 </resources>

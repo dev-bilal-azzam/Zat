@@ -11,19 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import zat.designsystem.generated.resources.Res
-import zat.designsystem.generated.resources.ic_cheese_cake
 import com.devbilal.designsystem.component.button.content.BaseButtonContent
 import com.devbilal.designsystem.component.preview.PreviewComponent
-import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import sv.lib.squircleshape.SquircleShape
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.ic_cheese_cake
 
 @Composable
 fun PrimaryButton(
@@ -31,7 +31,7 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     trailingIcon: Painter? = null,
-    iconSize: Dp = 20.dp,
+    iconSize: Dp = 16.dp,
     iconStartPadding: Dp = Theme.spacing._8,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,

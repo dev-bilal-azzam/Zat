@@ -27,10 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.designsystem.theme.theme.Theme
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
 
 
 @Composable
@@ -89,7 +89,7 @@ fun RadioButton(
             .padding(16.dp)
             .then(clickableModifier),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start)
+        horizontalArrangement = Arrangement.spacedBy(14.dp, Alignment.Start)
     ) {
         Box(
             modifier = Modifier
