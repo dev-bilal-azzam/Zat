@@ -70,12 +70,12 @@ fun App() {
         appTheme = theme.name
     ) {
 
-            OnBoardingScreen(
-                language = language,
-                theme = theme,
-                onLanguageSelected = { language = it },
-                onThemeSelected = { theme = it }
-            )
+        OnBoardingScreen(
+            language = language,
+            theme = theme,
+            onLanguageSelected = { language = it },
+            onThemeSelected = { theme = it }
+        )
 
     }
 }
