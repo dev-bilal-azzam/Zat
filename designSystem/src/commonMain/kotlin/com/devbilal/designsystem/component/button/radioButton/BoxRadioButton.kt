@@ -1,7 +1,6 @@
 package com.devbilal.designsystem.component.button.radioButton
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,9 +8,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,10 +26,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
+import com.devbilal.designsystem.util.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import zat.designsystem.generated.resources.Res
@@ -42,40 +45,18 @@ fun BoxRadioButton(
     onClick: (() -> Unit)?,
     label: String? = null,
     icon: Painter? = null,
+    iconTint: Color = Theme.colorScheme.brand.onBrand,
+    iconBackgroundColor: Color = Color.Unspecified,
     selectedIndicatorIcon: Painter = painterResource(Res.drawable.ic_selected),
     modifier: Modifier = Modifier,
-    shape: Shape = RoundedCornerShape(Theme.radius.full),
+    shape: Shape = RoundedCornerShape(Theme.radius.xl),
+    borderColor: Color = Theme.colorScheme.border.disabled,
+    labelColor: Color = Theme.colorScheme.shadePrimary,
     isEnabled: Boolean = true
 ) {
 
-    val animatedBorderDp by animateDpAsState(
-        targetValue = if (isSelected) 6.dp else 1.dp
-    )
-
-    val animatedSelectionBorderColor by animateColorAsState(
-        targetValue = if (isSelected) Theme.colorScheme.primary.primary else Theme.colorScheme.stroke
-    )
-
-    val animatedDisabledBorderColor by animateColorAsState(
-        targetValue = if (isSelected) Theme.colorScheme.disabled else Theme.colorScheme.border.disabled
-    )
-
-    val animatedBorderColor by animateColorAsState(
-        targetValue = if (isEnabled) animatedSelectionBorderColor else animatedDisabledBorderColor
-    )
-
-    val animatedUnselectedContentColor by animateColorAsState(
-        targetValue = if (isSelected || !isEnabled) Color.Unspecified else Theme.colorScheme.background.surfaceLow
-    )
-
-    val animatedUnselectedLabelColor by animateColorAsState(
-        targetValue = if (isSelected)
-            Theme.colorScheme.shadePrimary else Theme.colorScheme.shadeTertiary
-    )
-
-    val animatedLabelColor by animateColorAsState(
-        targetValue = if (isEnabled)
-            animatedUnselectedLabelColor else Theme.colorScheme.shadePrimary
+    val animatedContainerColor by animateColorAsState(
+        targetValue = if (isSelected) Theme.colorScheme.primary.primary.copy(alpha = .2f) else Color.Transparent
     )
 
     val clickableModifier = onClick?.let {
@@ -90,18 +71,24 @@ fun BoxRadioButton(
     } ?: Modifier
 
     Box(
-        modifier = modifier,
+        modifier = modifier
+            .background(animatedContainerColor, shape)
+            .border(2.dp, borderColor, shape)
+            .padding(12.dp)
+            .then(clickableModifier),
+        contentAlignment = Alignment.Center
     ) {
         if (isSelected) {
             Icon(
                 painter = selectedIndicatorIcon,
                 contentDescription = stringResource(Res.string.selected),
                 tint = Theme.colorScheme.brand.brand,
-                modifier = Modifier.size(12.dp).align(Alignment.TopEnd)
+                modifier = Modifier.size(16.dp).align(Alignment.TopEnd)
             )
         }
 
         Column(
+            modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
@@ -110,20 +97,16 @@ fun BoxRadioButton(
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(animatedUnselectedContentColor, shape)
-                    .border(
-                        width = animatedBorderDp,
-                        color = animatedBorderColor,
-                        shape = shape
-                    )
-                    .clip(shape)
-                    .then(clickableModifier),
+                    .background(iconBackgroundColor, shape)
+                    .clip(shape),
+                contentAlignment = Alignment.Center
             ) {
                 icon?.let {
                     Icon(
                         painter = icon,
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp)
+                        tint = iconTint,
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
@@ -131,8 +114,10 @@ fun BoxRadioButton(
             label?.let { text ->
                 Text(
                     text = text,
-                    color = animatedLabelColor,
-                    style = Theme.typography.headline.small
+                    color = labelColor,
+                    style = Theme.typography.label.medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 
@@ -144,23 +129,24 @@ fun BoxRadioButton(
 @Preview
 @Composable
 private fun RadioButtonPreview() {
-    ZatTheme {
+    ZatTheme(
+        appTheme = AppTheme.DARK.name
+    ) {
         var selected by remember { mutableStateOf(true) }
 
-        Box(
-            modifier = Modifier
-                .size(180.dp)
-                .background(Theme.colorScheme.background.surface),
-            contentAlignment = Alignment.Center
+        Surface(
+            color = Theme.colorScheme.background.surfaceLow
         ) {
-            RadioButton(
+            BoxRadioButton(
                 isSelected = selected,
                 label = "Label",
-                isEnabled = false,
+                icon = painterResource(Res.drawable.ic_selected),
+                iconBackgroundColor = Theme.colorScheme.brand.brand,
                 onClick = {
                     selected = !selected
                 }
             )
         }
+
     }
 }
