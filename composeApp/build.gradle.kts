@@ -33,6 +33,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":designSystem"))
+            implementation(project(":presentation"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)

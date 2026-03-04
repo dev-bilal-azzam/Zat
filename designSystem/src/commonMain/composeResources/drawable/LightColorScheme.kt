@@ -1,6 +1,10 @@
 package com.devbilal.designsystem.theme.color.scheme
 
-import com.devbilal.designsystem.theme.color.*
+import com.devbilal.designsystem.theme.color.Black
+import com.devbilal.designsystem.theme.color.White
+import com.devbilal.designsystem.theme.color.White38
+import com.devbilal.designsystem.theme.color.White60
+import com.devbilal.designsystem.theme.color.colorPalette
 
 internal val LightColorScheme = ColorScheme(
     brand = ColorScheme.Brand(
@@ -20,7 +24,7 @@ internal val LightColorScheme = ColorScheme(
         secondaryVariant = colorPalette.coffee.shade200
     ),
     border = ColorScheme.Border(
-        disabled = colorPalette.gray.shade500,
+        disabled = colorPalette.gray.shade300,
         brand = colorPalette.navy.shade900,
         error = colorPalette.red.shade700,
         success = colorPalette.green.shade700

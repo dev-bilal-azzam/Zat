@@ -25,7 +25,7 @@ internal fun BaseButtonContent(
     text?.let {
         Text(
             text = text,
-            style = Theme.typography.label.medium,
+            style = Theme.typography.label.large,
             color = contentColor,
             overflow = overflow,
         )
