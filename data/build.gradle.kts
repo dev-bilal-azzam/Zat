@@ -40,6 +40,7 @@ kotlin {
                 implementation(libs.ktor.client.android)
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.androidx.room.sqlite.wrapper)
+                implementation(libs.jbcrypt)
             }
         }
 

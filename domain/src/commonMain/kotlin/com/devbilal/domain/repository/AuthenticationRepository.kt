@@ -7,5 +7,5 @@ interface AuthenticationRepository {
 
     suspend fun getAuthenticationSettings(): AuthenticationSettings
 
-    suspend fun authenticateWithCredential(credential: String): Boolean
+    suspend fun authenticateWithCredential(credential: String)
 }

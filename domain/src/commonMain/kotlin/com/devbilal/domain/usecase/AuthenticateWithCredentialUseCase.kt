@@ -5,6 +5,7 @@ import com.devbilal.domain.repository.AuthenticationRepository
 class AuthenticateWithCredentialUseCase(
     private val repository: AuthenticationRepository
 ) {
-    suspend operator fun invoke(credential: String): Boolean =
+    suspend operator fun invoke(credential: String) {
         repository.authenticateWithCredential(credential)
+    }
 }
