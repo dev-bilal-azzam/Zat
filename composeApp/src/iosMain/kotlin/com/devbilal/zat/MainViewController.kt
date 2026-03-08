@@ -6,5 +6,5 @@ import com.devbilal.zat.di.initKoin
 fun MainViewController() = ComposeUIViewController(
     configure = { initKoin() }
 ) {
-    App()
+    ZatRoot()
 }

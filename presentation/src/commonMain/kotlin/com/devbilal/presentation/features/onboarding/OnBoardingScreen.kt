@@ -38,13 +38,14 @@ import zat.presentation.generated.resources.ic_arrow_right
 
 @Composable
 fun OnBoardingScreen(
-    viewModel: OnBoardingViewModel = koinViewModel()
+    viewModel: OnBoardingViewModel = koinViewModel(),
+    onNavigateToInitSecurity: () -> Unit
 ) {
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when(it) {
-            OnBoardingEffect.NavigateToInitSecurity -> { TODO() }
+            OnBoardingEffect.NavigateToInitSecurity -> { onNavigateToInitSecurity() }
         }
     }
 

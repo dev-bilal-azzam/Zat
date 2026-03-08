@@ -38,23 +38,10 @@ kotlin {
             implementation(project(":data"))
             implementation(project(":domain"))
 
-            // Compose
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-
-            // Koin
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-
-            // Navigation
-            implementation(libs.jetbrains.navigation3.ui)
-            implementation(libs.jetbrains.lifecycle.viewmodel.nav3)
-            implementation(libs.jetbrains.lifecycle.viewmodel)
+            implementation(libs.bundles.compose)
+            implementation(libs.bundles.lifecycle)
+            implementation(libs.bundles.koin.compose)
+            implementation(libs.bundles.navigation3)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

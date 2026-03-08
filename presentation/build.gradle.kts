@@ -1,8 +1,10 @@
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -15,25 +17,17 @@ kotlin {
 
         commonMain {
             dependencies {
+                // Project
                 implementation(project(":designSystem"))
                 implementation(project(":domain"))
-                implementation(libs.compose.runtime)
-                implementation(libs.compose.foundation)
-                implementation(libs.compose.ui)
-                implementation(libs.compose.components.resources)
-                implementation(libs.compose.uiToolingPreview)
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
-                implementation(libs.androidx.lifecycle.runtimeCompose)
 
-                //data time
-                implementation(libs.kotlinx.datetime)
-
-                // Serialization
-                implementation(libs.kotlinx.serialization.json)
-
-                // Koin
+                implementation(libs.bundles.compose)
+                implementation(libs.bundles.lifecycle)
                 implementation(libs.bundles.koin.compose)
+                implementation(libs.bundles.navigation3)
 
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.serialization.json)
             }
 
         }
