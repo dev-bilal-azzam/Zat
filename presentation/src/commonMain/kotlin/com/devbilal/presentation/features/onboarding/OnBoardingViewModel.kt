@@ -15,6 +15,15 @@ class OnBoardingViewModel(
         getTheme()
     }
 
+    override fun handleIntent(intent: OnBoardingIntent) {
+        when (intent) {
+            OnBoardingIntent.OnContinueClicked -> onContinueClicked()
+            is OnBoardingIntent.OnLanguageSelected -> selectLanguage(intent.language)
+            is OnBoardingIntent.OnThemeSelected -> selectTheme(intent.theme)
+        }
+    }
+
+
     private fun getTheme() {
         safeExecute(
             block = settingsRepository::getCurrentAppTheme,
@@ -27,14 +36,6 @@ class OnBoardingViewModel(
             block = settingsRepository::getCurrentAppLanguage,
             onSuccess = { updateState { copy(selectedLanguage = AppLanguage.fromIso(it.iso)) } }
         )
-    }
-
-    override fun handleIntent(intent: OnBoardingIntent) {
-        when (intent) {
-            OnBoardingIntent.OnContinueClicked -> onContinueClicked()
-            is OnBoardingIntent.OnLanguageSelected -> selectLanguage(intent.language)
-            is OnBoardingIntent.OnThemeSelected -> selectTheme(intent.theme)
-        }
     }
 
     private fun selectLanguage(language: AppLanguage) {
