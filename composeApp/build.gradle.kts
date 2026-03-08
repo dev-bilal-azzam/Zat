@@ -32,19 +32,16 @@ kotlin {
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
+            // Project
             implementation(project(":designSystem"))
             implementation(project(":presentation"))
             implementation(project(":data"))
             implementation(project(":domain"))
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
+
+            implementation(libs.bundles.compose)
+            implementation(libs.bundles.lifecycle)
+            implementation(libs.bundles.koin.compose)
+            implementation(libs.bundles.navigation3)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

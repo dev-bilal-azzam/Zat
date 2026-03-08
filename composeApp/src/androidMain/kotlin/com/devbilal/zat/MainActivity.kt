@@ -19,13 +19,13 @@ class MainActivity : ComponentActivity() {
         appLocalizer.applyLocaleToContext()
 
         setContent {
-            App()
+            ZatRoot()
         }
     }
 }
 
 @Preview
 @Composable
-fun AppAndroidPreview() {
-    App()
+fun ZatRootAndroidPreview() {
+    ZatRoot()
 }

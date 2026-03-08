@@ -24,7 +24,9 @@ import zat.presentation.generated.resources.*
 
 @Composable
 fun UnlockMethodsSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPinClicked: (() -> Unit)? = null,
+    onPatternClicked: (() -> Unit)? = null
 ) {
 
     Column(
@@ -44,7 +46,8 @@ fun UnlockMethodsSection(
             hint = stringResource(Res.string.pin_label),
             leadingIconRes = Res.drawable.ic_123,
             trailingIconRes = Res.drawable.ic_arrow_right_ios,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onPinClicked
         )
 
         ZatHorizontalItemCard(
@@ -53,6 +56,7 @@ fun UnlockMethodsSection(
             leadingIconRes = Res.drawable.ic_pattern,
             trailingIconRes = Res.drawable.ic_arrow_right_ios,
             modifier = Modifier.fillMaxWidth(),
+            onClick = onPatternClicked
         )
 
         ZatHorizontalItemCard(

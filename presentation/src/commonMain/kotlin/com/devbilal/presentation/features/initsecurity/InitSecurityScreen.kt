@@ -23,14 +23,18 @@ import zat.presentation.generated.resources.*
 
 @Composable
 fun InitSecurityScreen(
-    viewModel: InitSecurityViewModel = koinViewModel()
+    viewModel: InitSecurityViewModel = koinViewModel(),
+    onNavigateBack: () -> Unit,
+    onNavigateToHome: () -> Unit,
+    onNavigateToSetupPin: () -> Unit,
+    onNavigateToSetupPattern: () -> Unit
 ) {
     viewModel.ObserveEffects {
         when (it) {
-            InitSecurityEffect.NavigateBack -> TODO()
-            InitSecurityEffect.NavigateToHome -> TODO()
-            InitSecurityEffect.NavigateToSetPattern -> TODO()
-            InitSecurityEffect.NavigateToSetPin -> TODO()
+            InitSecurityEffect.NavigateBack -> onNavigateBack()
+            InitSecurityEffect.NavigateToHome -> onNavigateToHome()
+            InitSecurityEffect.NavigateToSetPattern -> onNavigateToSetupPattern()
+            InitSecurityEffect.NavigateToSetPin -> onNavigateToSetupPin()
         }
     }
 
@@ -63,7 +67,10 @@ private fun InitSecurityScreenContent(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 InitSecurityHeader()
-                UnlockMethodsSection()
+                UnlockMethodsSection(
+                    onPinClicked = { onIntent(InitSecurityIntent.OnPinClicked) },
+                    onPatternClicked = { onIntent(InitSecurityIntent.OnPatternClicked) }
+                )
             }
 
             Column(

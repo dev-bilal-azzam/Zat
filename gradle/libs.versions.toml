@@ -1,20 +1,20 @@
 [versions]
-agp = "8.13.2"
+agp = "9.1.0"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
-androidx-activity = "1.12.2"
+androidx-activity = "1.12.4"
 androidx-splash = "1.2.0"
-androidx-lifecycle = "2.9.6"
-composeMultiplatform = "1.10.0"
+androidx-lifecycle = "2.10.0-beta01"
+composeMultiplatform = "1.10.2"
 jbcrypt = "0.4"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 material3 = "1.10.0-alpha05"
-squircleShape = "4.0.0"
-kotlinStdlib = "2.3.0"
+squircleShape = "5.0.0"
+kotlinStdlib = "2.3.10"
 
 kotlinxDatetime = "0.7.1"
-ksp = "2.2.10-2.0.2"
+ksp = "2.3.2"
 koin-core = "4.1.1"
 kotlinx-serialization = "1.10.0"
 ktor = "3.4.1"
@@ -23,15 +23,17 @@ sqlite = "2.6.2"
 multiplatformSettings = "1.3.0"
 kotlinx-coroutines = "1.10.2"
 
+# navigation
+cmpNavigation3 = "1.0.0-alpha06"
+
 [libraries]
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-splash = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splash" }
 
+# Compose
 compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
-androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
@@ -42,6 +44,9 @@ compose-ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", v
 squircle-shape = { module = "com.stoyanvuchev:squircle-shape", version.ref = "squircleShape" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 
+# Lifecycle
+androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 # Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
@@ -78,6 +83,10 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 # DateTime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
+# Navigation
+jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "cmpNavigation3" }
+jetbrains-lifecycle-viewmodel-nav3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle" }
+jetbrains-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -94,6 +103,19 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 
 [bundles]
 
+compose = [
+    "compose-runtime",
+    "compose-foundation",
+    "compose-ui",
+    "compose-components-resources",
+    "compose-uiToolingPreview"
+]
+
+lifecycle = [
+    "androidx-lifecycle-viewmodelCompose",
+    "androidx-lifecycle-runtimeCompose"
+]
+
 ktor = [
     "ktor-client-core",
     "ktor-client-content-negotiation",
@@ -106,4 +128,10 @@ koin-compose = [
     "koin-core",
     "koin-compose",
     "koin-compose-viewmodel",
+]
+
+navigation3 = [
+    "jetbrains-navigation3-ui",
+    "jetbrains-lifecycle-viewmodel-nav3",
+    "jetbrains-lifecycle-viewmodel"
 ]
