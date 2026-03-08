@@ -11,4 +11,16 @@
     <string name="dark">Dark</string>
     <string name="auto">Auto</string>
     <string name="continue">Continue</string>
+    <string name="security_setup">Security Setup</string>
+    <string name="your_privacy_secured">Your Privacy Secured</string>
+    <string name="security_init_message">Your privacy is our top priority. Choose how you want to protect your personal diary from unauthorized access.</string>
+    <string name="unlock_methods">Unlock Methods</string>
+    <string name="pin">Pin</string>
+    <string name="pin_label">4-digit security code</string>
+    <string name="pattern">Pattern</string>
+    <string name="pattern_label">Draw a shape to unlock</string>
+    <string name="biometrics">Biometrics</string>
+    <string name="biometrics_label">Touch ID or Face ID</string>
+    <string name="skip">Skip Now</string>
+    <string name="setup_later">You can set up later from settings</string>
 </resources>

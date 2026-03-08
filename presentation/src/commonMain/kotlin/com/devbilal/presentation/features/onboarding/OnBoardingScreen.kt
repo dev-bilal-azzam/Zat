@@ -33,7 +33,7 @@ import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.`continue`
-import zat.presentation.generated.resources.ic_arrow
+import zat.presentation.generated.resources.ic_arrow_right
 
 
 @Composable
@@ -57,7 +57,7 @@ fun OnBoardingScreen(
 @Composable
 private fun OnBoardingScreenContent(
     state: OnBoardingState,
-    onIntent: (OnBoardingIntent) -> Unit,
+    onIntent: (OnBoardingIntent) -> Unit = {},
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -88,7 +88,7 @@ private fun OnBoardingScreenContent(
 
             PrimaryButton(
                 text = stringResource(Res.string.`continue`),
-                trailingIcon = vectorResource(Res.drawable.ic_arrow),
+                trailingIcon = vectorResource(Res.drawable.ic_arrow_right),
                 onClick = { onIntent(OnBoardingIntent.OnContinueClicked) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -113,7 +113,7 @@ fun App() {
         appTheme = theme.name
     ) {
 
-        OnBoardingScreen()
+        OnBoardingScreenContent(OnBoardingState())
 
     }
 }

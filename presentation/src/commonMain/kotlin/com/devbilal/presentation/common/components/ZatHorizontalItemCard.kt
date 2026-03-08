@@ -37,11 +37,11 @@ import com.devbilal.designsystem.util.AppTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
-import zat.presentation.generated.resources.ic_arrow_ios
+import zat.presentation.generated.resources.ic_arrow_right_ios
 import zat.presentation.generated.resources.ic_pattern
 
 @Composable
-fun ZatItemCard(
+fun ZatHorizontalItemCard(
     label: String? = null,
     hint: String? = null,
     leadingIconRes: DrawableResource? = null,
@@ -57,7 +57,7 @@ fun ZatItemCard(
     iconBoxShape: Shape = RoundedCornerShape(Theme.radius.lg),
     iconTint: Color = Theme.colorScheme.shadeTertiary,
     isEnabled: Boolean = true,
-    onClick: (() -> Unit)?,
+    onClick: (() -> Unit)? = null,
 ) {
 
     val alpha by animateFloatAsState(targetValue = if (isEnabled) 1f else 0.5f)
@@ -144,7 +144,7 @@ fun ZatItemCard(
 
 @Composable
 @Preview
-fun PreviewZatItemCard() {
+fun PreviewZatHorizontalItemCard() {
     var language by remember { mutableStateOf(AppLanguage.English) }
     var theme by remember { mutableStateOf(AppTheme.DARK) }
 
@@ -156,24 +156,22 @@ fun PreviewZatItemCard() {
             modifier = Modifier.background(Theme.colorScheme.background.surfaceLow),
             verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-            ZatItemCard(
+            ZatHorizontalItemCard(
                 label = "Pattern",
                 hint = "Draw A Shape To Unlock",
                 leadingIconRes = Res.drawable.ic_pattern,
-                trailingIconRes = Res.drawable.ic_arrow_ios,
+                trailingIconRes = Res.drawable.ic_arrow_right_ios,
                 modifier = Modifier.fillMaxWidth()
-            ) {
-            }
+            )
 
-            ZatItemCard(
+            ZatHorizontalItemCard(
                 label = "Pattern",
                 hint = "Draw A Shape To Unlock",
                 leadingIconRes = Res.drawable.ic_pattern,
-                trailingIconRes = Res.drawable.ic_arrow_ios,
+                trailingIconRes = Res.drawable.ic_arrow_right_ios,
                 modifier = Modifier.fillMaxWidth(),
                 isEnabled = false
-            ) {
-            }
+            )
         }
     }
 }
