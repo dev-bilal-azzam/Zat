@@ -31,7 +31,7 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.navigation.LocalBackStack
 import com.devbilal.presentation.common.navigation.navigateBack
-import com.devbilal.presentation.common.navigation.navigateToHome
+import com.devbilal.presentation.common.navigation.navigateToHomeWithReplaceAll
 import com.devbilal.presentation.features.initbiometric.components.InitBiometricHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -51,7 +51,7 @@ fun InitBiometricScreen(
     viewModel.ObserveEffects {
         when (it) {
             InitBiometricEffect.NavigateBack -> backStack.navigateBack()
-            InitBiometricEffect.NavigateToHome -> backStack.navigateToHome()
+            InitBiometricEffect.NavigateToHome -> backStack.navigateToHomeWithReplaceAll()
             is InitBiometricEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }

@@ -39,7 +39,7 @@ fun SetupPatternScreen(
     viewModel.ObserveEffects {
         when (it) {
             SetupPatternEffect.NavigateBack -> backStack.navigateBack()
-            SetupPatternEffect.NavigateToInitBiometric -> backStack.navigateToInitBiometric()
+            SetupPatternEffect.NavigateToInitBiometric -> backStack.navigateToInitBiometricWithReplaceAll()
             is SetupPatternEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }

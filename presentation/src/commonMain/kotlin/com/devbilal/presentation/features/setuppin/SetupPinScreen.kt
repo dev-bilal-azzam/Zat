@@ -49,7 +49,7 @@ fun SetupPinScreen(
     viewModel.ObserveEffects {
         when (it) {
             SetupPinEffect.NavigateBack -> backState.navigateBack()
-            SetupPinEffect.NavigateToInitBiometric -> backState.navigateToInitBiometric()
+            SetupPinEffect.NavigateToInitBiometric -> backState.navigateToInitBiometricWithReplaceAll()
             is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }
