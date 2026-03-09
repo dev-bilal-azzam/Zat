@@ -29,6 +29,11 @@
     <string name="confirm">Confirm</string>
     <string name="pin_usage_message">You\'ll use this PIN to open Zat every time</string>
     <string name="connect_dots_message">Connect at least 4 dots to secure your Zat account</string>
+    <string name="biometric_setup">Biometric Setup</string>
+    <string name="enable_biometric_unlock">Enable Biometric Unlock</string>
+    <string name="biometric_setup_message">Use your fingerprint or face for faster, secure access to your Zat diary. Keep your memories private and easily accessible.</string>
+    <string name="enable">Enable</string>
+    <string name="skip_for_now">Skip for now</string>
     <string name="error">Error</string>
     <string name="couldnt_set_pattern">Couldn't Set Pattern!</string>
     <string name="couldnt_set_pinn">Couldn't Set Pin!</string>

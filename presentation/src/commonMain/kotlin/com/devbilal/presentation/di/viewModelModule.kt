@@ -1,6 +1,7 @@
 package com.devbilal.presentation.di
 
 import com.devbilal.presentation.features.home.HomeViewModel
+import com.devbilal.presentation.features.initbiometric.InitBiometricViewModel
 import com.devbilal.presentation.features.initsecurity.InitSecurityViewModel
 import com.devbilal.presentation.features.onboarding.OnBoardingViewModel
 import com.devbilal.presentation.features.setuppattern.SetupPatternViewModel
@@ -13,5 +14,6 @@ val viewModelModule = module {
     viewModelOf(::InitSecurityViewModel)
     viewModelOf(::SetupPatternViewModel)
     viewModelOf(::SetupPinViewModel)
+    viewModelOf(::InitBiometricViewModel)
     viewModelOf(::HomeViewModel)
 }
