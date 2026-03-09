@@ -43,7 +43,7 @@ class SetupPinViewModel(
                         method = PrimaryAuthenticationMethod.Pin(currentState.pin)
                     )
                 },
-                onSuccess = { sendEffect(SetupPinEffect.NavigateToHome) },
+                onSuccess = { sendEffect(SetupPinEffect.NavigateToInitBiometric) },
                 onError = { showSnackBar() }
             )
         }

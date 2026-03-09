@@ -18,7 +18,7 @@ sealed interface SetupPinIntent : UiIntent {
 
 sealed interface SetupPinEffect : UiEffect {
     data object NavigateBack : SetupPinEffect
-    data object NavigateToHome : SetupPinEffect
+    data object NavigateToInitBiometric : SetupPinEffect
     data class ShowSnackBar(val snackBarData: SnackBarData) : SetupPinEffect
 
 }

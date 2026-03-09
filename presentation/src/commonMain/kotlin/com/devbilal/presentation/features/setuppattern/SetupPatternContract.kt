@@ -17,6 +17,6 @@ sealed interface SetupPatternIntent : UiIntent {
 
 sealed interface SetupPatternEffect : UiEffect {
     data object NavigateBack : SetupPatternEffect
-    data object NavigateToHome : SetupPatternEffect
+    data object NavigateToInitBiometric : SetupPatternEffect
     data class ShowSnackBar(val snackBarData: SnackBarData) : SetupPatternEffect
 }

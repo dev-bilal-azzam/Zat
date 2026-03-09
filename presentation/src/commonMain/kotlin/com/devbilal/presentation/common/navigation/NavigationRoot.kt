@@ -13,6 +13,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.presentation.features.home.HomeScreen
+import com.devbilal.presentation.features.initbiometric.InitBiometricScreen
 import com.devbilal.presentation.features.initsecurity.InitSecurityScreen
 import com.devbilal.presentation.features.onboarding.OnBoardingScreen
 import com.devbilal.presentation.features.setuppattern.SetupPatternScreen
@@ -70,6 +71,12 @@ fun NavigationRoot(
                     is Route.SetupPattern -> {
                         NavEntry(key) {
                             SetupPatternScreen()
+                        }
+                    }
+
+                    is Route.InitBiometric -> {
+                        NavEntry(key) {
+                            InitBiometricScreen()
                         }
                     }
 

@@ -27,8 +27,13 @@
     <string name="security_first">الأمان أولاً</string>
     <string name="enter_pin_message">أدخل رمز PIN مكونًا من 4 أرقام لتأمين مذكرات Zat الخاصة بك</string>
     <string name="confirm">تأكيد</string>
-    <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح Zat في كل مرة</string>
-    <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لتأمين حساب Zat الخاص بك</string>
+    <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح ذَات في كل مرة</string>
+    <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لفتح حساب ذَات الخاص بك</string>
+    <string name="biometric_setup">إعداد الأمان الحيوية</string>
+    <string name="enable_biometric_unlock">السماح بتفعيل الإعدادات الحيوية</string>
+    <string name="biometric_setup_message">استخدم بصمة الإصبع أو الوجه للدخول بشكل أسررع إلى ذَات. أبق على ذكرياتك خاصة و آمنة و سهلة الوصول.</string>
+    <string name="enable">تفعيل</string>
+    <string name="skip_for_now">تخطي الآن</string>
     <string name="error">خطأ</string>
     <string name="couldnt_set_pattern">عفواً لم يتم ضبط النمط!</string>
     <string name="couldnt_set_pinn">عفواً لم يتم ضبط الرمز!</string>
