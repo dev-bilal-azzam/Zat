@@ -1,4 +1,4 @@
-package com.devbilal.domain.usecase
+package com.devbilal.domain.usecase.authentication
 
 import com.devbilal.domain.exception.FailedToSetAuthenticationMethodException
 import com.devbilal.domain.model.*
