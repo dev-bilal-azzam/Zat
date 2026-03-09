@@ -1,27 +1,52 @@
 package com.devbilal.presentation.features.setuppattern
 
-import com.devbilal.presentation.base.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import com.devbilal.designsystem.theme.theme.*
-import com.devbilal.designsystem.util.*
-import com.devbilal.designsystem.component.scaffold.Scaffold
-import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.component.appBar.AppBar
+import com.devbilal.designsystem.component.button.PrimaryButton
+import com.devbilal.designsystem.component.scaffold.Scaffold
+import com.devbilal.designsystem.component.text.Text
+import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
+import com.devbilal.designsystem.util.AppLanguage
+import com.devbilal.designsystem.util.AppTheme
+import com.devbilal.presentation.base.ObserveEffects
+import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.features.setuppattern.components.PatternView
+import com.devbilal.presentation.features.setuppattern.components.SetupPatternHeader
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.confirm
+import zat.presentation.generated.resources.create_your_pin
+import zat.presentation.generated.resources.pin_usage_message
 
 
 @Composable
 fun SetupPatternScreen(
-    viewModel: SetupPatternViewModel = koinViewModel()
+    viewModel: SetupPatternViewModel = koinViewModel(),
+    onNavigateBack: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            // handle other screen effects here
-            else -> TODO()
+            SetupPatternEffect.NavigateBack -> onNavigateBack()
+            SetupPatternEffect.NavigateToHome -> onNavigateToHome()
         }
     }
 
@@ -38,9 +63,53 @@ private fun SetupPatternScreenContent(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        backgroundColor = Theme.colorScheme.background.surfaceLow
+        backgroundColor = Theme.colorScheme.background.surfaceLow,
+        topBar = {
+            AppBar(
+                title = stringResource(Res.string.create_your_pin),
+                onLeadingClick = { onIntent(SetupPatternIntent.OnBackClicked) }
+            )
+        }
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                SetupPatternHeader()
 
+                PatternView(
+                    pattern = state.pattern,
+                    onPatternChanged = { onIntent(SetupPatternIntent.OnPatternChanged(it)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                PrimaryButton(
+                    text = stringResource(Res.string.confirm),
+                    onClick = { onIntent(SetupPatternIntent.OnConfirmClicked) },
+                    isEnabled = state.isConfirmEnabled,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Text(
+                    text = stringResource(Res.string.pin_usage_message),
+                    style = Theme.typography.body.medium,
+                    color = Theme.colorScheme.shadeTertiary,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 
@@ -57,7 +126,10 @@ fun App() {
         appTheme = theme.name
     ) {
 
-        SetupPatternScreen()
+        SetupPatternScreenContent(
+            state = SetupPatternState(),
+            onIntent = {}
+        )
 
     }
 }

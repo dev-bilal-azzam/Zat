@@ -28,4 +28,5 @@
     <string name="enter_pin_message">Enter a 4-digit PIN to secure your Zat diary</string>
     <string name="confirm">Confirm</string>
     <string name="pin_usage_message">You\'ll use this PIN to open Zat every time</string>
+    <string name="connect_dots_message">Connect at least 4 dots to secure your Zat account</string>
 </resources>

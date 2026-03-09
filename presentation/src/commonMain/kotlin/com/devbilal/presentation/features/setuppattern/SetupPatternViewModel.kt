@@ -5,13 +5,19 @@ import com.devbilal.presentation.base.*
 class SetupPatternViewModel(
 ) : BaseViewModel<SetupPatternState, SetupPatternIntent, SetupPatternEffect>(SetupPatternState()) {
 
-    init {
-    }
-
     override fun handleIntent(intent: SetupPatternIntent) {
         when (intent) {
-            // handle all of your Intents here
-            else -> TODO()
+            is SetupPatternIntent.OnPatternChanged -> {
+                updateState { copy(pattern = intent.pattern) }
+            }
+            SetupPatternIntent.OnConfirmClicked -> {
+                if (state.value.isConfirmEnabled) {
+                    sendEffect(SetupPatternEffect.NavigateToHome)
+                }
+            }
+            SetupPatternIntent.OnBackClicked -> {
+                sendEffect(SetupPatternEffect.NavigateBack)
+            }
         }
     }
 }

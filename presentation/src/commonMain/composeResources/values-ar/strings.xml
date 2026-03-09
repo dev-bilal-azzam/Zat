@@ -28,4 +28,5 @@
     <string name="enter_pin_message">أدخل رمز PIN مكونًا من 4 أرقام لتأمين مذكرات Zat الخاصة بك</string>
     <string name="confirm">تأكيد</string>
     <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح Zat في كل مرة</string>
+    <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لتأمين حساب Zat الخاص بك</string>
 </resources>

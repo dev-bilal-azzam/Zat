@@ -70,7 +70,10 @@ fun NavigationRoot(
 
                 is Route.SetupPattern -> {
                     NavEntry(key) {
-                        SetupPatternScreen()
+                        SetupPatternScreen(
+                            onNavigateBack = { backStack.removeLastOrNull() },
+                            onNavigateToHome = { backStack.add(Route.Home) }
+                        )
                     }
                 }
 
