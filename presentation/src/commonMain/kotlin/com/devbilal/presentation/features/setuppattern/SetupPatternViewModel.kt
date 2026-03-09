@@ -7,17 +7,23 @@ class SetupPatternViewModel(
 
     override fun handleIntent(intent: SetupPatternIntent) {
         when (intent) {
-            is SetupPatternIntent.OnPatternChanged -> {
-                updateState { copy(pattern = intent.pattern) }
-            }
-            SetupPatternIntent.OnConfirmClicked -> {
-                if (state.value.isConfirmEnabled) {
-                    sendEffect(SetupPatternEffect.NavigateToHome)
-                }
-            }
-            SetupPatternIntent.OnBackClicked -> {
-                sendEffect(SetupPatternEffect.NavigateBack)
-            }
+            is SetupPatternIntent.OnPatternChanged -> onPatternChanged(intent.pattern)
+            SetupPatternIntent.OnConfirmClicked -> onConfirmClicked()
+            SetupPatternIntent.OnBackClicked -> onBackClicked()
         }
+    }
+
+    private fun onPatternChanged(pattern: List<Int>) {
+        updateState { copy(pattern = pattern) }
+    }
+
+    private fun onConfirmClicked() {
+        if (state.value.isConfirmEnabled) {
+            sendEffect(SetupPatternEffect.NavigateToHome)
+        }
+    }
+
+    private fun onBackClicked() {
+        sendEffect(SetupPatternEffect.NavigateBack)
     }
 }

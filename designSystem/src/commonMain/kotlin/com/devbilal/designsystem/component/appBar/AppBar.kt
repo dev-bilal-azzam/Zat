@@ -21,12 +21,7 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import zat.designsystem.generated.resources.Res
-import zat.designsystem.generated.resources.back
-import zat.designsystem.generated.resources.checkmark
-import zat.designsystem.generated.resources.ic_arrow_left
-import zat.designsystem.generated.resources.ic_arrow_left_ios
-import zat.designsystem.generated.resources.ic_user
+import zat.designsystem.generated.resources.*
 
 @Composable
 fun AppBar(
@@ -57,7 +52,7 @@ fun AppBar(
             color = titleColor,
             style = Theme.typography.title.medium,
             modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Start
         )
         trailingContent?.let {
             Row(

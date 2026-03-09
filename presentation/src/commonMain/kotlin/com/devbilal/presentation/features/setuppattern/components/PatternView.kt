@@ -3,6 +3,7 @@ package com.devbilal.presentation.features.setuppattern.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,10 +33,24 @@ fun PatternView(
     dotCount: Int = 3
 ) {
     var currentTouchPoint by remember { mutableStateOf<Offset?>(null) }
+    var dotCenters by remember { mutableStateOf<List<Offset>>(emptyList()) }
+    var hitRadius by remember { mutableStateOf(0f) }
 
     Box(
         modifier = modifier
             .aspectRatio(1f)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { offset ->
+                        val hitDot = dotCenters.indexOfFirst { center ->
+                            sqrt((offset.x - center.x).pow(2) + (offset.y - center.y).pow(2)) < hitRadius
+                        }
+                        if (hitDot == -1) {
+                            onPatternChanged(emptyList())
+                        }
+                    }
+                )
+            }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
@@ -62,9 +77,9 @@ fun PatternView(
             val cellWidth = canvasSize.width / dotCount
             val cellHeight = canvasSize.height / dotCount
             val dotRadius = 8.dp.toPx()
-            val hitRadius = cellWidth / 2
+            hitRadius = cellWidth / 2
 
-            val dotCenters = List(dotCount * dotCount) { i ->
+            dotCenters = List(dotCount * dotCount) { i ->
                 val row = i / dotCount
                 val col = i % dotCount
                 Offset(
