@@ -21,7 +21,7 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.navigation.*
-import com.devbilal.presentation.features.setuppattern.components.PatternView
+import com.devbilal.presentation.common.components.PatternView
 import com.devbilal.presentation.features.setuppattern.components.SetupPatternHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel

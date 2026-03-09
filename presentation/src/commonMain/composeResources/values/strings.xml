@@ -39,4 +39,7 @@
     <string name="couldnt_set_pinn">Couldn't Set Pin!</string>
     <string name="wrong_pattern">Wrong Pattern, Please Try Again!</string>
     <string name="wrong_pin">Wrong Code, Please Try Again!</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="enter_pin_to_unlock">Enter your PIN to unlock your diary</string>
+    <string name="enter_pattern_to_unlock">Draw your pattern to unlock your diary</string>
 </resources>

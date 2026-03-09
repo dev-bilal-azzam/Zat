@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.setuppin.components
+package com.devbilal.presentation.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

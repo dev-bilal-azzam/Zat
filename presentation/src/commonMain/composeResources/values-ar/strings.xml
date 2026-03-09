@@ -39,4 +39,7 @@
     <string name="couldnt_set_pinn">عفواً لم يتم ضبط الرمز!</string>
     <string name="wrong_pattern">نمط غير صحيح, أعد المحاولة!</string>
     <string name="wrong_pin">رمز غير صحيح, أعد المحاولة!</string>
+    <string name="welcome_back">مرحباً بعودتك</string>
+    <string name="enter_pin_to_unlock">أدخل رمز الـ PIN لفتح مذكراتك</string>
+    <string name="enter_pattern_to_unlock">ارسم النمط لفتح مذكراتك</string>
 </resources>
