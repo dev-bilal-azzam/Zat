@@ -37,6 +37,7 @@ class UnlockViewModel(
             is UnlockIntent.OnNumberClicked -> onNumberClicked(intent.number)
             UnlockIntent.OnBackspaceClicked -> onBackspaceClicked()
             is UnlockIntent.OnPatternChanged -> onPatternChanged(intent.pattern)
+            UnlockIntent.OnPatternCompleted -> onPatternCompleted()
             UnlockIntent.OnBiometricClicked -> onBiometricClicked()
         }
     }
@@ -59,8 +60,11 @@ class UnlockViewModel(
 
     private fun onPatternChanged(pattern: List<Int>) {
         updateState { copy(pattern = pattern) }
-        if (pattern.size >= 4) {
-            authenticate(PrimaryAuthenticationMethod.Pattern(pattern))
+    }
+
+    private fun onPatternCompleted() {
+        if (state.value.pattern.size >= 4) {
+            authenticate(PrimaryAuthenticationMethod.Pattern(state.value.pattern))
         }
     }
 
