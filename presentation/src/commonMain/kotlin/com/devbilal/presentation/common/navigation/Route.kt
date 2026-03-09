@@ -20,6 +20,10 @@ sealed interface Route: NavKey {
     data object SetupPattern: Route, NavKey
 
 
+
+    @Serializable
+    data object InitBiometric: Route, NavKey
+
     @Serializable
     data object Home: Route, NavKey
 }

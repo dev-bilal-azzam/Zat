@@ -1,10 +1,10 @@
-package com.devbilal.domain.usecase
+package com.devbilal.domain.usecase.authentication
 
 import com.devbilal.domain.exception.FailedToSetAuthenticationMethodException
 import com.devbilal.domain.model.*
 import com.devbilal.domain.repository.AuthenticationRepository
 
-class SetAuthenticationSettingsUseCase(
+class SetPrimaryAuthenticationMethodUseCase(
     private val repository: AuthenticationRepository
 ) {
     suspend operator fun invoke(
@@ -21,7 +21,7 @@ class SetAuthenticationSettingsUseCase(
             }
 
             is PrimaryAuthenticationMethod.Pin -> {
-                if (!method.value.isNullOrEmpty())
+                if (method.code.isNullOrEmpty())
                     throw FailedToSetAuthenticationMethodException(
                         "Pin authentication method must have a value"
                     )
@@ -33,7 +33,7 @@ class SetAuthenticationSettingsUseCase(
             }
 
             is PrimaryAuthenticationMethod.Pattern -> {
-                if (!method.value.isNullOrEmpty())
+                if (method.pattern.isNullOrEmpty())
                     throw FailedToSetAuthenticationMethodException(
                         "Pattern authentication method must have a value"
                     )

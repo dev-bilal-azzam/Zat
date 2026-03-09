@@ -1,5 +1,6 @@
 package com.devbilal.presentation.features.setuppin
 
+import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.presentation.base.*
 
 data class SetupPinState(
@@ -18,4 +19,6 @@ sealed interface SetupPinIntent : UiIntent {
 sealed interface SetupPinEffect : UiEffect {
     data object NavigateBack : SetupPinEffect
     data object NavigateToHome : SetupPinEffect
+    data class ShowSnackBar(val snackBarData: SnackBarData) : SetupPinEffect
+
 }

@@ -1,30 +1,71 @@
 package com.devbilal.presentation.features.setuppin
 
-import com.devbilal.presentation.base.*
+import com.devbilal.designsystem.component.snackbar.SnackBarData
+import com.devbilal.designsystem.component.uitext.UiText
+import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.usecase.authentication.SetPrimaryAuthenticationMethodUseCase
+import com.devbilal.presentation.base.BaseViewModel
+import org.jetbrains.compose.resources.StringResource
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.couldnt_set_pinn
+import zat.presentation.generated.resources.error
 
-class SetupPinViewModel
-    : BaseViewModel<SetupPinState, SetupPinIntent, SetupPinEffect>(SetupPinState()) {
+class SetupPinViewModel(
+    private val setPrimaryAuthenticationMethodUseCase: SetPrimaryAuthenticationMethodUseCase
+) : BaseViewModel<SetupPinState, SetupPinIntent, SetupPinEffect>(SetupPinState()) {
 
     override fun handleIntent(intent: SetupPinIntent) {
         when (intent) {
-            is SetupPinIntent.OnNumberClicked -> {
-                if (state.value.pin.length < 4) {
-                    updateState { copy(pin = pin + intent.number) }
-                }
-            }
-            SetupPinIntent.OnBackspaceClicked -> {
-                if (state.value.pin.isNotEmpty()) {
-                    updateState { copy(pin = pin.dropLast(1)) }
-                }
-            }
-            SetupPinIntent.OnConfirmClicked -> {
-                if (state.value.isConfirmEnabled) {
-                    sendEffect(SetupPinEffect.NavigateToHome)
-                }
-            }
-            SetupPinIntent.OnBackClicked -> {
-                sendEffect(SetupPinEffect.NavigateBack)
-            }
+            is SetupPinIntent.OnNumberClicked -> onNumberClicked(intent.number)
+            SetupPinIntent.OnBackspaceClicked -> onBackspaceClicked()
+            SetupPinIntent.OnConfirmClicked -> onConfirmClicked()
+            SetupPinIntent.OnBackClicked -> onBackClicked()
         }
+    }
+
+    private fun onNumberClicked(number: Int) {
+        if (state.value.pin.length < 4) {
+            updateState { copy(pin = pin + number) }
+        }
+    }
+
+    private fun onBackspaceClicked() {
+        if (state.value.pin.isNotEmpty()) {
+            updateState { copy(pin = pin.dropLast(1)) }
+        }
+    }
+
+    private fun onConfirmClicked() {
+        if (state.value.isConfirmEnabled) {
+            safeExecute(
+                block = {
+                    setPrimaryAuthenticationMethodUseCase(
+                        method = PrimaryAuthenticationMethod.Pin(currentState.pin)
+                    )
+                },
+                onSuccess = { sendEffect(SetupPinEffect.NavigateToHome) },
+                onError = { showSnackBar() }
+            )
+        }
+    }
+
+    private fun onBackClicked() {
+        sendEffect(SetupPinEffect.NavigateBack)
+    }
+
+    private fun showSnackBar(
+        titleStringResource: StringResource = Res.string.error,
+        messageStringResource: StringResource = Res.string.couldnt_set_pinn,
+        isError: Boolean = false
+    ) {
+        sendEffect(
+            SetupPinEffect.ShowSnackBar(
+                SnackBarData(
+                    title = UiText.StringRes(titleStringResource),
+                    message = UiText.StringRes(messageStringResource),
+                    isError = isError
+                )
+            )
+        )
     }
 }

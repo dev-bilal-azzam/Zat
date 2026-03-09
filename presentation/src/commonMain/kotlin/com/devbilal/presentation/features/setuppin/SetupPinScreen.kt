@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.scaffold.Scaffold
+import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
@@ -25,6 +26,7 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.features.setuppin.components.Numpad
 import com.devbilal.presentation.features.setuppin.components.PinIndicator
 import com.devbilal.presentation.features.setuppin.components.SetupPinHeader
@@ -38,16 +40,17 @@ import zat.presentation.generated.resources.pin_usage_message
 
 @Composable
 fun SetupPinScreen(
-    viewModel: SetupPinViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit,
-    onNavigateToHome: () -> Unit
+    viewModel: SetupPinViewModel = koinViewModel()
 ) {
+    val snackBarHost = LocalSnackBarHostController.current
+    val backState = LocalBackStack.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPinEffect.NavigateBack -> onNavigateBack()
-            SetupPinEffect.NavigateToHome -> onNavigateToHome()
+            SetupPinEffect.NavigateBack -> backState.navigateBack()
+            SetupPinEffect.NavigateToHome -> backState.navigateToHome()
+            is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }
 

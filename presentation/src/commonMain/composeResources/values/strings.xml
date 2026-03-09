@@ -28,4 +28,10 @@
     <string name="enter_pin_message">Enter a 4-digit PIN to secure your Zat diary</string>
     <string name="confirm">Confirm</string>
     <string name="pin_usage_message">You\'ll use this PIN to open Zat every time</string>
+    <string name="connect_dots_message">Connect at least 4 dots to secure your Zat account</string>
+    <string name="error">Error</string>
+    <string name="couldnt_set_pattern">Couldn't Set Pattern!</string>
+    <string name="couldnt_set_pinn">Couldn't Set Pin!</string>
+    <string name="wrong_pattern">Wrong Pattern, Please Try Again!</string>
+    <string name="wrong_pin">Wrong Code, Please Try Again!</string>
 </resources>

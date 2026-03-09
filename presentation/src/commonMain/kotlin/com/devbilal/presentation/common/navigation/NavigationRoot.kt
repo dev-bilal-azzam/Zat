@@ -1,8 +1,11 @@
 package com.devbilal.presentation.common.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -16,6 +19,10 @@ import com.devbilal.presentation.features.setuppattern.SetupPatternScreen
 import com.devbilal.presentation.features.setuppin.SetupPinScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
+
+val LocalBackStack = staticCompositionLocalOf<NavBackStack<NavKey>> {
+    error("No NavController provided")
+}
 
 @Composable
 fun NavigationRoot(
@@ -33,58 +40,51 @@ fun NavigationRoot(
         },
         startRoute
     )
-    NavDisplay(
-        backStack = backStack,
-        entryProvider = { key ->
-            when (key) {
-                is Route.Onboarding -> {
-                    NavEntry(key) {
-                        OnBoardingScreen(
-                            onNavigateToInitSecurity = {
-                                backStack.add(Route.InitSecurity)
-                            }
-                        )
-                    }
-                }
 
-                is Route.InitSecurity -> {
-                    // to access arguments -> key.firstArgument
-                    NavEntry(key) {
-                        InitSecurityScreen(
-                            onNavigateBack = { backStack.removeLastOrNull() },
-                            onNavigateToHome = { backStack.add(Route.Home) },
-                            onNavigateToSetupPin = { backStack.add(Route.SetupPin) },
-                            onNavigateToSetupPattern = { backStack.add(Route.SetupPattern) }
-                        )
+    CompositionLocalProvider(
+        LocalBackStack provides backStack,
+    ) {
+        NavDisplay(
+            backStack = backStack,
+            entryProvider = { key ->
+                when (key) {
+                    is Route.Onboarding -> {
+                        NavEntry(key) {
+                            OnBoardingScreen()
+                        }
                     }
-                }
 
-                is Route.SetupPin -> {
-                    NavEntry(key) {
-                        SetupPinScreen(
-                            onNavigateBack = { backStack.removeLastOrNull() },
-                            onNavigateToHome = { backStack.add(Route.Home) }
-                        )
+                    is Route.InitSecurity -> {
+                        // to access arguments -> key.firstArgument
+                        NavEntry(key) {
+                            InitSecurityScreen()
+                        }
                     }
-                }
 
-                is Route.SetupPattern -> {
-                    NavEntry(key) {
-                        SetupPatternScreen()
+                    is Route.SetupPin -> {
+                        NavEntry(key) {
+                            SetupPinScreen()
+                        }
                     }
-                }
 
-                is Route.Home -> {
-                    NavEntry(key) {
-                        HomeScreen()
+                    is Route.SetupPattern -> {
+                        NavEntry(key) {
+                            SetupPatternScreen()
+                        }
                     }
-                }
 
-                else -> error("Unknown NavKey $key")
-            }
-        },
-        modifier = modifier
-    )
+                    is Route.Home -> {
+                        NavEntry(key) {
+                            HomeScreen()
+                        }
+                    }
+
+                    else -> error("Unknown NavKey $key")
+                }
+            },
+            modifier = modifier
+        )
+    }
 }
 
 @Composable

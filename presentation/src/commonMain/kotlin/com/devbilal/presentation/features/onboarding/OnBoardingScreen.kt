@@ -25,6 +25,8 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.navigation.LocalBackStack
+import com.devbilal.presentation.common.navigation.navigateToInitSecurity
 import com.devbilal.presentation.features.onboarding.components.AppearanceSection
 import com.devbilal.presentation.features.onboarding.components.LanguageSection
 import com.devbilal.presentation.features.onboarding.components.OnBoardingHeader
@@ -38,14 +40,14 @@ import zat.presentation.generated.resources.ic_arrow_right
 
 @Composable
 fun OnBoardingScreen(
-    viewModel: OnBoardingViewModel = koinViewModel(),
-    onNavigateToInitSecurity: () -> Unit
+    viewModel: OnBoardingViewModel = koinViewModel()
 ) {
+    val backStack = LocalBackStack.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when(it) {
-            OnBoardingEffect.NavigateToInitSecurity -> { onNavigateToInitSecurity() }
+            OnBoardingEffect.NavigateToInitSecurity -> { backStack.navigateToInitSecurity() }
         }
     }
 

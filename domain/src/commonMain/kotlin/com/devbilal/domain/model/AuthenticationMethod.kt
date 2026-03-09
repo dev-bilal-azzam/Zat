@@ -1,9 +1,9 @@
 package com.devbilal.domain.model
 
 sealed class PrimaryAuthenticationMethod {
-    object None : PrimaryAuthenticationMethod()
-    data class Pin(val value: String?) : PrimaryAuthenticationMethod()
-    data class Pattern(val value: String?) : PrimaryAuthenticationMethod()
+    data object None : PrimaryAuthenticationMethod()
+    data class Pin(val code: String?) : PrimaryAuthenticationMethod()
+    data class Pattern(val pattern: List<Int>?) : PrimaryAuthenticationMethod()
 }
 
 enum class BiometricAuthenticationMethod {

@@ -49,7 +49,7 @@ class SettingsStorage(
     }
 
     /**
-     * Retrieve any json object as a class should be annotated with @Serializable
+     * Retrieve any JSON object as a class should be annotated with @Serializable
      */
     fun <T> getSerializable(
         key: String,
@@ -64,7 +64,7 @@ class SettingsStorage(
     }
 
     /**
-     * Store any class annotated with @Serializable as a json object
+     * Store any class annotated with @Serializable as a JSON object
      */
     fun <T> putSerializable(
         key: String,
