@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.setuppin.components
+package com.devbilal.presentation.common.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.presentation.features.unlock.components.BiometricButton
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.ic_backspace
@@ -24,7 +25,9 @@ import zat.presentation.generated.resources.ic_backspace
 fun Numpad(
     onNumberClick: (Int) -> Unit,
     onBackspaceClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBiometricClick: () -> Unit = {},
+    isBiometricVisible: Boolean = false,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -57,6 +60,10 @@ fun Numpad(
         ) {
             // Empty space for alignment
             Box(modifier = Modifier.size(64.dp))
+
+            if (isBiometricVisible) {
+                BiometricButton(onClick = onBiometricClick)
+            }
 
             NumpadButton(
                 number = 0,

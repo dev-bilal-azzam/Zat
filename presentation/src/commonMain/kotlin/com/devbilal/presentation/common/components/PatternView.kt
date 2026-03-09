@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.setuppattern.components
+package com.devbilal.presentation.common.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

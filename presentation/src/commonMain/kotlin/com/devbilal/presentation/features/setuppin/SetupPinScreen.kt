@@ -27,8 +27,8 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.navigation.*
-import com.devbilal.presentation.features.setuppin.components.Numpad
-import com.devbilal.presentation.features.setuppin.components.PinIndicator
+import com.devbilal.presentation.common.components.Numpad
+import com.devbilal.presentation.common.components.PinIndicator
 import com.devbilal.presentation.features.setuppin.components.SetupPinHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -49,7 +49,7 @@ fun SetupPinScreen(
     viewModel.ObserveEffects {
         when (it) {
             SetupPinEffect.NavigateBack -> backState.navigateBack()
-            SetupPinEffect.NavigateToInitBiometric -> backState.navigateToInitBiometric()
+            SetupPinEffect.NavigateToInitBiometric -> backState.navigateToInitBiometricWithReplaceAll()
             is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }

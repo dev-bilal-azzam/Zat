@@ -5,6 +5,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
+    singleOf(::GetAuthenticationSettingsUseCase)
     singleOf(::AddBiometricAuthenticationMethod)
     singleOf(::AuthenticateWithPrimaryMethodUseCase)
     singleOf(::IsAvailableBiometricAuthentication)
