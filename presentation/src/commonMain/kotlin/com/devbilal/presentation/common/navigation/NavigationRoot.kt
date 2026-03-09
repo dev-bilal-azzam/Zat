@@ -13,6 +13,7 @@ import com.devbilal.presentation.features.home.HomeScreen
 import com.devbilal.presentation.features.initsecurity.InitSecurityScreen
 import com.devbilal.presentation.features.onboarding.OnBoardingScreen
 import com.devbilal.presentation.features.setuppattern.SetupPatternScreen
+import com.devbilal.presentation.features.setuppin.SetupPinScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -60,7 +61,10 @@ fun NavigationRoot(
 
                 is Route.SetupPin -> {
                     NavEntry(key) {
-                        SetupPatternScreen()
+                        SetupPinScreen(
+                            onNavigateBack = { backStack.removeLastOrNull() },
+                            onNavigateToHome = { backStack.add(Route.Home) }
+                        )
                     }
                 }
 
