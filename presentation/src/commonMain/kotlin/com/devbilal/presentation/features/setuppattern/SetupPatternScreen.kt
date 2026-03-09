@@ -88,7 +88,7 @@ private fun SetupPatternScreenContent(
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 PrimaryButton(
                     text = stringResource(Res.string.confirm),
