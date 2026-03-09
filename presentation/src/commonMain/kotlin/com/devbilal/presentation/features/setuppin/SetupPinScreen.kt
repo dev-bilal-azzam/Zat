@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.scaffold.Scaffold
+import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
@@ -41,6 +42,7 @@ import zat.presentation.generated.resources.pin_usage_message
 fun SetupPinScreen(
     viewModel: SetupPinViewModel = koinViewModel()
 ) {
+    val snackBarHost = LocalSnackBarHostController.current
     val backState = LocalBackStack.current
     val state = viewModel.collectState()
 
@@ -48,6 +50,7 @@ fun SetupPinScreen(
         when (it) {
             SetupPinEffect.NavigateBack -> backState.navigateBack()
             SetupPinEffect.NavigateToHome -> backState.navigateToHome()
+            is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }
 

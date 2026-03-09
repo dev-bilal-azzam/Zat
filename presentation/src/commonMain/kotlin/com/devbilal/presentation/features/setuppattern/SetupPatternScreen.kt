@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.scaffold.Scaffold
+import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
@@ -31,6 +32,7 @@ import zat.presentation.generated.resources.*
 fun SetupPatternScreen(
     viewModel: SetupPatternViewModel = koinViewModel()
 ) {
+    val snackBarHost = LocalSnackBarHostController.current
     val backStack = LocalBackStack.current
     val state = viewModel.collectState()
 
@@ -38,6 +40,7 @@ fun SetupPatternScreen(
         when (it) {
             SetupPatternEffect.NavigateBack -> backStack.navigateBack()
             SetupPatternEffect.NavigateToHome -> backStack.navigateToHome()
+            is SetupPatternEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.devbilal.presentation.features.setuppattern
 
+import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.presentation.base.*
 
 data class SetupPatternState(
@@ -17,4 +18,5 @@ sealed interface SetupPatternIntent : UiIntent {
 sealed interface SetupPatternEffect : UiEffect {
     data object NavigateBack : SetupPatternEffect
     data object NavigateToHome : SetupPatternEffect
+    data class ShowSnackBar(val snackBarData: SnackBarData) : SetupPatternEffect
 }

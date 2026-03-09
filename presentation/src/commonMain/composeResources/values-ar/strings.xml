@@ -29,4 +29,9 @@
     <string name="confirm">تأكيد</string>
     <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح Zat في كل مرة</string>
     <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لتأمين حساب Zat الخاص بك</string>
+    <string name="error">خطأ</string>
+    <string name="couldnt_set_pattern">عفواً لم يتم ضبط النمط!</string>
+    <string name="couldnt_set_pinn">عفواً لم يتم ضبط الرمز!</string>
+    <string name="wrong_pattern">نمط غير صحيح, أعد المحاولة!</string>
+    <string name="wrong_pin">رمز غير صحيح, أعد المحاولة!</string>
 </resources>
