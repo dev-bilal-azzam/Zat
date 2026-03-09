@@ -4,7 +4,7 @@ import com.devbilal.domain.exception.FailedToSetAuthenticationMethodException
 import com.devbilal.domain.model.*
 import com.devbilal.domain.repository.AuthenticationRepository
 
-class SetAuthenticationSettingsUseCase(
+class SetPrimaryAuthenticationMethodUseCase(
     private val repository: AuthenticationRepository
 ) {
     suspend operator fun invoke(

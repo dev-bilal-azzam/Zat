@@ -25,6 +25,7 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.features.setuppin.components.Numpad
 import com.devbilal.presentation.features.setuppin.components.PinIndicator
 import com.devbilal.presentation.features.setuppin.components.SetupPinHeader
@@ -38,16 +39,15 @@ import zat.presentation.generated.resources.pin_usage_message
 
 @Composable
 fun SetupPinScreen(
-    viewModel: SetupPinViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit,
-    onNavigateToHome: () -> Unit
+    viewModel: SetupPinViewModel = koinViewModel()
 ) {
+    val backState = LocalBackStack.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPinEffect.NavigateBack -> onNavigateBack()
-            SetupPinEffect.NavigateToHome -> onNavigateToHome()
+            SetupPinEffect.NavigateBack -> backState.navigateBack()
+            SetupPinEffect.NavigateToHome -> backState.navigateToHome()
         }
     }
 

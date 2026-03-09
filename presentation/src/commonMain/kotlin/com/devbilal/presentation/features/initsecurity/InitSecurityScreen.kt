@@ -14,6 +14,7 @@ import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.scaffold.Scaffold
 import com.devbilal.designsystem.component.text.Text
+import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.features.initsecurity.components.InitSecurityHeader
 import com.devbilal.presentation.features.initsecurity.components.UnlockMethodsSection
 import org.jetbrains.compose.resources.stringResource
@@ -24,17 +25,14 @@ import zat.presentation.generated.resources.*
 @Composable
 fun InitSecurityScreen(
     viewModel: InitSecurityViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit,
-    onNavigateToHome: () -> Unit,
-    onNavigateToSetupPin: () -> Unit,
-    onNavigateToSetupPattern: () -> Unit
 ) {
+    val backStack = LocalBackStack.current
     viewModel.ObserveEffects {
         when (it) {
-            InitSecurityEffect.NavigateBack -> onNavigateBack()
-            InitSecurityEffect.NavigateToHome -> onNavigateToHome()
-            InitSecurityEffect.NavigateToSetPattern -> onNavigateToSetupPattern()
-            InitSecurityEffect.NavigateToSetPin -> onNavigateToSetupPin()
+            InitSecurityEffect.NavigateBack -> backStack.navigateBack()
+            InitSecurityEffect.NavigateToHome -> backStack.navigateToHome()
+            InitSecurityEffect.NavigateToSetPattern -> backStack.navigateToSetupPattern()
+            InitSecurityEffect.NavigateToSetPin -> backStack.navigateToSetupPin()
         }
     }
 

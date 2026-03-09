@@ -19,6 +19,7 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.features.setuppattern.components.PatternView
 import com.devbilal.presentation.features.setuppattern.components.SetupPatternHeader
 import org.jetbrains.compose.resources.stringResource
@@ -28,16 +29,15 @@ import zat.presentation.generated.resources.*
 
 @Composable
 fun SetupPatternScreen(
-    viewModel: SetupPatternViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit,
-    onNavigateToHome: () -> Unit
+    viewModel: SetupPatternViewModel = koinViewModel()
 ) {
+    val backStack = LocalBackStack.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPatternEffect.NavigateBack -> onNavigateBack()
-            SetupPatternEffect.NavigateToHome -> onNavigateToHome()
+            SetupPatternEffect.NavigateBack -> backStack.navigateBack()
+            SetupPatternEffect.NavigateToHome -> backStack.navigateToHome()
         }
     }
 

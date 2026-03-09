@@ -7,6 +7,8 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
+import com.devbilal.designsystem.component.snackbar.SnackBarHostController
 import com.devbilal.designsystem.theme.color.scheme.ColorScheme
 import com.devbilal.designsystem.theme.color.scheme.DarkColorScheme
 import com.devbilal.designsystem.theme.color.scheme.LightColorScheme
@@ -50,12 +52,15 @@ fun ZatTheme(
         if (language == AppLanguage.Arabic.iso) LayoutDirection.Rtl else LayoutDirection.Ltr
     }
 
+    val snackBarHostController = remember { SnackBarHostController() }
+
     CompositionLocalProvider(
         LocalColorScheme provides colorScheme,
         LocalSpacing provides ZatSpacing,
         LocalRadius provides ZatRadius,
         LocalTypography provides typography,
         LocalLayoutDirection provides layoutDirection,
+        LocalSnackBarHostController provides snackBarHostController
     ) {
         content()
     }

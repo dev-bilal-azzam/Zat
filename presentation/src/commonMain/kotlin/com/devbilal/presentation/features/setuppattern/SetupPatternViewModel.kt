@@ -1,10 +1,11 @@
 package com.devbilal.presentation.features.setuppattern
 
-import com.devbilal.domain.usecase.authentication.SetAuthenticationSettingsUseCase
+import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.usecase.authentication.SetPrimaryAuthenticationMethodUseCase
 import com.devbilal.presentation.base.*
 
 class SetupPatternViewModel(
-    private val setAuthenticationSettingsUseCase: SetAuthenticationSettingsUseCase
+    private val setPrimaryAuthenticationMethodUseCase: SetPrimaryAuthenticationMethodUseCase
 ) : BaseViewModel<SetupPatternState, SetupPatternIntent, SetupPatternEffect>(SetupPatternState()) {
 
     override fun handleIntent(intent: SetupPatternIntent) {
@@ -23,9 +24,12 @@ class SetupPatternViewModel(
         if (state.value.isConfirmEnabled) {
             safeExecute(
                 block = {
-
+                    setPrimaryAuthenticationMethodUseCase(
+                        method = PrimaryAuthenticationMethod.Pattern(currentState.pattern)
+                    )
                 },
-                onSuccess = { sendEffect(SetupPatternEffect.NavigateToHome) }
+                onSuccess = { sendEffect(SetupPatternEffect.NavigateToHome) },
+                onError = { /*sendEffect(SetupPatternEffect.ShowError())*/ }
             )
         }
     }

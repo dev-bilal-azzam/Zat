@@ -9,5 +9,5 @@ internal val useCaseModule = module {
     singleOf(::AuthenticateWithPrimaryMethodUseCase)
     singleOf(::IsAvailableBiometricAuthentication)
     singleOf(::SetBiometricAuthenticationMethods)
-    singleOf(::SetAuthenticationSettingsUseCase)
+    singleOf(::SetPrimaryAuthenticationMethodUseCase)
 }
