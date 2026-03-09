@@ -29,6 +29,7 @@ import kotlin.math.sqrt
 fun PatternView(
     pattern: List<Int>,
     onPatternChanged: (List<Int>) -> Unit,
+    onPatternCompleted: () -> Unit = {},
     modifier: Modifier = Modifier,
     dotCount: Int = 3
 ) {
@@ -62,6 +63,7 @@ fun PatternView(
                     },
                     onDragEnd = {
                         currentTouchPoint = null
+                        onPatternCompleted()
                     },
                     onDragCancel = {
                         currentTouchPoint = null

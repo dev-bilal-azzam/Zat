@@ -43,6 +43,7 @@ fun SnackBar(
             .fillMaxWidth()
             .clip(RoundedCornerShape(Theme.radius.md))
             .background(Theme.colorScheme.background.surfaceLow)
+            .background(Theme.colorScheme.background.surface.copy(.2f))
             .padding(
                 top = Theme.spacing._8,
                 bottom = Theme.spacing._8,

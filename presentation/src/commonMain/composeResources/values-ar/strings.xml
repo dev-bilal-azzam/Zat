@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="zat">ذَات</string>
-    <string name="welcome">مرحبًا بك في ذات</string>
+    <string name="welcome">مرحبًا بك في ذَات</string>
     <string name="welcome_message">عبر عن ذاتك..مشاعرك..أفكارك</string>
     <string name="default_language">لغة التطبيق الافتراضية</string>
     <string name="arabic_language">اللغة العربية</string>
@@ -25,7 +25,7 @@
     <string name="setup_later">يمكنك الإعداد لاحقًا من الإعدادات</string>
     <string name="create_your_pin">أنشئ رمز PIN الخاص بك</string>
     <string name="security_first">الأمان أولاً</string>
-    <string name="enter_pin_message">أدخل رمز PIN مكونًا من 4 أرقام لتأمين مذكرات Zat الخاصة بك</string>
+    <string name="enter_pin_message">أدخل رمز PIN مكونًا من 4 أرقام لتأمين مذكرات ذَات الخاصة بك</string>
     <string name="confirm">تأكيد</string>
     <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح ذَات في كل مرة</string>
     <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لفتح حساب ذَات الخاص بك</string>

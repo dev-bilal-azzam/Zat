@@ -15,6 +15,7 @@ sealed interface UnlockIntent : UiIntent {
     data class OnNumberClicked(val number: Int) : UnlockIntent
     data object OnBackspaceClicked : UnlockIntent
     data class OnPatternChanged(val pattern: List<Int>) : UnlockIntent
+    data object OnPatternCompleted : UnlockIntent
     data object OnBiometricClicked : UnlockIntent
 }
 

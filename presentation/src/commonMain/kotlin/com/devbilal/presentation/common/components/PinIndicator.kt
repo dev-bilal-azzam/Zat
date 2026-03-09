@@ -30,7 +30,7 @@ fun PinIndicator(
                 modifier = Modifier
                     .size(16.dp)
                     .background(
-                        color = if (isFilled) Theme.colorScheme.primary.primary else Theme.colorScheme.background.surfaceLow,
+                        color = if (isFilled) Theme.colorScheme.primary.primary else Theme.colorScheme.background.surface,
                         shape = CircleShape
                     )
                     .border(

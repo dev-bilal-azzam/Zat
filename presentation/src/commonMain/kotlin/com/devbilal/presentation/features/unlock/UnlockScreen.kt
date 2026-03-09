@@ -76,6 +76,7 @@ private fun UnlockScreenContent(
                         PatternView(
                             pattern = state.pattern,
                             onPatternChanged = { onIntent(UnlockIntent.OnPatternChanged(it)) },
+                            onPatternCompleted = { onIntent(UnlockIntent.OnPatternCompleted) },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
