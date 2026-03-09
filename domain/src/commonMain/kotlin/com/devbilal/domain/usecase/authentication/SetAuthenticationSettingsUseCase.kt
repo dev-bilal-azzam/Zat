@@ -21,7 +21,7 @@ class SetAuthenticationSettingsUseCase(
             }
 
             is PrimaryAuthenticationMethod.Pin -> {
-                if (!method.value.isNullOrEmpty())
+                if (method.code.isNullOrEmpty())
                     throw FailedToSetAuthenticationMethodException(
                         "Pin authentication method must have a value"
                     )
@@ -33,7 +33,7 @@ class SetAuthenticationSettingsUseCase(
             }
 
             is PrimaryAuthenticationMethod.Pattern -> {
-                if (!method.value.isNullOrEmpty())
+                if (method.pattern.isNullOrEmpty())
                     throw FailedToSetAuthenticationMethodException(
                         "Pattern authentication method must have a value"
                     )

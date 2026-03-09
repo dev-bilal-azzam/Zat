@@ -18,9 +18,13 @@ internal var SettingsStorage.biometricAuthenticationMethod: Set<BiometricAuthent
     get() = getEnumSet(BIOMETRIC_AUTHENTICATION_METHODS, emptySet())
     set(set) = putEnumSet(BIOMETRIC_AUTHENTICATION_METHODS, set)
 
-internal var SettingsStorage.credential: String?
-    get() = getStringOrNull(CREDENTIAL)
-    set(value) = putStringOrNull(CREDENTIAL, value)
+internal var SettingsStorage.pinCredential: String?
+    get() = getStringOrNull(PIN_CREDENTIAL)
+    set(value) = putStringOrNull(PIN_CREDENTIAL, value)
+
+internal var SettingsStorage.patternCredential: String?
+    get() = getStringOrNull(PATTERN_CREDENTIAL)
+    set(value) = putStringOrNull(PATTERN_CREDENTIAL, value)
 
 internal var SettingsStorage.appLanguage: AppLanguage
     get() = AppLanguage.valueOf(getString(APP_LANGUAGE, AppLanguage.ENGLISH.name))
@@ -36,4 +40,5 @@ const val APP_THEME = "app_theme"
 
 const val PRIMARY_AUTHENTICATION_METHOD = "primary_authentication_method"
 const val BIOMETRIC_AUTHENTICATION_METHODS = "biometric_authentication_methods"
-const val CREDENTIAL = "credential"
+const val PIN_CREDENTIAL = "pin_credential"
+const val PATTERN_CREDENTIAL = "pattern_credential"
