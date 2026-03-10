@@ -1,9 +1,11 @@
 package com.devbilal.presentation.features.initbiometric
 
+import com.devbilal.domain.usecase.authentication.BiometricAuthenticationUseCase
 import com.devbilal.presentation.base.BaseViewModel
 
-class InitBiometricViewModel
-    : BaseViewModel<InitBiometricState, InitBiometricIntent, InitBiometricEffect>(InitBiometricState) {
+class InitBiometricViewModel (
+    private val biometricAuthenticationUseCase: BiometricAuthenticationUseCase
+): BaseViewModel<InitBiometricState, InitBiometricIntent, InitBiometricEffect>(InitBiometricState) {
 
     override fun handleIntent(intent: InitBiometricIntent) {
         when (intent) {
@@ -14,11 +16,18 @@ class InitBiometricViewModel
     }
 
     private fun onEnableClicked() {
-        TODO("Set System's Biometric Authentication")
+        safeExecute(
+            block = { biometricAuthenticationUseCase.enable() },
+            onSuccess = { sendEffect(InitBiometricEffect.NavigateToHome) }
+        )
+
     }
 
     private fun onSkipClicked() {
-        sendEffect(InitBiometricEffect.NavigateToHome)
+        safeExecute(
+            block = { biometricAuthenticationUseCase.enable() },
+            onSuccess = { sendEffect(InitBiometricEffect.NavigateToHome) }
+        )
     }
 
     private fun onBackClicked() {

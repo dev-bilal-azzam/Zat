@@ -7,7 +7,7 @@ import com.devbilal.data.datasource.local.setting.pinCredential
 import com.devbilal.data.datasource.local.setting.primaryAuthenticationMethod
 import com.devbilal.data.hash.Hasher
 import com.devbilal.domain.exception.InvalidCredentialException
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.model.AuthenticationMethod
 
 
 interface AuthenticationStrategy {
@@ -16,7 +16,7 @@ interface AuthenticationStrategy {
 }
 
 class PinAuthenticationStrategy(
-    private val method: PrimaryAuthenticationMethod.Pin,
+    private val method: AuthenticationMethod.Pin,
     private val storage: SettingsStorage,
     private val hasher: Hasher
 ) : AuthenticationStrategy {
@@ -36,7 +36,7 @@ class PinAuthenticationStrategy(
 }
 
 class PatternAuthenticationStrategy(
-    private val method: PrimaryAuthenticationMethod.Pattern,
+    private val method: AuthenticationMethod.Pattern,
     private val storage: SettingsStorage,
     private val hasher: Hasher
 ) : AuthenticationStrategy {

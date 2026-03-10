@@ -2,14 +2,14 @@ package com.devbilal.presentation.features.setuppattern
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.designsystem.component.uitext.UiText
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
-import com.devbilal.domain.usecase.authentication.SetPrimaryAuthenticationMethodUseCase
+import com.devbilal.domain.model.AuthenticationMethod
+import com.devbilal.domain.usecase.authentication.SetAuthenticationMethodUseCase
 import com.devbilal.presentation.base.*
 import org.jetbrains.compose.resources.StringResource
 import zat.presentation.generated.resources.*
 
 class SetupPatternViewModel(
-    private val setPrimaryAuthenticationMethodUseCase: SetPrimaryAuthenticationMethodUseCase
+    private val setAuthenticationMethodUseCase: SetAuthenticationMethodUseCase
 ) : BaseViewModel<SetupPatternState, SetupPatternIntent, SetupPatternEffect>(SetupPatternState()) {
 
     override fun handleIntent(intent: SetupPatternIntent) {
@@ -28,8 +28,8 @@ class SetupPatternViewModel(
         if (state.value.isConfirmEnabled) {
             safeExecute(
                 block = {
-                    setPrimaryAuthenticationMethodUseCase(
-                        method = PrimaryAuthenticationMethod.Pattern(currentState.pattern)
+                    setAuthenticationMethodUseCase(
+                        method = AuthenticationMethod.Pattern(currentState.pattern)
                     )
                 },
                 onSuccess = { sendEffect(SetupPatternEffect.NavigateToInitBiometric) },

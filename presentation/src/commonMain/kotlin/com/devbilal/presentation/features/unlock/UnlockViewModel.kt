@@ -2,21 +2,41 @@ package com.devbilal.presentation.features.unlock
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.designsystem.component.uitext.UiText
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.domain.usecase.authentication.AuthenticateWithPrimaryMethodUseCase
 import com.devbilal.domain.usecase.authentication.GetAuthenticationSettingsUseCase
 import com.devbilal.presentation.base.*
+import com.devbilal.presentation.common.biometric.BiometricPromptManager
+import com.devbilal.presentation.common.biometric.BiometricResult
 import org.jetbrains.compose.resources.StringResource
 import zat.presentation.generated.resources.*
 
 class UnlockViewModel(
     private val getAuthenticationSettingsUseCase: GetAuthenticationSettingsUseCase,
-    private val authenticateWithPrimaryMethodUseCase: AuthenticateWithPrimaryMethodUseCase
+    private val authenticateWithPrimaryMethodUseCase: AuthenticateWithPrimaryMethodUseCase,
+    private val biometricPromptManager: BiometricPromptManager
 ) : BaseViewModel<UnlockState, UnlockIntent, UnlockEffect>(UnlockState()) {
 
     init {
         loadSettings()
+        collectBiometricResult()
     }
+
+    private fun collectBiometricResult() {
+        safeCollect(
+            block = { biometricPromptManager.promptResults },
+            onCollect = ::onCollectBiometricResult,
+            onError = { showSnackBar(messageStringResource = Res.string.biometric_failed) }
+        )
+    }
+
+    private fun onCollectBiometricResult(result: BiometricResult) {
+        when (result) {
+            BiometricResult.AuthenticationSuccess -> { sendEffect(UnlockEffect.NavigateToHome) }
+            else -> showSnackBar(messageStringResource = Res.string.biometric_failed)
+        }
+    }
+
 
     private fun loadSettings() {
         safeExecute(
@@ -24,8 +44,8 @@ class UnlockViewModel(
             onSuccess = { settings ->
                 updateState {
                     copy(
-                        primaryMethod = settings.primaryMethod,
-                        isBiometricEnabled = settings.biometricMethods.isNotEmpty()
+                        authenticationMethod = settings.primaryMethod,
+                        isBiometricEnabled = settings.isBiometricAuthEnabled
                     )
                 }
             }
@@ -38,7 +58,7 @@ class UnlockViewModel(
             UnlockIntent.OnBackspaceClicked -> onBackspaceClicked()
             is UnlockIntent.OnPatternChanged -> onPatternChanged(intent.pattern)
             UnlockIntent.OnPatternCompleted -> onPatternCompleted()
-            UnlockIntent.OnBiometricClicked -> onBiometricClicked()
+            is UnlockIntent.OnBiometricClicked -> onBiometricClicked(intent.title, intent.description, intent.cancel)
         }
     }
 
@@ -47,7 +67,7 @@ class UnlockViewModel(
         if (newPin.length <= 4) {
             updateState { copy(pin = newPin) }
             if (newPin.length == 4) {
-                authenticate(PrimaryAuthenticationMethod.Pin(newPin))
+                authenticate(AuthenticationMethod.Pin(newPin))
             }
         }
     }
@@ -64,21 +84,21 @@ class UnlockViewModel(
 
     private fun onPatternCompleted() {
         if (state.value.pattern.size >= 4) {
-            authenticate(PrimaryAuthenticationMethod.Pattern(state.value.pattern))
+            authenticate(AuthenticationMethod.Pattern(state.value.pattern))
         }
     }
 
-    private fun authenticate(method: PrimaryAuthenticationMethod) {
+    private fun authenticate(method: AuthenticationMethod) {
         safeExecute(
             block = { authenticateWithPrimaryMethodUseCase(method) },
             onSuccess = { sendEffect(UnlockEffect.NavigateToHome) },
             onError = {
                 val message = when (method) {
-                    is PrimaryAuthenticationMethod.Pin -> {
+                    is AuthenticationMethod.Pin -> {
                         updateState { copy(pin = "") }
                         Res.string.wrong_pin
                     }
-                    is PrimaryAuthenticationMethod.Pattern -> {
+                    is AuthenticationMethod.Pattern -> {
                         updateState { copy(pattern = emptyList()) }
                         Res.string.wrong_pattern
                     }
@@ -89,9 +109,8 @@ class UnlockViewModel(
         )
     }
 
-    private fun onBiometricClicked() {
-        // Biometric logic would go here
-        sendEffect(UnlockEffect.NavigateToHome)
+    private fun onBiometricClicked(title: String, description: String, cancel: String) {
+        biometricPromptManager.showBiometricPrompt(title, description, cancel)
     }
 
     private fun showSnackBar(

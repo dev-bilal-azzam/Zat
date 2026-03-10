@@ -3,6 +3,6 @@
     <style name="Theme.Zat.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/zat_logo_with_name</item>
         <item name="windowSplashScreenBackground">#0A171B</item>
-        <item name="postSplashScreenTheme">@android:style/Theme.Material.Light.NoActionBar</item>
+        <item name="postSplashScreenTheme">@style/Theme.AppCompat.DayNight.NoActionBar</item>
     </style>
 </resources>

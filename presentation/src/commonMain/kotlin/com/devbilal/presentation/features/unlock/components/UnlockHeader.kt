@@ -12,14 +12,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.model.AuthenticationMethod
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import zat.presentation.generated.resources.*
 
 @Composable
 fun UnlockHeader(
-    primaryMethod: PrimaryAuthenticationMethod,
+    primaryMethod: AuthenticationMethod,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -48,8 +48,8 @@ fun UnlockHeader(
         )
 
         val message = when (primaryMethod) {
-            is PrimaryAuthenticationMethod.Pin -> Res.string.enter_pin_to_unlock
-            is PrimaryAuthenticationMethod.Pattern -> Res.string.enter_pattern_to_unlock
+            is AuthenticationMethod.Pin -> Res.string.enter_pin_to_unlock
+            is AuthenticationMethod.Pattern -> Res.string.enter_pattern_to_unlock
             else -> Res.string.welcome_back // Should not happen
         }
 

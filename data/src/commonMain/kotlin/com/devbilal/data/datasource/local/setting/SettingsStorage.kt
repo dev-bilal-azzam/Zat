@@ -17,6 +17,14 @@ class SettingsStorage(
         return settings.getString(key, default)
     }
 
+    fun putBoolean(key: String, value: Boolean) {
+        settings.putBoolean(key, value)
+    }
+
+    fun getBoolean(key: String, default: Boolean = false): Boolean {
+        return settings.getBoolean(key, default)
+    }
+
     fun putStringOrNull(key: String, value: String?) {
         settings.putString(key, value.orEmpty())
     }
@@ -29,23 +37,6 @@ class SettingsStorage(
 
     fun remove(key: String) {
         settings.remove(key)
-    }
-
-    /**
-     * Store any Set of Enum as a comma-separated string
-     */
-    fun <T : Enum<T>> putEnumSet(key: String, value: Set<T>) {
-        val stringValue = value.joinToString(",") { it.name }
-        putString(key, stringValue)
-    }
-
-    /**
-     * Retrieve any Set of Enum from a comma-separated string
-     */
-    inline fun <reified T : Enum<T>> getEnumSet(key: String, default: Set<T> = emptySet()): Set<T> {
-        val stored = getString(key, "")
-        return if (stored.isBlank()) default
-        else stored.split(",").map { enumValueOf<T>(it) }.toSet()
     }
 
     /**

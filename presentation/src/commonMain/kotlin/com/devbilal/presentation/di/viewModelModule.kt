@@ -10,7 +10,7 @@ import com.devbilal.presentation.features.unlock.UnlockViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val viewModelModule = module {
+internal val viewModelModule = module {
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::InitSecurityViewModel)
     viewModelOf(::SetupPatternViewModel)
