@@ -4,9 +4,11 @@ import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.presentation.base.*
 
 data class MainState(
-    val isOnboarding: Boolean = false,
+    val isOnboardingDone: Boolean? = null,
     val authenticationMethod: AuthenticationMethod? = null
-) : UiState
+) : UiState {
+    val isLoading: Boolean get() = isOnboardingDone == null || (isOnboardingDone && authenticationMethod == null)
+}
 
 sealed interface MainIntent : UiIntent
 

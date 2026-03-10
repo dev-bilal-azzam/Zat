@@ -34,6 +34,11 @@ internal var SettingsStorage.appTheme: AppTheme
     set(theme) = putString(APP_THEME, theme.name)
 
 
+
+internal var SettingsStorage.isOnboardingDone: Boolean
+    get() = getBoolean(IS_ONBOARDING_DONE)
+    set(value) = putBoolean(IS_ONBOARDING_DONE, value)
+
 const val APP_LANGUAGE = "app_language"
 const val APP_THEME = "app_theme"
 
@@ -41,3 +46,5 @@ const val PRIMARY_AUTHENTICATION_METHOD = "primary_authentication_method"
 const val IS_BIOMETRIC_AUTH_ENABLED = "is_biometric_auth_enabled"
 const val PIN_CREDENTIAL = "pin_credential"
 const val PATTERN_CREDENTIAL = "pattern_credential"
+
+const val IS_ONBOARDING_DONE = "is_onboarding_done"

@@ -9,7 +9,7 @@ class IsAvailableBiometricAuthentication(
     suspend operator fun invoke(): Boolean {
         val settings = repository.getAuthenticationSettings()
 
-        return settings.primaryMethod != AuthenticationMethod.None &&
+        return settings.method != AuthenticationMethod.None &&
                 settings.isBiometricAuthEnabled
     }
 }

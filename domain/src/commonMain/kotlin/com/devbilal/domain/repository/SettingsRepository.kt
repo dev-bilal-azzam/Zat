@@ -5,10 +5,14 @@ import com.devbilal.domain.util.AppTheme
 import kotlinx.coroutines.flow.StateFlow
 
 interface SettingsRepository {
-    suspend fun applyLanguage(appLanguage: AppLanguage)
+    suspend fun applyAppLanguage(appLanguage: AppLanguage)
     fun observeAppLanguage(): StateFlow<AppLanguage>
     fun getCurrentAppLanguage(): AppLanguage
     suspend fun applyAppTheme(appTheme: AppTheme)
     fun observeAppTheme(): StateFlow<AppTheme>
     fun getCurrentAppTheme(): AppTheme
+
+    suspend fun isOnboardingDone(): Boolean
+
+    suspend fun setIsOnboardingDone()
 }

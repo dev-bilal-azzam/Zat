@@ -1,5 +1,6 @@
 package com.devbilal.presentation.di
 
+import com.devbilal.presentation.common.navigation.MainViewModel
 import com.devbilal.presentation.features.home.HomeViewModel
 import com.devbilal.presentation.features.initbiometric.InitBiometricViewModel
 import com.devbilal.presentation.features.initsecurity.InitSecurityViewModel
@@ -11,6 +12,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
+    viewModelOf(::MainViewModel)
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::InitSecurityViewModel)
     viewModelOf(::SetupPatternViewModel)

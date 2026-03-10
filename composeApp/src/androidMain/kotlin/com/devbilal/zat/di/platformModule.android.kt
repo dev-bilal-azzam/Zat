@@ -12,7 +12,7 @@ actual fun platformModule(): Module = module {
     ) {
         AppLocalizer(
             context = get(),
-            settingsRepository = get()
+            languageUseCase = get()
         )
     }
 }
