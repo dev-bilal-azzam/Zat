@@ -3,7 +3,7 @@ package com.devbilal.zat
 import android.content.Context
 import android.os.LocaleList
 import androidx.core.os.LocaleListCompat
-import com.devbilal.domain.repository.SettingsRepository
+import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.util.AppLanguage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 actual class AppLocalizer(
     private val context: Context,
-    private val settingsRepository: SettingsRepository
+    private val languageUseCase: AppLanguageUseCase
 ) {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var currentLanguage: String = AppLanguage.DEFAULT.iso
@@ -32,10 +32,10 @@ actual class AppLocalizer(
     }
 
     private suspend fun settingsLanguageFlow() {
-        settingsRepository.observeAppLanguage().collect { lang ->
+        languageUseCase.observeAppLanguage().collect { lang ->
             currentLanguage = lang.iso.ifEmpty {
                 val deviceIso = getDeviceLanguageIso()
-                settingsRepository.applyLanguage(AppLanguage.fromIso(deviceIso))
+                languageUseCase.setAppLanguage(AppLanguage.fromIso(deviceIso))
                 applyLocaleToContext(deviceIso)
                 deviceIso
             }

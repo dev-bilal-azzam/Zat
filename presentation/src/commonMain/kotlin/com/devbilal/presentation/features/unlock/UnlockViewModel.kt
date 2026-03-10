@@ -44,7 +44,7 @@ class UnlockViewModel(
             onSuccess = { settings ->
                 updateState {
                     copy(
-                        authenticationMethod = settings.primaryMethod,
+                        authenticationMethod = settings.method,
                         isBiometricEnabled = settings.isBiometricAuthEnabled
                     )
                 }

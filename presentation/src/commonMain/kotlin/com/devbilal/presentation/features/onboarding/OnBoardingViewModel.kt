@@ -2,12 +2,16 @@ package com.devbilal.presentation.features.onboarding
 
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
-import com.devbilal.domain.repository.SettingsRepository
+import com.devbilal.domain.usecase.settings.AppLanguageUseCase
+import com.devbilal.domain.usecase.settings.AppThemeUseCase
+import com.devbilal.domain.usecase.settings.OnboardingDoneUseCase
 import com.devbilal.presentation.base.BaseViewModel
 import com.devbilal.domain.util.AppLanguage as SettingsAppLanguage
 
 class OnBoardingViewModel(
-    private val settingsRepository: SettingsRepository
+    private val appLanguageUseCase: AppLanguageUseCase,
+    private val appThemeUseCase: AppThemeUseCase,
+    private val onboardingDoneUseCase: OnboardingDoneUseCase
 ) : BaseViewModel<OnBoardingState, OnBoardingIntent, OnBoardingEffect>(OnBoardingState()) {
 
     init {
@@ -26,14 +30,14 @@ class OnBoardingViewModel(
 
     private fun getTheme() {
         safeExecute(
-            block = settingsRepository::getCurrentAppTheme,
+            block = appThemeUseCase::getAppTheme,
             onSuccess = { updateState { copy(selectedTheme = it.toAppTheme()) } }
         )
     }
 
     private fun getLanguage() {
         safeExecute(
-            block = settingsRepository::getCurrentAppLanguage,
+            block = appLanguageUseCase::getAppLanguage,
             onSuccess = { updateState { copy(selectedLanguage = AppLanguage.fromIso(it.iso)) } }
         )
     }
@@ -41,7 +45,7 @@ class OnBoardingViewModel(
     private fun selectLanguage(language: AppLanguage) {
         safeExecute(
             block = {
-                settingsRepository.applyLanguage(
+                appLanguageUseCase.setAppLanguage(
                     SettingsAppLanguage.fromIso(language.iso)
                 )
             },
@@ -52,12 +56,18 @@ class OnBoardingViewModel(
     private fun selectTheme(theme: AppTheme) {
         safeExecute(
             block = {
-                settingsRepository.applyAppTheme(theme.toSettingsAppTheme())
+                appThemeUseCase.setAppTheme(theme.toSettingsAppTheme())
             },
             onSuccess = { updateState { copy(selectedTheme = theme) } }
         )
     }
 
-    private fun onContinueClicked() { sendEffect(OnBoardingEffect.NavigateToInitSecurity) }
+    private fun onContinueClicked() {
+        safeExecute(
+            block = onboardingDoneUseCase::setIsOnboardingDone,
+            onCompleted = { sendEffect(OnBoardingEffect.NavigateToInitSecurity) }
+        )
+    }
+
 
 }

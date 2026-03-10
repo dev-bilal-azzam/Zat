@@ -14,7 +14,7 @@ class SettingsRepositoryImpl(
         MutableStateFlow(settings.appLanguage)
     private val observableTheme: MutableStateFlow<AppTheme> = MutableStateFlow(settings.appTheme)
 
-    override suspend fun applyLanguage(appLanguage: AppLanguage) {
+    override suspend fun applyAppLanguage(appLanguage: AppLanguage) {
         settings.appLanguage = appLanguage.also { observableLanguage.emit(appLanguage) }
     }
 
@@ -42,4 +42,12 @@ class SettingsRepositoryImpl(
     }
 
     override fun getCurrentAppTheme(): AppTheme = settings.appTheme
+
+
+    override suspend fun isOnboardingDone(): Boolean = settings.isOnboardingDone
+
+    override suspend fun setIsOnboardingDone() {
+        settings.isOnboardingDone = true
+        println("Track Repository Is Onboarding Set To : ${settings.isOnboardingDone}")
+    }
 }

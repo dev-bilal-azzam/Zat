@@ -1,6 +1,6 @@
 package com.devbilal.zat
 
-import com.devbilal.domain.repository.SettingsRepository
+import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.util.AppLanguage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,18 +13,18 @@ import platform.Foundation.preferredLanguages
 
 
 actual class AppLocalizer(
-    settingsRepository: SettingsRepository
+    languageUseCase: AppLanguageUseCase
 ) {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     init {
         coroutineScope.launch {
-            settingsRepository.observeAppLanguage().collectLatest { currentLanguage ->
+            languageUseCase.observeAppLanguage().collectLatest { currentLanguage ->
                 val iso = currentLanguage.iso.ifEmpty {
                     val deviceIso =
                         NSLocale.preferredLanguages.firstOrNull()?.toString()?.split("-")
                             ?.firstOrNull() ?: AppLanguage.DEFAULT.iso
-                    settingsRepository.applyLanguage(AppLanguage.fromIso(deviceIso))
+                    languageUseCase.setAppLanguage(AppLanguage.fromIso(deviceIso))
                     deviceIso
                 }
                 val defaults = NSUserDefaults.standardUserDefaults

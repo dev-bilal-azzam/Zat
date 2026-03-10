@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,7 +100,6 @@ private fun OnBoardingScreenContent(
                 Spacer(modifier = Modifier.height(with(LocalDensity.current) { buttonHeight.toDp() }))
             }
 
-            val shadowColor = Theme.colorScheme.shadeSecondary.copy(alpha = .2f)
             PrimaryButton(
                 text = stringResource(Res.string.`continue`),
                 trailingIcon = vectorResource(Res.drawable.ic_arrow_right),
@@ -107,7 +107,7 @@ private fun OnBoardingScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .dropShadow(RoundedCornerShape(Theme.radius.xl)) {
-                        color = shadowColor
+                        color = Color.Black.copy(alpha = .15f)
                         radius = 16.dp.toPx()
                     }
                     .background(Theme.colorScheme.background.surfaceLow)

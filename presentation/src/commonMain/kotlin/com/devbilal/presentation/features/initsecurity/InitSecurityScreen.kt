@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -103,13 +104,12 @@ private fun InitSecurityScreenContent(
                 Spacer(modifier = Modifier.height(with(LocalDensity.current) { footerHeight.toDp() }))
             }
 
-            val shadowColor = Theme.colorScheme.shadeSecondary.copy(alpha = .1f)
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
                     .dropShadow(RoundedCornerShape(Theme.radius.xl)) {
-                        color = shadowColor
+                        color = Color.Black.copy(alpha = .15f)
                         radius = 16.dp.toPx()
                     }
                     .background(Theme.colorScheme.background.surfaceLow)

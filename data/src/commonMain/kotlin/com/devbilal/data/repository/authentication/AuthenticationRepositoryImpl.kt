@@ -21,7 +21,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun getAuthenticationSettings() = safeCall {
         AuthenticationSettings(
-            primaryMethod = settingsStorage.primaryAuthenticationMethod.toDomain(),
+            method = settingsStorage.primaryAuthenticationMethod.toDomain(),
             isBiometricAuthEnabled = settingsStorage.isBiometricAuthEnabled
         )
     }

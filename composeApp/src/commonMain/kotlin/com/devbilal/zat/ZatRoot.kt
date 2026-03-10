@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.domain.service.AppThemeService
-import com.devbilal.domain.service.LocalizationService
+import com.devbilal.domain.usecase.settings.*
 import com.devbilal.presentation.common.navigation.NavigationRoot
 import org.koin.compose.koinInject
 
@@ -16,11 +15,11 @@ import org.koin.compose.koinInject
 @Preview
 fun ZatRoot() {
 
-    val localizationService = koinInject<LocalizationService>()
-    val appThemeService = koinInject<AppThemeService>()
+    val languageUseCase = koinInject<AppLanguageUseCase>()
+    val themeUseCase = koinInject<AppThemeUseCase>()
 
-    val language by localizationService.observeLanguage().collectAsStateWithLifecycle()
-    val theme by appThemeService.observeAppTheme().collectAsStateWithLifecycle()
+    val language by languageUseCase.observeAppLanguage().collectAsStateWithLifecycle()
+    val theme by themeUseCase.observeAppTheme().collectAsStateWithLifecycle()
 
 
     ZatTheme(
