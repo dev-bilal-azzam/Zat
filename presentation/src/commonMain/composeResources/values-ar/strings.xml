@@ -24,10 +24,12 @@
     <string name="skip">تخطي الآن</string>
     <string name="setup_later">يمكنك الإعداد لاحقًا من الإعدادات</string>
     <string name="create_your_pin">أنشئ رمز PIN الخاص بك</string>
+    <string name="create_your_pattern">أنشئ نمط الدخول الخاص بك</string>
     <string name="security_first">الأمان أولاً</string>
     <string name="enter_pin_message">أدخل رمز PIN مكونًا من 4 أرقام لتأمين مذكرات ذَات الخاصة بك</string>
     <string name="confirm">تأكيد</string>
     <string name="pin_usage_message">ستستخدم رمز PIN هذا لفتح ذَات في كل مرة</string>
+    <string name="pattern_usage_message">ستستخدم هذا النمط لفتح ذَات في كل مرة</string>
     <string name="connect_dots_message">قم بتوصيل 4 نقاط على الأقل لفتح حساب ذَات الخاص بك</string>
     <string name="biometric_setup">إعداد الأمان الحيوية</string>
     <string name="enable_biometric_unlock">السماح بتفعيل الإعدادات الحيوية</string>
@@ -42,4 +44,8 @@
     <string name="welcome_back">مرحباً بعودتك</string>
     <string name="enter_pin_to_unlock">أدخل رمز الـ PIN لفتح مذكراتك</string>
     <string name="enter_pattern_to_unlock">ارسم النمط لفتح مذكراتك</string>
+    <string name="biometric_failed">فشل الدخول باستخدام الوجه أو بصمة الإصبع</string>
+    <string name="biometric_auth_title">الدخول باستخدام البصمة</string>
+    <string name="biometric_auth_description">ضع اصبعك على مستشعر البصمة</string>
+    <string name="cancel">الغاء</string>
 </resources>

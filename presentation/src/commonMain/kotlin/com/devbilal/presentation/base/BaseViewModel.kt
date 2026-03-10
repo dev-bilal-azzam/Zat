@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,11 +35,11 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
     }
 
     protected fun <T> safeExecute(
-        block: suspend () -> T,
         onStart: suspend () -> Unit = {},
         onSuccess: suspend (T) -> Unit = {},
         onError: suspend (Throwable) -> Unit = {},
         onCompleted: suspend () -> Unit = {},
+        block: suspend () -> T
     ) {
         viewModelScope.launch {
             onStart()
@@ -46,6 +47,20 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
                 .onSuccess { onSuccess(it) }
                 .onFailure { onError(it) }
             onCompleted()
+        }
+    }
+
+    protected fun <T> safeCollect(
+        block: suspend () -> Flow<T>,
+        onStart: suspend () -> Unit = {},
+        onCollect: suspend (T) -> Unit = {},
+        onError: suspend (Throwable) -> Unit = {},
+    ) {
+        viewModelScope.launch {
+            onStart()
+            block()
+                .catch { onError(it) }
+                .collect { onCollect(it) }
         }
     }
 }

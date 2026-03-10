@@ -30,6 +30,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.splash)
             implementation(libs.koin.android)
+            implementation(libs.androidx.appcompat)
         }
         commonMain.dependencies {
             // Project
@@ -37,6 +38,7 @@ kotlin {
             implementation(project(":presentation"))
             implementation(project(":data"))
             implementation(project(":domain"))
+
 
             implementation(libs.bundles.compose)
             implementation(libs.bundles.lifecycle)

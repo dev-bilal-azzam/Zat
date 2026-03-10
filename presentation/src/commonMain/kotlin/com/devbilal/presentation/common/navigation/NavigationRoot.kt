@@ -45,7 +45,7 @@ val LocalBackStack = staticCompositionLocalOf<NavBackStack<NavKey>> {
 fun NavigationRoot(
     modifier: Modifier = Modifier.Companion
 ) {
-    val startRoute = Route.Unlock
+    val startRoute = Route.Onboarding
     val backStack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {

@@ -1,6 +1,6 @@
 package com.devbilal.domain.model
 
 data class AuthenticationSettings(
-    val primaryMethod: PrimaryAuthenticationMethod,
-    val biometricMethods: Set<BiometricAuthenticationMethod> = emptySet()
+    val primaryMethod: AuthenticationMethod,
+    val isBiometricAuthEnabled: Boolean
 )

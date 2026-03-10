@@ -2,8 +2,8 @@ package com.devbilal.presentation.features.setuppin
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.designsystem.component.uitext.UiText
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
-import com.devbilal.domain.usecase.authentication.SetPrimaryAuthenticationMethodUseCase
+import com.devbilal.domain.model.AuthenticationMethod
+import com.devbilal.domain.usecase.authentication.SetAuthenticationMethodUseCase
 import com.devbilal.presentation.base.BaseViewModel
 import org.jetbrains.compose.resources.StringResource
 import zat.presentation.generated.resources.Res
@@ -11,7 +11,7 @@ import zat.presentation.generated.resources.couldnt_set_pinn
 import zat.presentation.generated.resources.error
 
 class SetupPinViewModel(
-    private val setPrimaryAuthenticationMethodUseCase: SetPrimaryAuthenticationMethodUseCase
+    private val setAuthenticationMethodUseCase: SetAuthenticationMethodUseCase
 ) : BaseViewModel<SetupPinState, SetupPinIntent, SetupPinEffect>(SetupPinState()) {
 
     override fun handleIntent(intent: SetupPinIntent) {
@@ -39,8 +39,8 @@ class SetupPinViewModel(
         if (state.value.isConfirmEnabled) {
             safeExecute(
                 block = {
-                    setPrimaryAuthenticationMethodUseCase(
-                        method = PrimaryAuthenticationMethod.Pin(currentState.pin)
+                    setAuthenticationMethodUseCase(
+                        method = AuthenticationMethod.Pin(currentState.pin)
                     )
                 },
                 onSuccess = { sendEffect(SetupPinEffect.NavigateToInitBiometric) },

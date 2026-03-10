@@ -24,10 +24,12 @@
     <string name="skip">Skip Now</string>
     <string name="setup_later">You can set up later from settings</string>
     <string name="create_your_pin">Create Your PIN</string>
+    <string name="create_your_pattern">Create Your Pattern</string>
     <string name="security_first">Security First</string>
     <string name="enter_pin_message">Enter a 4-digit PIN to secure your Zat diary</string>
     <string name="confirm">Confirm</string>
     <string name="pin_usage_message">You\'ll use this PIN to open Zat every time</string>
+    <string name="pattern_usage_message">You\'ll use this Pattern to open Zat every time</string>
     <string name="connect_dots_message">Connect at least 4 dots to secure your Zat account</string>
     <string name="biometric_setup">Biometric Setup</string>
     <string name="enable_biometric_unlock">Enable Biometric Unlock</string>
@@ -35,11 +37,15 @@
     <string name="enable">Enable</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="error">Error</string>
-    <string name="couldnt_set_pattern">Couldn't Set Pattern!</string>
-    <string name="couldnt_set_pinn">Couldn't Set Pin!</string>
+    <string name="couldnt_set_pattern">Couldn\'t Set Pattern!</string>
+    <string name="couldnt_set_pinn">Couldn\'t Set Pin!</string>
     <string name="wrong_pattern">Wrong Pattern, Please Try Again!</string>
     <string name="wrong_pin">Wrong Code, Please Try Again!</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="enter_pin_to_unlock">Enter your PIN to unlock your diary</string>
     <string name="enter_pattern_to_unlock">Draw your pattern to unlock your diary</string>
+    <string name="biometric_failed">Failed to authenticate using FaceId or Fingerprint</string>
+    <string name="biometric_auth_title">Use Biometric Authentication</string>
+    <string name="biometric_auth_description">Put your Finger on the Fingerprint Sensor</string>
+    <string name="cancel">Cancel</string>
 </resources>

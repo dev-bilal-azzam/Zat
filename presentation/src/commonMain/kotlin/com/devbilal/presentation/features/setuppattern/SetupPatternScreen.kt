@@ -60,7 +60,7 @@ private fun SetupPatternScreenContent(
         backgroundColor = Theme.colorScheme.background.surfaceLow,
         topBar = {
             AppBar(
-                title = stringResource(Res.string.create_your_pin),
+                title = stringResource(Res.string.create_your_pattern),
                 onLeadingClick = { onIntent(SetupPatternIntent.OnBackClicked) }
             )
         }
@@ -98,7 +98,7 @@ private fun SetupPatternScreenContent(
                 )
 
                 Text(
-                    text = stringResource(Res.string.pin_usage_message),
+                    text = stringResource(Res.string.pattern_usage_message),
                     style = Theme.typography.body.medium,
                     color = Theme.colorScheme.shadeTertiary,
                     textAlign = TextAlign.Center

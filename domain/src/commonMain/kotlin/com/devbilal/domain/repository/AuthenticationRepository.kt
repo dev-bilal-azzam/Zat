@@ -1,12 +1,16 @@
 package com.devbilal.domain.repository
 
 import com.devbilal.domain.model.AuthenticationSettings
-import com.devbilal.domain.model.PrimaryAuthenticationMethod
+import com.devbilal.domain.model.AuthenticationMethod
 
 interface AuthenticationRepository {
-    suspend fun saveAuthenticationSettings(settings: AuthenticationSettings)
+    suspend fun saveAuthenticationMethod(method: AuthenticationMethod)
 
     suspend fun getAuthenticationSettings(): AuthenticationSettings
 
-    suspend fun authenticateWithPrimaryMethod(method: PrimaryAuthenticationMethod)
+    suspend fun authenticateWithPrimaryMethod(method: AuthenticationMethod)
+
+    suspend fun enableBiometricAuthentication()
+
+    suspend fun disableBiometricAuthentication()
 }
