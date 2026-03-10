@@ -1,7 +1,9 @@
 package com.devbilal.presentation.features.setuppattern
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.UiEffect
+import com.devbilal.presentation.base.UiIntent
+import com.devbilal.presentation.base.UiState
 
 data class SetupPatternState(
     val pattern: List<Int> = emptyList(),

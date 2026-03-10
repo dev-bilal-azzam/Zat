@@ -21,7 +21,12 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import zat.designsystem.generated.resources.*
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.back
+import zat.designsystem.generated.resources.checkmark
+import zat.designsystem.generated.resources.ic_arrow_left
+import zat.designsystem.generated.resources.ic_arrow_left_ios
+import zat.designsystem.generated.resources.ic_user
 
 @Composable
 fun AppBar(

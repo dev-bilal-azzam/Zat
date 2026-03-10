@@ -20,7 +20,19 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.common.components.ZatHorizontalItemCard
 import org.jetbrains.compose.resources.stringResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.biometrics
+import zat.presentation.generated.resources.biometrics_label
+import zat.presentation.generated.resources.ic_123
+import zat.presentation.generated.resources.ic_arrow_right_ios
+import zat.presentation.generated.resources.ic_fingerprint
+import zat.presentation.generated.resources.ic_lock
+import zat.presentation.generated.resources.ic_pattern
+import zat.presentation.generated.resources.pattern
+import zat.presentation.generated.resources.pattern_label
+import zat.presentation.generated.resources.pin
+import zat.presentation.generated.resources.pin_label
+import zat.presentation.generated.resources.unlock_methods
 
 @Composable
 fun UnlockMethodsSection(

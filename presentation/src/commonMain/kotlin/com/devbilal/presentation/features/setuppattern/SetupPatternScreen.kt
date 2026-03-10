@@ -1,8 +1,16 @@
 package com.devbilal.presentation.features.setuppattern
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -20,12 +28,17 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.common.components.PatternView
+import com.devbilal.presentation.common.navigation.LocalBackStack
+import com.devbilal.presentation.common.navigation.navigateBack
+import com.devbilal.presentation.common.navigation.navigateToInitBiometricWithReplaceAll
 import com.devbilal.presentation.features.setuppattern.components.SetupPatternHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.confirm
+import zat.presentation.generated.resources.create_your_pattern
+import zat.presentation.generated.resources.pattern_usage_message
 
 
 @Composable

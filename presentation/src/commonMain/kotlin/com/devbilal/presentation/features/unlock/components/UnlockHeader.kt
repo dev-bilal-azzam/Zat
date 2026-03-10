@@ -15,7 +15,12 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.model.AuthenticationMethod
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.enter_pattern_to_unlock
+import zat.presentation.generated.resources.enter_pin_to_unlock
+import zat.presentation.generated.resources.welcome_back
+import zat.presentation.generated.resources.zat
+import zat.presentation.generated.resources.zat_logo
 
 @Composable
 fun UnlockHeader(

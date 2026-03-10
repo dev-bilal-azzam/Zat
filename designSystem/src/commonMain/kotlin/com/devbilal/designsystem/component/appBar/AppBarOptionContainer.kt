@@ -20,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.dp
-import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.designsystem.theme.theme.Theme
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import zat.designsystem.generated.resources.*
+import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
+import org.jetbrains.compose.resources.painterResource
+import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.ic_user
 
 @Composable
 fun AppBarOptionContainer(

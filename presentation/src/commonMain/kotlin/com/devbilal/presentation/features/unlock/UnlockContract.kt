@@ -2,7 +2,9 @@ package com.devbilal.presentation.features.unlock
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.domain.model.AuthenticationMethod
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.UiEffect
+import com.devbilal.presentation.base.UiIntent
+import com.devbilal.presentation.base.UiState
 
 data class UnlockState(
     val authenticationMethod: AuthenticationMethod = AuthenticationMethod.None,

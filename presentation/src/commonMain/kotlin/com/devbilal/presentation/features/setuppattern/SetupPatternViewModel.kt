@@ -4,9 +4,11 @@ import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.designsystem.component.uitext.UiText
 import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.domain.usecase.authentication.SetAuthenticationMethodUseCase
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 import org.jetbrains.compose.resources.StringResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.couldnt_set_pattern
+import zat.presentation.generated.resources.error
 
 class SetupPatternViewModel(
     private val setAuthenticationMethodUseCase: SetAuthenticationMethodUseCase

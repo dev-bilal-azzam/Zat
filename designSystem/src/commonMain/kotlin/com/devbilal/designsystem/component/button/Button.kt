@@ -30,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.indicator.DotsProgressIndicator
 import com.devbilal.designsystem.component.text.Text
-import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
 
 @Composable
 fun Button(

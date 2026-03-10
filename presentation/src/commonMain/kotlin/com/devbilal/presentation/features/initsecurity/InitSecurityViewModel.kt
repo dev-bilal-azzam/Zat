@@ -1,6 +1,6 @@
 package com.devbilal.presentation.features.initsecurity
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 
 class InitSecurityViewModel :
     BaseViewModel<InitSecurityState, InitSecurityIntent, InitSecurityEffect>(

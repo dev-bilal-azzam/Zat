@@ -1,9 +1,9 @@
 package com.devbilal.presentation.common.navigation
 
 import com.devbilal.domain.model.AuthenticationSettings
-import com.devbilal.domain.usecase.settings.OnboardingDoneUseCase
 import com.devbilal.domain.usecase.authentication.GetAuthenticationSettingsUseCase
-import com.devbilal.presentation.base.*
+import com.devbilal.domain.usecase.settings.OnboardingDoneUseCase
+import com.devbilal.presentation.base.BaseViewModel
 
 class MainViewModel(
     private val onboardingDoneUseCase: OnboardingDoneUseCase,

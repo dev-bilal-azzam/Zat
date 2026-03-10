@@ -7,7 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.domain.usecase.settings.*
+import com.devbilal.domain.usecase.settings.AppLanguageUseCase
+import com.devbilal.domain.usecase.settings.AppThemeUseCase
 import com.devbilal.presentation.common.navigation.NavigationRoot
 import org.koin.compose.koinInject
 
