@@ -1,5 +1,6 @@
 package com.devbilal.designsystem.component.bottomNavigation
 
+import androidx.compose.runtime.mutableStateListOf
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
@@ -14,6 +15,7 @@ interface BottomNavigationScope {
         error("The method is not implemented")
     }
 
+    fun clear()
 }
 
 data class BottomNavigationItem(
@@ -25,7 +27,8 @@ data class BottomNavigationItem(
 )
 
 internal class BottomNavigationScopeImpl : BottomNavigationScope {
-    val items = mutableListOf<BottomNavigationItem>()
+    private val _items = mutableStateListOf<BottomNavigationItem>()
+    val items: List<BottomNavigationItem> = _items
 
     override fun bottomNavigationItem(
         notSelectedIcon: DrawableResource,
@@ -34,6 +37,10 @@ internal class BottomNavigationScopeImpl : BottomNavigationScope {
         isSelected: Boolean,
         onClick: () -> Unit,
     ) {
-        items.add(BottomNavigationItem(notSelectedIcon, selectedIcon, title, isSelected, onClick))
+        _items.add(BottomNavigationItem(notSelectedIcon, selectedIcon, title, isSelected, onClick))
+    }
+
+    override fun clear() {
+        _items.clear()
     }
 }

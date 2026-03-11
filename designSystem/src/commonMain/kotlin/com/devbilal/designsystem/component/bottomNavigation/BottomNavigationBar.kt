@@ -5,7 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,13 +27,28 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     content: @Composable BottomNavigationScope.() -> Unit = {},
 ) {
-    val scope = remember { BottomNavigationScopeImpl() }.apply {
-        items.clear()
-        content()
+    val scope = remember { BottomNavigationScopeImpl() }
+
+    var version by remember { mutableIntStateOf(0) }
+
+    scope.clear()
+    content(scope)
+
+    LaunchedEffect(scope.items) {
+        snapshotFlow { scope.items.map { it.isSelected } }
+            .collect {
+                version++
+            }
+    }
+
+    val displayItems by remember(version, scope.items) {
+        derivedStateOf {
+            scope.items.toList()
+        }
     }
 
     BottomNavigationBarContent(
-        items = scope.items,
+        items = displayItems,
         modifier = modifier.background(Theme.colorScheme.background.surfaceLow)
     )
 }
