@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.presentation.features.unlock.components.BiometricButton
+import com.devbilal.presentation.features.auth.unlock.components.BiometricButton
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.ic_backspace
@@ -62,7 +62,9 @@ fun Numpad(
             Box(modifier = Modifier.size(64.dp))
 
             if (isBiometricVisible) {
-                BiometricButton(onClick = onBiometricClick)
+                BiometricButton(
+                    onClick = onBiometricClick
+                )
             }
 
             NumpadButton(

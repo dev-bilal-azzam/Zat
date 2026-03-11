@@ -48,4 +48,8 @@
     <string name="biometric_auth_title">Use Biometric Authentication</string>
     <string name="biometric_auth_description">Put your Finger on the Fingerprint Sensor</string>
     <string name="cancel">Cancel</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="calendar">Calendar</string>
 </resources>

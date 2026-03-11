@@ -1,33 +1,23 @@
 package com.devbilal.presentation.common.navigation
 
-import androidx.navigation3.runtime.NavBackStack
-import androidx.navigation3.runtime.NavKey
 
-internal fun NavBackStack<NavKey>.push(route: NavKey) = add(route)
-
-internal fun NavBackStack<NavKey>.replace(route: NavKey) {
-    removeLastOrNull()
-    add(route)
-}
-
-internal fun NavBackStack<NavKey>.replaceAll(route: NavKey) {
-    removeAll { true }
-    add(route)
-}
+// Home
+internal fun Navigator.navigateToHome() = navigate(Route.Home)
 
 
-internal fun NavBackStack<NavKey>.navigateBack() = removeLastOrNull()
+// Settings
+internal fun Navigator.navigateToSettings() = navigate(Route.Settings)
 
-internal fun NavBackStack<NavKey>.navigateToHome() = push(Route.Home)
-internal fun NavBackStack<NavKey>.navigateToHomeWithReplace() = replace(Route.Home)
-internal fun NavBackStack<NavKey>.navigateToHomeWithReplaceAll() = replaceAll(Route.Home)
 
-internal fun NavBackStack<NavKey>.navigateToSetupPin() = push(Route.SetupPin)
+// Search
+internal fun Navigator.navigateToSearch() = navigate(Route.Search)
 
-internal fun NavBackStack<NavKey>.navigateToSetupPattern() = push(Route.SetupPattern)
 
-internal fun NavBackStack<NavKey>.navigateToInitSecurity() = push(Route.InitSecurity)
+// Calendar
+internal fun Navigator.navigateToCalendar() = navigate(Route.Calendar)
 
-internal fun NavBackStack<NavKey>.navigateToInitBiometric() = push(Route.InitBiometric)
-internal fun NavBackStack<NavKey>.navigateToInitBiometricWithReplace() = replace(Route.InitBiometric)
-internal fun NavBackStack<NavKey>.navigateToInitBiometricWithReplaceAll() = replaceAll(Route.InitBiometric)
+
+// AddEditDiary
+internal fun Navigator.navigateToAddEditDiary() = navigate(Route.AddEditDiary)
+
+

@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.devbilal.presentation.common.biometric.ActivityProvider
+import com.devbilal.zat.main.ZatMain
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         appLocalizer.applyLocaleToContext()
 
         setContent {
-            ZatRoot()
+            ZatMain()
         }
     }
 

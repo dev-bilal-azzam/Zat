@@ -48,4 +48,8 @@
     <string name="biometric_auth_title">الدخول باستخدام البصمة</string>
     <string name="biometric_auth_description">ضع اصبعك على مستشعر البصمة</string>
     <string name="cancel">الغاء</string>
+    <string name="home">الرئيسية</string>
+    <string name="search">البحث</string>
+    <string name="settings">الإعدادات</string>
+    <string name="calendar">التقويم</string>
 </resources>
