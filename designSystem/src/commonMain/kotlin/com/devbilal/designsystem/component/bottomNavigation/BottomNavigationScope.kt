@@ -1,12 +1,13 @@
 package com.devbilal.designsystem.component.bottomNavigation
 
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 interface BottomNavigationScope {
     fun bottomNavigationItem(
         notSelectedIcon: DrawableResource,
         selectedIcon: DrawableResource,
-        title: String,
+        title: StringResource,
         isSelected: Boolean,
         onClick: () -> Unit,
     ) {
@@ -18,7 +19,7 @@ interface BottomNavigationScope {
 data class BottomNavigationItem(
     val notSelectedIcon: DrawableResource,
     val selectedIcon: DrawableResource,
-    val title: String,
+    val title: StringResource,
     val isSelected: Boolean,
     val onClick: () -> Unit
 )
@@ -29,7 +30,7 @@ internal class BottomNavigationScopeImpl : BottomNavigationScope {
     override fun bottomNavigationItem(
         notSelectedIcon: DrawableResource,
         selectedIcon: DrawableResource,
-        title: String,
+        title: StringResource,
         isSelected: Boolean,
         onClick: () -> Unit,
     ) {

@@ -1,0 +1,15 @@
+package com.devbilal.presentation.features.search
+
+import com.devbilal.presentation.base.*
+
+data class SearchState(
+    val temp: String? = null
+) : UiState
+
+sealed interface SearchIntent : UiIntent {
+    data object OnBackClicked : SearchIntent
+}
+
+sealed interface SearchEffect : UiEffect {
+    data object NavigateBack : SearchEffect
+}

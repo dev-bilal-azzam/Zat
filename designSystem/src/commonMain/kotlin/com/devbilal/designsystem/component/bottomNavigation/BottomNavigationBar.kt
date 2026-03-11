@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
-import org.jetbrains.compose.resources.stringResource
 import zat.designsystem.generated.resources.Res
 import zat.designsystem.generated.resources.home
 import zat.designsystem.generated.resources.ic_home
@@ -46,7 +45,7 @@ private fun PreviewBottomNavigationBar() {
                 bottomNavigationItem(
                     selectedIcon = Res.drawable.ic_home_selected,
                     notSelectedIcon = Res.drawable.ic_home,
-                    title = stringResource(Res.string.home),
+                    title = Res.string.home,
                     isSelected = true,
                     onClick = { }
                 )

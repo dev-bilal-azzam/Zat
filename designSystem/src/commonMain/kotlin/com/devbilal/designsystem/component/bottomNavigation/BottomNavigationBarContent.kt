@@ -24,8 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import zat.designsystem.generated.resources.Res
+import zat.designsystem.generated.resources.home
 import zat.designsystem.generated.resources.ic_home
 import zat.designsystem.generated.resources.ic_home_selected
 
@@ -53,7 +55,7 @@ fun BottomNavigationBarContent(
                     isSelected = item.isSelected,
                     selectedIcon = vectorResource(item.selectedIcon),
                     unselectedIcon = vectorResource(item.notSelectedIcon),
-                    title = item.title,
+                    title = stringResource(item.title),
                     onClick = { item.onClick() },
                     modifier = Modifier.weight(1f)
                 )
@@ -84,7 +86,7 @@ private fun PreviewBottomNavigationBar() {
             BottomNavigationItem(
                 selectedIcon = Res.drawable.ic_home_selected,
                 notSelectedIcon = Res.drawable.ic_home,
-                title = "Home",
+                title = Res.string.home,
                 isSelected = true,
                 onClick = {}
             )

@@ -12,7 +12,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         config?.invoke(this)
 
         modules(
-            modules = dataModule + domainModule + presentationModule + platformModule()
+            modules = dataModule + domainModule + presentationModule + appModule + platformModule()
         )
     }
 }
