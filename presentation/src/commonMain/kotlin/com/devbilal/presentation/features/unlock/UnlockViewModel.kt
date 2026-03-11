@@ -5,11 +5,15 @@ import com.devbilal.designsystem.component.uitext.UiText
 import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.domain.usecase.authentication.AuthenticateWithPrimaryMethodUseCase
 import com.devbilal.domain.usecase.authentication.GetAuthenticationSettingsUseCase
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 import com.devbilal.presentation.common.biometric.BiometricPromptManager
 import com.devbilal.presentation.common.biometric.BiometricResult
 import org.jetbrains.compose.resources.StringResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.biometric_failed
+import zat.presentation.generated.resources.error
+import zat.presentation.generated.resources.wrong_pattern
+import zat.presentation.generated.resources.wrong_pin
 
 class UnlockViewModel(
     private val getAuthenticationSettingsUseCase: GetAuthenticationSettingsUseCase,

@@ -26,9 +26,11 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.navigation.*
 import com.devbilal.presentation.common.components.Numpad
 import com.devbilal.presentation.common.components.PinIndicator
+import com.devbilal.presentation.common.navigation.LocalBackStack
+import com.devbilal.presentation.common.navigation.navigateBack
+import com.devbilal.presentation.common.navigation.navigateToInitBiometricWithReplaceAll
 import com.devbilal.presentation.features.setuppin.components.SetupPinHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel

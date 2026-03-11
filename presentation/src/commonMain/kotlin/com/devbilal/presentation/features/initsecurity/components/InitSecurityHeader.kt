@@ -27,7 +27,10 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.ic_lock
+import zat.presentation.generated.resources.security_init_message
+import zat.presentation.generated.resources.your_privacy_secured
 
 @Composable
 fun InitSecurityHeader(

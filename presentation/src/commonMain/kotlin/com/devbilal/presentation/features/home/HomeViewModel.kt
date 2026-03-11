@@ -1,6 +1,6 @@
 package com.devbilal.presentation.features.home
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 
 class HomeViewModel(
 ) : BaseViewModel<HomeState, HomeIntent, HomeEffect>(HomeState()) {

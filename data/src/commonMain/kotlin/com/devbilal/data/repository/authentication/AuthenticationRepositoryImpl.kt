@@ -5,8 +5,8 @@ import com.devbilal.data.datasource.local.setting.isBiometricAuthEnabled
 import com.devbilal.data.datasource.local.setting.mapper.toDomain
 import com.devbilal.data.datasource.local.setting.primaryAuthenticationMethod
 import com.devbilal.data.utils.safeCall
-import com.devbilal.domain.model.AuthenticationSettings
 import com.devbilal.domain.model.AuthenticationMethod
+import com.devbilal.domain.model.AuthenticationSettings
 import com.devbilal.domain.repository.AuthenticationRepository
 
 class AuthenticationRepositoryImpl(
