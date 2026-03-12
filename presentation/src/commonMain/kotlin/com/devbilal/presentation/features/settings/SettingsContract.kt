@@ -1,6 +1,8 @@
 package com.devbilal.presentation.features.settings
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.UiEffect
+import com.devbilal.presentation.base.UiIntent
+import com.devbilal.presentation.base.UiState
 
 data class SettingsState(
     val temp: String? = null

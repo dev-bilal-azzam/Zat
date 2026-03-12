@@ -1,8 +1,12 @@
 package com.devbilal.presentation.features.auth
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavBackStack
@@ -33,11 +37,6 @@ fun ZatAuth(
     modifier: Modifier = Modifier,
     navigateHome: () -> Unit
 ) {
-    LaunchedEffect(Unit) {
-
-        println("Track : ZatAuth")
-    }
-
     val startRoute = if (isOnboardingDone) {
         Route.Unlock
     } else {
@@ -65,6 +64,18 @@ fun ZatAuth(
         NavDisplay(
             modifier = modifier,
             backStack = backStack,
+            transitionSpec = {
+                slideInHorizontally { it } + fadeIn() togetherWith
+                        slideOutHorizontally { -it } + fadeOut()
+            },
+            popTransitionSpec = {
+                slideInHorizontally { -it } + fadeIn() togetherWith
+                        slideOutHorizontally { it } + fadeOut()
+            },
+            predictivePopTransitionSpec = {
+                slideInHorizontally { -it } + fadeIn() togetherWith
+                        slideOutHorizontally { it } + fadeOut()
+            },
             entryProvider = entryProvider {
                 entry<Route.Onboarding> {
                     OnBoardingScreen()

@@ -56,6 +56,5 @@ class SettingsRepositoryImpl(
 
     override suspend fun setIsOnboardingDone() {
         settings.isOnboardingDone = true
-        println("Track Repository Is Onboarding Set To : ${settings.isOnboardingDone}")
     }
 }

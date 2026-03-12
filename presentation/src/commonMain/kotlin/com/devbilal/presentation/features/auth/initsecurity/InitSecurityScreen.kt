@@ -38,7 +38,9 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.features.auth.LocalBackStack
 import com.devbilal.presentation.features.auth.initsecurity.components.InitSecurityHeader
 import com.devbilal.presentation.features.auth.initsecurity.components.UnlockMethodsSection
-import com.devbilal.presentation.features.auth.*
+import com.devbilal.presentation.features.auth.navigateBack
+import com.devbilal.presentation.features.auth.navigateToSetupPattern
+import com.devbilal.presentation.features.auth.navigateToSetupPin
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res

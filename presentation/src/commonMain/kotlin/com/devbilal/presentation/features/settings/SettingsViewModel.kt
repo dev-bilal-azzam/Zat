@@ -1,6 +1,6 @@
 package com.devbilal.presentation.features.settings
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 
 class SettingsViewModel(
 ) : BaseViewModel<SettingsState, SettingsIntent, SettingsEffect>(SettingsState()) {
