@@ -1,6 +1,8 @@
 package com.devbilal.zat.main
 
+import SetSystemBarsAppearance
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -14,11 +16,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
+import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.usecase.settings.AppThemeUseCase
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.ZatApp
-import com.devbilal.presentation.features.auth.ZatAuth
+import com.devbilal.presentation.features.diary.common.ZatDiary
+import com.devbilal.presentation.features.auth.common.ZatAuth
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.koinInject
@@ -30,6 +33,7 @@ import zat.composeapp.generated.resources.zat_logo_with_name
 @Composable
 @Preview
 fun ZatMain(
+    isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
     viewModel: MainViewModel = koinViewModel()
 ) {
 
@@ -43,10 +47,13 @@ fun ZatMain(
 
     ZatTheme(
         language = language.iso,
-        appTheme = theme.name
+        appTheme = theme.name,
+        isSystemInDarkTheme = isSystemInDarkTheme
     ) {
+
+        SetSystemBarsAppearance(AppTheme.valueOf(theme.name), isSystemInDarkTheme)
         when (state.currentDestination) {
-            ZatDestination.Home -> ZatApp()
+            ZatDestination.Home -> ZatDiary()
             ZatDestination.Auth -> ZatAuth(
                 isOnboardingDone = state.isOnboardingDone ?: false,
                 navigateHome = { viewModel.handleIntent(MainIntent.NavigateHome) }
