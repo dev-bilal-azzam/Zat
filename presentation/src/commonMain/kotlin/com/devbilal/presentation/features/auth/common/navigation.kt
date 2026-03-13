@@ -14,7 +14,7 @@ internal fun NavBackStack<NavKey>.replaceAll(route: NavKey) {
 internal fun NavBackStack<NavKey>.navigateBack() = removeLastOrNull()
 
 
-internal fun NavBackStack<NavKey>.navigateToSetupPin() = push(Route.SetupPin)
-internal fun NavBackStack<NavKey>.navigateToSetupPattern() = push(Route.SetupPattern)
+internal fun NavBackStack<NavKey>.navigateToSetupPin() = push(Route.SetupPin())
+internal fun NavBackStack<NavKey>.navigateToSetupPattern() = push(Route.SetupPattern())
 internal fun NavBackStack<NavKey>.navigateToInitSecurity() = push(Route.InitSecurity)
 internal fun NavBackStack<NavKey>.navigateToInitBiometricWithReplaceAll() = replaceAll(Route.InitBiometric)

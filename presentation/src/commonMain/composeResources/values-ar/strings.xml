@@ -16,9 +16,13 @@
     <string name="security_init_message">خصوصيتك هي أولويتنا القصوى. اختر الطريقة التي تريد بها حماية مذكراتك الشخصية من الوصول غير المصرح به.</string>
     <string name="unlock_methods">طرق القفل</string>
     <string name="pin">رمز PIN</string>
+    <string name="pin_lock">قفل الـ PIN</string>
     <string name="pin_label">رمز أمان مكون من 4 أرقام</string>
+    <string name="pin_lock_desc">تأمين الدخول برمز مكون من 4 أرقام</string>
     <string name="pattern">النمط</string>
+    <string name="pattern_lock">قفل النمط</string>
     <string name="pattern_label">ارسم شكلاً لفتح القفل</string>
+    <string name="pattern_lock_desc">قم بتوصيل النقاط لفتح القفل بسرعة</string>
     <string name="biometrics">المقاييس الحيوية</string>
     <string name="biometrics_label">بصمة الإصبع أو بصمة الوجه</string>
     <string name="skip">تخطي الآن</string>
@@ -65,4 +69,22 @@
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="contact_support">التواصل مع الدعم</string>
     <string name="app_version">إصدار 2.4.0</string>
+    <string name="none">لا يوجد</string>
+    <string name="change_pin">تغيير رمز PIN</string>
+    <string name="change_pattern">تغيير النمط</string>
+    <string name="biometric_unlock">فتح القفل بالمقاييس الحيوية</string>
+    <string name="pin_set_successfully">تم تعيين رمز PIN بنجاح</string>
+    <string name="pattern_set_successfully">تم تعيين النمط بنجاح</string>
+    <string name="security_method_updated">تم تحديث طريقة الأمان بنجاح</string>
+    <string name="back">رجوع</string>
+    <string name="protection_settings">إعدادات الحماية</string>
+    <string name="protection_settings_desc">قم بتأمين مذكراتك بالتشفير المحلي والمصادقة. تبقى بياناتك خاصة على هذا الجهاز.</string>
+    <string name="enable_protection">تفعيل الحماية</string>
+    <string name="enable_protection_desc">تطلب المصادقة لفتح "ذات"</string>
+    <string name="authentication_methods">طرق المصادقة</string>
+    <string name="biometric_authentication">المصادقة بالمقاييس الحيوية</string>
+    <string name="use_biometrics">استخدام البصمة</string>
+    <string name="use_biometrics_desc">بصمة الإصبع أو الوجه</string>
+    <string name="security_notice">تنبيه أمني</string>
+    <string name="security_notice_desc">لا يقوم "ذات" بتخزين كلمة مرورك على أي خادم. إذا فقدت رمز PIN أو النمط، فلا يمكن استعادة مذكراتك المحلية.</string>
 </resources>

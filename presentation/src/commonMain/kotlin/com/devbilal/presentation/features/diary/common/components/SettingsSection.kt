@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.diary.screens.settings.components
+package com.devbilal.presentation.features.diary.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

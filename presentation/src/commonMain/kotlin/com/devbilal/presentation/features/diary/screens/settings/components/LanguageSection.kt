@@ -8,6 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.divider.HorizontalDivider
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.util.AppLanguage
+import com.devbilal.presentation.features.diary.common.components.SettingsItem
+import com.devbilal.presentation.features.diary.common.components.SettingsSection
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res

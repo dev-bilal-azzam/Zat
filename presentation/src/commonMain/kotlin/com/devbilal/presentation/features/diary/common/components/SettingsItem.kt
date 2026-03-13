@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.diary.screens.settings.components
+package com.devbilal.presentation.features.diary.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +24,6 @@ import com.devbilal.designsystem.theme.theme.Theme
 @Composable
 fun SettingsItem(
     title: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     iconTint: Color = Theme.colorScheme.shadeTertiary,
@@ -34,7 +33,8 @@ fun SettingsItem(
     trailingIconTint: Color = Theme.colorScheme.shadeTertiary,
     trailingIconAutoMirror: Boolean = true,
     backgroundColor: Color = Color.Transparent,
-    showIconBackground: Boolean = true
+    showIconBackground: Boolean = true,
+    onClick: () -> Unit = { },
 ) {
     Row(
         modifier = modifier

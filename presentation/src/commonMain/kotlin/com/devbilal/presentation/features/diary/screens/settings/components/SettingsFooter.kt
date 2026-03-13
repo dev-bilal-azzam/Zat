@@ -15,6 +15,8 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
+import com.devbilal.presentation.features.diary.common.components.SettingsItem
+import com.devbilal.presentation.features.diary.common.components.SettingsSection
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res

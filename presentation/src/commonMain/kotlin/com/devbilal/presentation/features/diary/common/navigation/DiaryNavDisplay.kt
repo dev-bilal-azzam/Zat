@@ -81,13 +81,15 @@ fun DiaryNavDisplay(
                 entry<Route.SetupPin> {
                     val onSuccessfulSetup = it.onSuccessfulSetup
                     SetupPinScreen(
-                        onSuccessfulSetup = onSuccessfulSetup ?: {}
+                        onSuccessfulSetup = onSuccessfulSetup ?: {},
+                        navigateBack = { navigator.navigateBack() }
                     )
                 }
 
                 entry<Route.SetupPattern> {
                     SetupPatternScreen(
-                        onSuccessfulSetup = it.onSuccessfulSetup ?: {}
+                        onSuccessfulSetup = it.onSuccessfulSetup ?: {},
+                        navigateBack = { navigator.navigateBack() }
                     )
                 }
             }

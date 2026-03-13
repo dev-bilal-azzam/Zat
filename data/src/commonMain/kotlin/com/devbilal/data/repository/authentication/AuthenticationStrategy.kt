@@ -4,7 +4,7 @@ import com.devbilal.data.datasource.local.setting.SettingsStorage
 import com.devbilal.data.datasource.local.setting.mapper.toDto
 import com.devbilal.data.datasource.local.setting.patternCredential
 import com.devbilal.data.datasource.local.setting.pinCredential
-import com.devbilal.data.datasource.local.setting.primaryAuthenticationMethod
+import com.devbilal.data.datasource.local.setting.authenticationMethod
 import com.devbilal.data.hash.Hasher
 import com.devbilal.domain.exception.InvalidCredentialException
 import com.devbilal.domain.model.AuthenticationMethod
@@ -21,7 +21,7 @@ class PinAuthenticationStrategy(
     private val hasher: Hasher
 ) : AuthenticationStrategy {
     override fun save() {
-        storage.primaryAuthenticationMethod = method.toDto()
+        storage.authenticationMethod = method.toDto()
         storage.pinCredential = method.code?.let { hasher.hash(it) }
     }
 
@@ -41,7 +41,7 @@ class PatternAuthenticationStrategy(
     private val hasher: Hasher
 ) : AuthenticationStrategy {
     override fun save() {
-        storage.primaryAuthenticationMethod = method.toDto()
+        storage.authenticationMethod = method.toDto()
         storage.patternCredential = method.pattern?.joinToString(",")?.let { hasher.hash(it) }
     }
 

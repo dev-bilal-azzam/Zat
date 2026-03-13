@@ -89,13 +89,15 @@ fun ZatAuth(
 
                 entry<Route.SetupPin> {
                     SetupPinScreen(
-                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() }
+                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() },
+                        navigateBack = { backStack.navigateBack() }
                     )
                 }
 
                 entry<Route.SetupPattern> {
                     SetupPatternScreen(
-                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() }
+                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() },
+                        navigateBack = { backStack.navigateBack() }
                     )
                 }
 

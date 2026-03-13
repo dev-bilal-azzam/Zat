@@ -30,8 +30,8 @@ import com.devbilal.presentation.features.diary.screens.settings.components.Back
 import com.devbilal.presentation.features.diary.screens.settings.components.LanguageSection
 import com.devbilal.presentation.features.diary.screens.settings.components.SettingsFooter
 import com.devbilal.presentation.features.diary.screens.settings.components.SettingsHeader
-import com.devbilal.presentation.features.diary.screens.settings.components.SettingsItem
-import com.devbilal.presentation.features.diary.screens.settings.components.SettingsSection
+import com.devbilal.presentation.features.diary.common.components.SettingsItem
+import com.devbilal.presentation.features.diary.common.components.SettingsSection
 import com.devbilal.presentation.features.diary.screens.settings.components.ThemeSection
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
