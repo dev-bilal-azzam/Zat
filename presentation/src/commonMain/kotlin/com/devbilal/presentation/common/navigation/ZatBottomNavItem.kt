@@ -29,6 +29,11 @@ val topLevelRoutes = mapOf(
         selectedIconRes = Res.drawable.ic_home_selected,
         titleRes = Res.string.home
     ),
+    Route.Calendar to BottomNavItem (
+        notSelectedIconRes = Res.drawable.ic_calendar,
+        selectedIconRes = Res.drawable.ic_calendar_selected,
+        titleRes = Res.string.calendar
+    ),
     Route.Search to BottomNavItem (
         notSelectedIconRes = Res.drawable.ic_search,
         selectedIconRes = Res.drawable.ic_search_selected,
@@ -38,10 +43,5 @@ val topLevelRoutes = mapOf(
         notSelectedIconRes = Res.drawable.ic_settings,
         selectedIconRes = Res.drawable.ic_settings_selected,
         titleRes = Res.string.settings
-    ),
-    Route.Calendar to BottomNavItem (
-        notSelectedIconRes = Res.drawable.ic_calendar,
-        selectedIconRes = Res.drawable.ic_calendar_selected,
-        titleRes = Res.string.calendar
     ),
 )

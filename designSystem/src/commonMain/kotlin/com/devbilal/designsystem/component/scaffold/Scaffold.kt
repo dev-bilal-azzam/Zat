@@ -25,14 +25,16 @@ import com.devbilal.designsystem.util.applyIf
 @Composable
 fun Scaffold(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Theme.colorScheme.background.surface,
+    backgroundColor: Color = Theme.colorScheme.background.surfaceLow,
     statusBarColor: Color = backgroundColor,
     fullScreen: Boolean = false,
-    isBottomBarVisible: Boolean = false,
     topBar: @Composable () -> Unit = {},
+    isBottomBarVisible: Boolean = false,
     bottomBar: @Composable () -> Unit = {},
     snakeBar: @Composable () -> Unit = {},
     overlays: ScaffoldScope .() -> Unit = {},
+    fabAlignment: Alignment = Alignment.BottomEnd,
+    fabButton: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     val scope = remember { ScaffoldScopeImpl() }.apply {
@@ -68,6 +70,12 @@ fun Scaffold(
             AnimatedVisibility(visible = isBottomBarVisible) {
                 bottomBar()
             }
+        }
+
+        Box(
+            modifier = Modifier.align(fabAlignment)
+        ) {
+            fabButton()
         }
 
         Box(
