@@ -11,20 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.scaffold.Scaffold
 import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.designsystem.theme.theme.ZatTheme
-import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.components.BiometricButton
 import com.devbilal.presentation.common.components.Numpad
 import com.devbilal.presentation.common.components.PatternView
 import com.devbilal.presentation.common.components.PinIndicator
-import com.devbilal.presentation.common.components.BiometricButton
 import com.devbilal.presentation.features.auth.screens.unlock.components.UnlockHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -36,19 +33,23 @@ import zat.presentation.generated.resources.cancel
 @Composable
 fun UnlockScreen(
     viewModel: UnlockViewModel = koinViewModel(),
-    navigateHome: () -> Unit
+    title: String? = null,
+    description: String? = null,
+    onSuccessfulUnlock: () -> Unit
 ) {
     val snackBarHost = LocalSnackBarHostController.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            UnlockEffect.NavigateToHome -> navigateHome()
+            UnlockEffect.SuccessfulUnlock -> { onSuccessfulUnlock() }
             is UnlockEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }
 
     UnlockScreenContent(
+        title = title,
+        description = description,
         state = state,
         onIntent = viewModel::handleIntent
     )
@@ -56,6 +57,8 @@ fun UnlockScreen(
 
 @Composable
 private fun UnlockScreenContent(
+    title: String?,
+    description: String?,
     state: UnlockState,
     onIntent: (UnlockIntent) -> Unit,
 ) {
@@ -76,6 +79,8 @@ private fun UnlockScreenContent(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             UnlockHeader(
+                title = title,
+                description = description,
                 primaryMethod = state.authenticationMethod
             )
 
@@ -144,18 +149,3 @@ private fun UnlockScreenContent(
         }
     }
 }
-
-@Composable
-@Preview
-fun UnlockPreview() {
-    ZatTheme(appTheme = AppTheme.DARK.name) {
-        UnlockScreenContent(
-            state = UnlockState(
-                authenticationMethod = AuthenticationMethod.Pin(""),
-                isBiometricEnabled = true
-            ),
-            onIntent = {}
-        )
-    }
-}
-

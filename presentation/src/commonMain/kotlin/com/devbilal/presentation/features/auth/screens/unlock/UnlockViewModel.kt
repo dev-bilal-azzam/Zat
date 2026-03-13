@@ -38,7 +38,7 @@ class UnlockViewModel(
 
     private fun onCollectBiometricResult(result: BiometricResult) {
         when (result) {
-            BiometricResult.AuthenticationSuccess -> { sendEffect(UnlockEffect.NavigateToHome) }
+            BiometricResult.AuthenticationSuccess -> { sendEffect(UnlockEffect.SuccessfulUnlock) }
             else -> showSnackBar(messageStringResource = Res.string.biometric_failed)
         }
     }
@@ -97,7 +97,7 @@ class UnlockViewModel(
     private fun authenticate(method: AuthenticationMethod) {
         safeExecute(
             block = { authenticateWithPrimaryMethodUseCase(method) },
-            onSuccess = { sendEffect(UnlockEffect.NavigateToHome) },
+            onSuccess = { sendEffect(UnlockEffect.SuccessfulUnlock) },
             onError = {
                 val message = when (method) {
                     is AuthenticationMethod.Pin -> {

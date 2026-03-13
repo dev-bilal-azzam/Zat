@@ -38,7 +38,7 @@ fun ZatAuth(
     navigateHome: () -> Unit
 ) {
     val startRoute = if (isOnboardingDone) {
-        Route.Unlock
+        Route.Unlock()
     } else {
         Route.Onboarding
     }
@@ -88,11 +88,15 @@ fun ZatAuth(
                 }
 
                 entry<Route.SetupPin> {
-                    SetupPinScreen()
+                    SetupPinScreen(
+                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() }
+                    )
                 }
 
                 entry<Route.SetupPattern> {
-                    SetupPatternScreen()
+                    SetupPatternScreen(
+                        onSuccessfulSetup = { backStack.navigateToInitBiometricWithReplaceAll() }
+                    )
                 }
 
                 entry<Route.InitBiometric> {
@@ -103,7 +107,7 @@ fun ZatAuth(
 
                 entry<Route.Unlock> {
                     UnlockScreen(
-                        navigateHome = navigateHome
+                        onSuccessfulUnlock = navigateHome,
                     )
                 }
 

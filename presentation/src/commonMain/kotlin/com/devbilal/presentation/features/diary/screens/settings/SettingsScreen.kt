@@ -25,7 +25,7 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.features.diary.common.navigation.LocalNavigator
-import com.devbilal.presentation.features.diary.common.navigation.navigateToSecuritySettings
+import com.devbilal.presentation.features.diary.common.navigation.navigateToSecurity
 import com.devbilal.presentation.features.diary.screens.settings.components.BackupSection
 import com.devbilal.presentation.features.diary.screens.settings.components.LanguageSection
 import com.devbilal.presentation.features.diary.screens.settings.components.SettingsFooter
@@ -54,7 +54,7 @@ fun SettingsScreen(
     viewModel.ObserveEffects {
         when (it) {
             SettingsEffect.NavigateBack -> navigator.navigateBack()
-            SettingsEffect.NavigateToSecuritySettings -> navigator.navigateToSecuritySettings()
+            SettingsEffect.NavigateToSecuritySettings -> navigator.navigateToSecurity()
         }
     }
 

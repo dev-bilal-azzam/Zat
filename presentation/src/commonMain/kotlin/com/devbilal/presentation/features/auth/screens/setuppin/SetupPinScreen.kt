@@ -30,7 +30,6 @@ import com.devbilal.presentation.common.components.Numpad
 import com.devbilal.presentation.common.components.PinIndicator
 import com.devbilal.presentation.features.auth.common.LocalBackStack
 import com.devbilal.presentation.features.auth.common.navigateBack
-import com.devbilal.presentation.features.auth.common.navigateToInitBiometricWithReplaceAll
 import com.devbilal.presentation.features.auth.screens.setuppin.components.SetupPinHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -42,7 +41,8 @@ import zat.presentation.generated.resources.pin_usage_message
 
 @Composable
 fun SetupPinScreen(
-    viewModel: SetupPinViewModel = koinViewModel()
+    viewModel: SetupPinViewModel = koinViewModel(),
+    onSuccessfulSetup: () -> Unit
 ) {
     val snackBarHost = LocalSnackBarHostController.current
     val backState = LocalBackStack.current
@@ -51,7 +51,7 @@ fun SetupPinScreen(
     viewModel.ObserveEffects {
         when (it) {
             SetupPinEffect.NavigateBack -> backState.navigateBack()
-            SetupPinEffect.NavigateToInitBiometric -> backState.navigateToInitBiometricWithReplaceAll()
+            SetupPinEffect.SuccessfulSetup -> { onSuccessfulSetup() }
             is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }
     }

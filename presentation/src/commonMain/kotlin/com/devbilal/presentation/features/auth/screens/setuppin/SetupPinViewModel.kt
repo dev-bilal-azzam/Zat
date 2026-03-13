@@ -45,7 +45,7 @@ class SetupPinViewModel(
                         method = AuthenticationMethod.Pin(currentState.pin)
                     )
                 },
-                onSuccess = { sendEffect(SetupPinEffect.NavigateToInitBiometric) },
+                onSuccess = { sendEffect(SetupPinEffect.SuccessfulSetup) },
                 onError = { showSnackBar() }
             )
         }

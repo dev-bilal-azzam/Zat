@@ -5,7 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -14,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devbilal.designsystem.component.icon.Icon
+import com.devbilal.designsystem.component.snackbar.AnimatedSnackBarHost
+import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppTheme
@@ -52,6 +57,7 @@ fun ZatMain(
     ) {
 
         SetSystemBarsAppearance(AppTheme.valueOf(theme.name), isSystemInDarkTheme)
+        Box(modifier = Modifier.fillMaxSize()) 
         when (state.currentDestination) {
             ZatDestination.Home -> ZatDiary()
             ZatDestination.Auth -> ZatAuth(
@@ -70,6 +76,13 @@ fun ZatMain(
                     modifier = Modifier.size(160.dp)
                 )
             }
+        }
+        Box(
+            modifier = Modifier.fillMaxWidth().statusBarsPadding()
+                .padding(horizontal = Theme.spacing._16),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            AnimatedSnackBarHost(LocalSnackBarHostController.current)
         }
     }
 }
