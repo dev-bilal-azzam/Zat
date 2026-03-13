@@ -29,9 +29,6 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.components.PatternView
-import com.devbilal.presentation.features.auth.common.LocalBackStack
-import com.devbilal.presentation.features.auth.common.navigateBack
-import com.devbilal.presentation.features.auth.common.navigateToInitBiometricWithReplaceAll
 import com.devbilal.presentation.features.auth.screens.setuppattern.components.SetupPatternHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,16 +40,17 @@ import zat.presentation.generated.resources.pattern_usage_message
 
 @Composable
 fun SetupPatternScreen(
-    viewModel: SetupPatternViewModel = koinViewModel()
+    viewModel: SetupPatternViewModel = koinViewModel(),
+    onSuccessfulSetup: () -> Unit,
+    navigateBack: () -> Unit
 ) {
     val snackBarHost = LocalSnackBarHostController.current
-    val backStack = LocalBackStack.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPatternEffect.NavigateBack -> backStack.navigateBack()
-            SetupPatternEffect.NavigateToInitBiometric -> backStack.navigateToInitBiometricWithReplaceAll()
+            SetupPatternEffect.NavigateBack -> navigateBack()
+            SetupPatternEffect.SuccessfulSetup -> { onSuccessfulSetup() }
             is SetupPatternEffect.ShowSnackBar -> snackBarHost.showSnackBar(
                 it.snackBarData
             )

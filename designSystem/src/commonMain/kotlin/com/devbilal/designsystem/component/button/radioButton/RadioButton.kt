@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 
@@ -39,12 +42,17 @@ fun RadioButton(
     onClick: (() -> Unit)?,
     label: String? = null,
     hint: String? = null,
+    backgroundColor: Color? = null,
     borderColor: Color = Theme.colorScheme.border.disabled,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(Theme.radius.xl),
     labelColor: Color = Theme.colorScheme.shadePrimary,
     hintColor: Color = Theme.colorScheme.shadeTertiary,
-    isEnabled: Boolean = true
+    isEnabled: Boolean = true,
+    icon: ImageVector? = null,
+    iconTint: Color = Theme.colorScheme.shadeTertiary,
+    boxedIconTint: Color = Theme.colorScheme.primary.primary,
+    showIconBackground: Boolean = false,
 ) {
 
     val animatedContainerColor by animateColorAsState(
@@ -84,24 +92,41 @@ fun RadioButton(
 
     Row(
         modifier = modifier
-            .background(animatedContainerColor, shape)
+            .background(backgroundColor ?: animatedContainerColor, shape)
             .border(2.dp, borderColor, shape)
             .padding(16.dp)
             .then(clickableModifier),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp, Alignment.Start)
     ) {
-        Box(
-            modifier = Modifier
-                .size(18.dp)
-                .background(animatedUnselectedContentColor, shape)
-                .border(
-                    width = animatedBorderDp,
-                    color = animatedBorderColor,
-                    shape = shape
+        if (showIconBackground) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(Theme.radius.md))
+                    .background(Theme.colorScheme.primary.primary.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                icon?.let {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = null,
+                        tint = boxedIconTint,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        } else {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null,
+                    tint = iconTint,
+                    modifier = Modifier.size(24.dp)
                 )
-                .clip(shape),
-        )
+            }
+        }
+
 
         Column {
             label?.let { text ->
@@ -125,7 +150,19 @@ fun RadioButton(
             }
         }
 
+        Spacer(modifier = Modifier.weight(1f))
 
+        Box(
+            modifier = Modifier
+                .size(18.dp)
+                .background(animatedUnselectedContentColor, shape)
+                .border(
+                    width = animatedBorderDp,
+                    color = animatedBorderColor,
+                    shape = shape
+                )
+                .clip(shape),
+        )
     }
 }
 

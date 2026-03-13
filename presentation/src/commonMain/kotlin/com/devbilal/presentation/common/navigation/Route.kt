@@ -13,11 +13,11 @@ sealed interface Route: NavKey {
     data object InitSecurity: Route, NavKey
 
     @Serializable
-    data object SetupPin: Route, NavKey
+    data class SetupPin(val onSuccessfulSetup: (() -> Unit)? = null): Route, NavKey
 
 
     @Serializable
-    data object SetupPattern: Route, NavKey
+    data class SetupPattern(val onSuccessfulSetup: (() -> Unit)? = null): Route, NavKey
 
 
 
@@ -25,7 +25,11 @@ sealed interface Route: NavKey {
     data object InitBiometric: Route, NavKey
 
     @Serializable
-    data object Unlock: Route, NavKey
+    data class Unlock(
+        val title: String? = null,
+        val description: String? = null,
+        val onSuccessfulUnlock: (() -> Unit)? = null
+    ) : Route, NavKey
 
     @Serializable
     data object Home: Route, NavKey

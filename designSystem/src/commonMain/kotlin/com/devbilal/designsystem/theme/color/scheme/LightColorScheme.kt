@@ -37,8 +37,8 @@ internal val LightColorScheme = ColorScheme(
         bgSuccess = colorPalette.green.shade50
     ),
     shadePrimary = colorPalette.gray.shade800,
-    shadeSecondary = colorPalette.gray.shade600,
-    shadeTertiary = colorPalette.gray.shade500,
+    shadeSecondary = colorPalette.gray.shade700,
+    shadeTertiary = colorPalette.gray.shade600,
     stroke = colorPalette.gray.shade300,
     textDisabled = colorPalette.gray.shade500,
     disabled = colorPalette.gray.shade400,

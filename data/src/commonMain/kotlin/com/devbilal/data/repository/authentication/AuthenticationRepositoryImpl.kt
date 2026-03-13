@@ -3,7 +3,7 @@ package com.devbilal.data.repository.authentication
 import com.devbilal.data.datasource.local.setting.SettingsStorage
 import com.devbilal.data.datasource.local.setting.isBiometricAuthEnabled
 import com.devbilal.data.datasource.local.setting.mapper.toDomain
-import com.devbilal.data.datasource.local.setting.primaryAuthenticationMethod
+import com.devbilal.data.datasource.local.setting.authenticationMethod
 import com.devbilal.data.utils.safeCall
 import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.domain.model.AuthenticationSettings
@@ -21,7 +21,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun getAuthenticationSettings() = safeCall {
         AuthenticationSettings(
-            method = settingsStorage.primaryAuthenticationMethod.toDomain(),
+            method = settingsStorage.authenticationMethod.toDomain(),
             isBiometricAuthEnabled = settingsStorage.isBiometricAuthEnabled
         )
     }

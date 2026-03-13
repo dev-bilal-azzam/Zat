@@ -4,7 +4,7 @@ import com.devbilal.domain.util.AppLanguage
 import com.devbilal.domain.util.AppTheme
 
 
-internal var SettingsStorage.primaryAuthenticationMethod: PrimaryAuthenticationMethodDto
+internal var SettingsStorage.authenticationMethod: PrimaryAuthenticationMethodDto
     get() = getSerializable(
         PRIMARY_AUTHENTICATION_METHOD,
         PrimaryAuthenticationMethodDto.None,

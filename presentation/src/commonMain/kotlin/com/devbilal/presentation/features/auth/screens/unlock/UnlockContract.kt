@@ -26,6 +26,6 @@ sealed interface UnlockIntent : UiIntent {
 }
 
 sealed interface UnlockEffect : UiEffect {
-    data object NavigateToHome : UnlockEffect
+    data object SuccessfulUnlock : UnlockEffect
     data class ShowSnackBar(val snackBarData: SnackBarData) : UnlockEffect
 }

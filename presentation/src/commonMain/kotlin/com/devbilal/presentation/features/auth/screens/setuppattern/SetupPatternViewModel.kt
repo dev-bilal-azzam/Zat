@@ -36,7 +36,7 @@ class SetupPatternViewModel(
                         method = AuthenticationMethod.Pattern(currentState.pattern)
                     )
                 },
-                onSuccess = { sendEffect(SetupPatternEffect.NavigateToInitBiometric) },
+                onSuccess = { sendEffect(SetupPatternEffect.SuccessfulSetup) },
                 onError = { showSnackBar() }
             )
         }
