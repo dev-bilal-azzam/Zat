@@ -14,6 +14,7 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiar
 import com.devbilal.presentation.features.diary.screens.calendar.CalendarScreen
 import com.devbilal.presentation.features.diary.screens.home.HomeScreen
 import com.devbilal.presentation.features.diary.screens.search.SearchScreen
+import com.devbilal.presentation.features.diary.screens.security.SecurityScreen
 import com.devbilal.presentation.features.diary.screens.settings.SettingsScreen
 
 @Composable
@@ -56,6 +57,10 @@ fun DiaryNavDisplay(
 
                 entry<Route.AddEditDiary> {
                     AddEditDiaryScreen()
+                }
+
+                entry<Route.Security> {
+                    SecurityScreen()
                 }
             }
         )

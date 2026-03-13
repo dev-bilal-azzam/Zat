@@ -42,4 +42,7 @@ sealed interface Route: NavKey {
     @Serializable
     data object AddEditDiary: Route, NavKey
 
+    @Serializable
+    data object Security: Route, NavKey
+
 }
