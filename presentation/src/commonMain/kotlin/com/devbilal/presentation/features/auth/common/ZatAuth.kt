@@ -16,12 +16,12 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.devbilal.presentation.common.navigation.Route
-import com.devbilal.presentation.features.auth.initbiometric.InitBiometricScreen
-import com.devbilal.presentation.features.auth.initsecurity.InitSecurityScreen
-import com.devbilal.presentation.features.auth.onboarding.OnBoardingScreen
-import com.devbilal.presentation.features.auth.setuppattern.SetupPatternScreen
-import com.devbilal.presentation.features.auth.setuppin.SetupPinScreen
-import com.devbilal.presentation.features.auth.unlock.UnlockScreen
+import com.devbilal.presentation.features.auth.screens.initbiometric.InitBiometricScreen
+import com.devbilal.presentation.features.auth.screens.initsecurity.InitSecurityScreen
+import com.devbilal.presentation.features.auth.screens.onboarding.OnBoardingScreen
+import com.devbilal.presentation.features.auth.screens.setuppattern.SetupPatternScreen
+import com.devbilal.presentation.features.auth.screens.setuppin.SetupPinScreen
+import com.devbilal.presentation.features.auth.screens.unlock.UnlockScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 

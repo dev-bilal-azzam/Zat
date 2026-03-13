@@ -10,11 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.devbilal.presentation.common.navigation.Route
-import com.devbilal.presentation.features.diary.addeditdiary.AddEditDiaryScreen
-import com.devbilal.presentation.features.diary.calendar.CalendarScreen
-import com.devbilal.presentation.features.diary.home.HomeScreen
-import com.devbilal.presentation.features.diary.search.SearchScreen
-import com.devbilal.presentation.features.diary.settings.SettingsScreen
+import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiaryScreen
+import com.devbilal.presentation.features.diary.screens.calendar.CalendarScreen
+import com.devbilal.presentation.features.diary.screens.home.HomeScreen
+import com.devbilal.presentation.features.diary.screens.search.SearchScreen
+import com.devbilal.presentation.features.diary.screens.settings.SettingsScreen
 
 @Composable
 fun DiaryNavDisplay(

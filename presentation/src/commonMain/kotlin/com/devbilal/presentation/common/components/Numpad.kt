@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.presentation.features.auth.unlock.components.BiometricButton
 import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.ic_backspace
@@ -58,7 +57,6 @@ fun Numpad(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Empty space for alignment
             Box(modifier = Modifier.size(64.dp))
 
             if (isBiometricVisible) {
