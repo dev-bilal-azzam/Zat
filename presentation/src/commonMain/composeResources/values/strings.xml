@@ -52,4 +52,15 @@
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="calendar">Calendar</string>
+    <string name="security">Security</string>
+    <string name="security_settings">Security Settings</string>
+    <string name="security_settings_desc">Passcode, Fingerprint, Auto-lock</string>
+    <string name="theme">Theme</string>
+    <string name="language">Language</string>
+    <string name="backup_restore">Backup &amp; Restore</string>
+    <string name="export_data">Export Data</string>
+    <string name="import_data">Import Data</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="app_version">Version 2.4.0</string>
 </resources>

@@ -10,6 +10,7 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiar
 import com.devbilal.presentation.features.diary.screens.calendar.CalendarViewModel
 import com.devbilal.presentation.features.diary.screens.home.HomeViewModel
 import com.devbilal.presentation.features.diary.screens.search.SearchViewModel
+import com.devbilal.presentation.features.diary.screens.security.SecurityViewModel
 import com.devbilal.presentation.features.diary.screens.settings.SettingsViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -23,11 +24,12 @@ internal val viewModelModule = module {
     viewModelOf(::InitBiometricViewModel)
     viewModelOf(::UnlockViewModel)
 
-    // App
+    // Diary
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::CalendarViewModel)
     viewModelOf(::AddEditDiaryViewModel)
+    viewModelOf(::SecurityViewModel)
 
 }

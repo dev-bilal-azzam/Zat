@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import com.devbilal.designsystem.util.applyIf
 
 @Composable
 fun Icon(
@@ -15,6 +16,7 @@ fun Icon(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     tint: Color = Color.Unspecified,
+    autoMirror: Boolean = true
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     Icon(
@@ -22,8 +24,11 @@ fun Icon(
         tint = tint,
         contentDescription = contentDescription,
         modifier = modifier
-            .graphicsLayer {
-            scaleX = if (isRtl) -1f else 1f
-        }
+            .applyIf(autoMirror) {
+                Modifier.graphicsLayer {
+                    scaleX = if (isRtl) -1f else 1f
+                }
+            }
+
     )
 }

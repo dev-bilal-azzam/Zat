@@ -49,7 +49,7 @@ fun ZatHorizontalItemCard(
     contentDescription: String? = null,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(Theme.radius.xl),
-    containerColor: Color = Theme.colorScheme.background.surface.copy(alpha = .1f),
+    containerColor: Color = Theme.colorScheme.background.surface.copy(alpha = .5f),
     borderColor: Color = Theme.colorScheme.brand.brand.copy(alpha = .1f),
     labelColor: Color = Theme.colorScheme.shadePrimary,
     hintColor: Color = Theme.colorScheme.shadeTertiary,
