@@ -1,6 +1,8 @@
 package com.devbilal.presentation.features.search
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.UiEffect
+import com.devbilal.presentation.base.UiIntent
+import com.devbilal.presentation.base.UiState
 
 data class SearchState(
     val temp: String? = null

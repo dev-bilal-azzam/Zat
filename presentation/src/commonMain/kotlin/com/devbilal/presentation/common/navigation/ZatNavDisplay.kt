@@ -1,5 +1,10 @@
 package com.devbilal.presentation.common.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
@@ -18,6 +23,18 @@ fun ZatNavDisplay(
     NavDisplay(
         modifier = modifier,
         onBack = navigator::navigateBack,
+        transitionSpec = {
+            slideInHorizontally { it } + fadeIn() togetherWith
+                    slideOutHorizontally { -it } + fadeOut()
+        },
+        popTransitionSpec = {
+            slideInHorizontally { -it } + fadeIn() togetherWith
+                    slideOutHorizontally { it } + fadeOut()
+        },
+        predictivePopTransitionSpec = {
+            slideInHorizontally { -it } + fadeIn() togetherWith
+                    slideOutHorizontally { it } + fadeOut()
+        },
         entries = navigator.state.toEntries(
             entryProvider {
                 entry<Route.Home> {

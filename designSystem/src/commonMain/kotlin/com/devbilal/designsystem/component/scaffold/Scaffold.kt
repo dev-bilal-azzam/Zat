@@ -1,5 +1,6 @@
 package com.devbilal.designsystem.component.scaffold
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ fun Scaffold(
     backgroundColor: Color = Theme.colorScheme.background.surface,
     statusBarColor: Color = backgroundColor,
     fullScreen: Boolean = false,
+    isBottomBarVisible: Boolean = false,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snakeBar: @Composable () -> Unit = {},
@@ -63,7 +65,9 @@ fun Scaffold(
             ) {
                 content()
             }
-            bottomBar()
+            AnimatedVisibility(visible = isBottomBarVisible) {
+                bottomBar()
+            }
         }
 
         Box(

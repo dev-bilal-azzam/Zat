@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +35,9 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.features.auth.LocalBackStack
 import com.devbilal.presentation.features.auth.navigateToInitSecurity
-import com.devbilal.presentation.features.auth.onboarding.components.*
+import com.devbilal.presentation.features.auth.onboarding.components.AppearanceSection
+import com.devbilal.presentation.features.auth.onboarding.components.LanguageSection
+import com.devbilal.presentation.features.auth.onboarding.components.OnBoardingHeader
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -49,9 +50,6 @@ import zat.presentation.generated.resources.ic_arrow_right
 fun OnBoardingScreen(
     viewModel: OnBoardingViewModel = koinViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        println("Track : onboarding")
-    }
     val backStack = LocalBackStack.current
     val state = viewModel.collectState()
 

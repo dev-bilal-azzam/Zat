@@ -1,6 +1,6 @@
 package com.devbilal.presentation.features.addeditdiary
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 
 class AddEditDiaryViewModel(
 ) : BaseViewModel<AddEditDiaryState, AddEditDiaryIntent, AddEditDiaryEffect>(AddEditDiaryState()) {

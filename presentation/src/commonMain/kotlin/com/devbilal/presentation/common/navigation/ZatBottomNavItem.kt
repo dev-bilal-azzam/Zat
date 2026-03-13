@@ -2,7 +2,19 @@ package com.devbilal.presentation.common.navigation
 
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.calendar
+import zat.presentation.generated.resources.home
+import zat.presentation.generated.resources.ic_calendar
+import zat.presentation.generated.resources.ic_calendar_selected
+import zat.presentation.generated.resources.ic_home
+import zat.presentation.generated.resources.ic_home_selected
+import zat.presentation.generated.resources.ic_search
+import zat.presentation.generated.resources.ic_search_selected
+import zat.presentation.generated.resources.ic_settings
+import zat.presentation.generated.resources.ic_settings_selected
+import zat.presentation.generated.resources.search
+import zat.presentation.generated.resources.settings
 
 
 data class BottomNavItem(

@@ -1,6 +1,6 @@
 package com.devbilal.presentation.features.calendar
 
-import com.devbilal.presentation.base.*
+import com.devbilal.presentation.base.BaseViewModel
 
 class CalendarViewModel(
 ) : BaseViewModel<CalendarState, CalendarIntent, CalendarEffect>(CalendarState()) {
