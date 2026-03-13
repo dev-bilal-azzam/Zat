@@ -39,8 +39,13 @@ fun ZatApp(
     val navigator = remember {
         Navigator(navigationState)
     }
+
+    val isBottomBarVisible = topLevelRoutes.keys
+        .contains(navigationState.backStacks[navigationState.topLevelRoute]?.last())
+
     Scaffold(
         modifier = modifier,
+        isBottomBarVisible = isBottomBarVisible,
         bottomBar = {
             ZatNavBar(
                 selectedKey = navigationState.topLevelRoute,
