@@ -1,9 +1,10 @@
-package com.devbilal.presentation.features.search
+package com.devbilal.presentation.features.diary.search
 
 import com.devbilal.presentation.base.BaseViewModel
 
-class SearchViewModel(
-) : BaseViewModel<SearchState, SearchIntent, SearchEffect>(SearchState()) {
+class SearchViewModel : BaseViewModel<SearchState, SearchIntent, SearchEffect>(
+    SearchState()
+) {
 
     init {
     }

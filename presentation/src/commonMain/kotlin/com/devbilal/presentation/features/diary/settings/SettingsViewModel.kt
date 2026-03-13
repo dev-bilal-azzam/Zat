@@ -1,9 +1,10 @@
-package com.devbilal.presentation.features.settings
+package com.devbilal.presentation.features.diary.settings
 
 import com.devbilal.presentation.base.BaseViewModel
 
-class SettingsViewModel(
-) : BaseViewModel<SettingsState, SettingsIntent, SettingsEffect>(SettingsState()) {
+class SettingsViewModel : BaseViewModel<SettingsState, SettingsIntent, SettingsEffect>(
+    SettingsState()
+) {
 
     init {
     }

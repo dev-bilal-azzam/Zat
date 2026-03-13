@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.addeditdiary
+package com.devbilal.presentation.features.diary.addeditdiary
 
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent
@@ -9,9 +9,11 @@ data class AddEditDiaryState(
 ) : UiState
 
 sealed interface AddEditDiaryIntent : UiIntent {
-    data object OnBackClicked : AddEditDiaryIntent
+    data object OnBackClicked :
+        AddEditDiaryIntent
 }
 
 sealed interface AddEditDiaryEffect : UiEffect {
-    data object NavigateBack : AddEditDiaryEffect
+    data object NavigateBack :
+        AddEditDiaryEffect
 }

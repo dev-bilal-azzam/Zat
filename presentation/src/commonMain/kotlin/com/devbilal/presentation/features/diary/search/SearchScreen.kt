@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.search
+package com.devbilal.presentation.features.diary.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.navigation.LocalNavigator
+import com.devbilal.presentation.features.diary.common.navigation.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
@@ -31,7 +31,7 @@ fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel()
 ) {
     val snackBarHost = LocalSnackBarHostController.current
-    val backState = LocalNavigator.current
+    val navigator = LocalNavigator.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {

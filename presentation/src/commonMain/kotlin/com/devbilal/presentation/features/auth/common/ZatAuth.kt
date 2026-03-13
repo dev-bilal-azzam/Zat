@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.auth
+package com.devbilal.presentation.features.auth.common
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut

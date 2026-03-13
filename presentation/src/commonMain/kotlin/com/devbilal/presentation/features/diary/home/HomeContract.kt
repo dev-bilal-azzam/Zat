@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.home
+package com.devbilal.presentation.features.diary.home
 
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent

@@ -1,4 +1,6 @@
-package com.devbilal.presentation.common.navigation
+package com.devbilal.presentation.features.diary.common.navigation
+
+import com.devbilal.presentation.common.navigation.Route
 
 
 // Home

@@ -33,8 +33,8 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.features.auth.LocalBackStack
-import com.devbilal.presentation.features.auth.navigateToInitSecurity
+import com.devbilal.presentation.features.auth.common.LocalBackStack
+import com.devbilal.presentation.features.auth.common.navigateToInitSecurity
 import com.devbilal.presentation.features.auth.onboarding.components.AppearanceSection
 import com.devbilal.presentation.features.auth.onboarding.components.LanguageSection
 import com.devbilal.presentation.features.auth.onboarding.components.OnBoardingHeader

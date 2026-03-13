@@ -20,8 +20,8 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.usecase.settings.AppThemeUseCase
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.ZatApp
-import com.devbilal.presentation.features.auth.ZatAuth
+import com.devbilal.presentation.features.diary.common.ZatDiary
+import com.devbilal.presentation.features.auth.common.ZatAuth
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.koinInject
@@ -53,7 +53,7 @@ fun ZatMain(
 
         SetSystemBarsAppearance(AppTheme.valueOf(theme.name), isSystemInDarkTheme)
         when (state.currentDestination) {
-            ZatDestination.Home -> ZatApp()
+            ZatDestination.Home -> ZatDiary()
             ZatDestination.Auth -> ZatAuth(
                 isOnboardingDone = state.isOnboardingDone ?: false,
                 navigateHome = { viewModel.handleIntent(MainIntent.NavigateHome) }

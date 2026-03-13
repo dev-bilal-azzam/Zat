@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.auth
+package com.devbilal.presentation.features.auth.common
 
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey

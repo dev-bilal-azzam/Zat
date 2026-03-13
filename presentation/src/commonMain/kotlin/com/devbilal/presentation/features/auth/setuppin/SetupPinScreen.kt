@@ -28,9 +28,9 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.components.Numpad
 import com.devbilal.presentation.common.components.PinIndicator
-import com.devbilal.presentation.features.auth.LocalBackStack
-import com.devbilal.presentation.features.auth.navigateBack
-import com.devbilal.presentation.features.auth.navigateToInitBiometricWithReplaceAll
+import com.devbilal.presentation.features.auth.common.LocalBackStack
+import com.devbilal.presentation.features.auth.common.navigateBack
+import com.devbilal.presentation.features.auth.common.navigateToInitBiometricWithReplaceAll
 import com.devbilal.presentation.features.auth.setuppin.components.SetupPinHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel

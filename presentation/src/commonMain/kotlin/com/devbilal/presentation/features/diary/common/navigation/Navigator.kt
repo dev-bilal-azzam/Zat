@@ -1,4 +1,4 @@
-package com.devbilal.presentation.common.navigation
+package com.devbilal.presentation.features.diary.common.navigation
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation3.runtime.NavKey

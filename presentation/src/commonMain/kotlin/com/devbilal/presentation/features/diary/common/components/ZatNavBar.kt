@@ -1,10 +1,10 @@
-package com.devbilal.presentation.common.components
+package com.devbilal.presentation.features.diary.common.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import com.devbilal.designsystem.component.bottomNavigation.BottomNavigationBar
-import com.devbilal.presentation.common.navigation.topLevelRoutes
+import com.devbilal.presentation.features.diary.common.navigation.topLevelRoutes
 
 @Composable
 fun ZatNavBar(

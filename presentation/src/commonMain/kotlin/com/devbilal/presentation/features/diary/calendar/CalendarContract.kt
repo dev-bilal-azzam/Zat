@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.calendar
+package com.devbilal.presentation.features.diary.calendar
 
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent

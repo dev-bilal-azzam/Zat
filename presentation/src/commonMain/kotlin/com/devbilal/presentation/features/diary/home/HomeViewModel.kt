@@ -1,9 +1,10 @@
-package com.devbilal.presentation.features.home
+package com.devbilal.presentation.features.diary.home
 
 import com.devbilal.presentation.base.BaseViewModel
 
-class HomeViewModel(
-) : BaseViewModel<HomeState, HomeIntent, HomeEffect>(HomeState()) {
+class HomeViewModel : BaseViewModel<HomeState, HomeIntent, HomeEffect>(
+    HomeState()
+) {
 
     init {
     }

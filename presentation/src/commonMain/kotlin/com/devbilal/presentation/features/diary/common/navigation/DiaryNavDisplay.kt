@@ -1,4 +1,4 @@
-package com.devbilal.presentation.common.navigation
+package com.devbilal.presentation.features.diary.common.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,14 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.devbilal.presentation.features.addeditdiary.AddEditDiaryScreen
-import com.devbilal.presentation.features.calendar.CalendarScreen
-import com.devbilal.presentation.features.home.HomeScreen
-import com.devbilal.presentation.features.search.SearchScreen
-import com.devbilal.presentation.features.settings.SettingsScreen
+import com.devbilal.presentation.common.navigation.Route
+import com.devbilal.presentation.features.diary.addeditdiary.AddEditDiaryScreen
+import com.devbilal.presentation.features.diary.calendar.CalendarScreen
+import com.devbilal.presentation.features.diary.home.HomeScreen
+import com.devbilal.presentation.features.diary.search.SearchScreen
+import com.devbilal.presentation.features.diary.settings.SettingsScreen
 
 @Composable
-fun ZatNavDisplay(
+fun DiaryNavDisplay(
     modifier: Modifier = Modifier,
     navigator: Navigator
 ) {

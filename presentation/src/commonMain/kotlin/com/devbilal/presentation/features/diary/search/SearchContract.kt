@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.search
+package com.devbilal.presentation.features.diary.search
 
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent

@@ -1,4 +1,4 @@
-package com.devbilal.presentation.common
+package com.devbilal.presentation.features.diary.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,16 +20,16 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
-import com.devbilal.presentation.common.components.ZatNavBar
-import com.devbilal.presentation.common.navigation.LocalNavigator
-import com.devbilal.presentation.common.navigation.Navigator
+import com.devbilal.presentation.features.diary.common.components.ZatNavBar
+import com.devbilal.presentation.features.diary.common.navigation.LocalNavigator
+import com.devbilal.presentation.features.diary.common.navigation.Navigator
 import com.devbilal.presentation.common.navigation.Route
-import com.devbilal.presentation.common.navigation.ZatNavDisplay
-import com.devbilal.presentation.common.navigation.rememberNavigationState
-import com.devbilal.presentation.common.navigation.topLevelRoutes
+import com.devbilal.presentation.features.diary.common.navigation.DiaryNavDisplay
+import com.devbilal.presentation.features.diary.common.navigation.rememberNavigationState
+import com.devbilal.presentation.features.diary.common.navigation.topLevelRoutes
 
 @Composable
-fun ZatApp(
+fun ZatDiary(
     modifier: Modifier = Modifier
 ) {
     val navigationState = rememberNavigationState(
@@ -59,7 +59,7 @@ fun ZatApp(
             CompositionLocalProvider(
                 LocalNavigator provides navigator,
             ) {
-                ZatNavDisplay(navigator = navigator)
+                DiaryNavDisplay(navigator = navigator)
             }
 
             Box(
@@ -77,7 +77,7 @@ fun ZatApp(
 
 @Composable
 @Preview
-fun ZatAppPreview() {
+fun ZatDiaryPreview() {
 
     var language by remember { mutableStateOf(AppLanguage.English) }
     var theme by remember { mutableStateOf(AppTheme.DARK) }
@@ -87,7 +87,7 @@ fun ZatAppPreview() {
         appTheme = theme.name
     ) {
 
-        ZatApp()
+        ZatDiary()
 
     }
 }

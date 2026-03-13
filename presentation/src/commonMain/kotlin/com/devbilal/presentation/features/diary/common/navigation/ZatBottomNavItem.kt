@@ -1,5 +1,6 @@
-package com.devbilal.presentation.common.navigation
+package com.devbilal.presentation.features.diary.common.navigation
 
+import com.devbilal.presentation.common.navigation.Route
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import zat.presentation.generated.resources.Res
