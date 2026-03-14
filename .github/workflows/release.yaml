@@ -104,3 +104,20 @@ jobs:
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
             By: ${{ github.actor }}
+
+      - name: Upload signed APK to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: Zat v${{ env.VERSION }}
+          body: |
+            🚀 New Zat Release Uploaded!
+            
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **By:** ${{ github.actor }}
+            **Title:** ${{ github.event.pull_request.title }}
+            **PR Description:** ${{ github.event.pull_request.body }}
+          files: composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
