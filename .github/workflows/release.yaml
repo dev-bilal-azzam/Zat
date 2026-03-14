@@ -72,8 +72,8 @@ jobs:
           
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag -a "v$VERSION" -m "Release v$VERSION"
-          git push origin "v$VERSION"
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push origin "$VERSION"
 
       - name: Check files
         run: ls -la composeApp
@@ -90,14 +90,14 @@ jobs:
 
       - name: Rename APK
         run: |
-          mv composeApp/build/outputs/apk/release/composeApp-release.apk composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
-          echo "APK_PATH=composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk" >> $GITHUB_ENV
+          mv composeApp/build/outputs/apk/release/composeApp-release.apk composeApp/build/outputs/apk/release/zat-${{ env.VERSION }}.apk
+          echo "APK_PATH=composeApp/build/outputs/apk/release/zat-${{ env.VERSION }}.apk" >> $GITHUB_ENV
 
       - name: Upload signed APK to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ env.VERSION }}
-          name: Zat v${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          name: Zat ${{ env.VERSION }}
           body: |
             🚀 New Zat Release Uploaded!
             
@@ -106,7 +106,7 @@ jobs:
             **By:** ${{ github.actor }}
             **Title:** ${{ github.event.pull_request.title }}
             **PR Description:** ${{ github.event.pull_request.body }}
-          files: composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
+          files: composeApp/build/outputs/apk/release/zat-${{ env.VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
