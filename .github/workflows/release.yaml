@@ -1,15 +1,36 @@
-name: Release APK
+name: Deploy release to Firebase
 
 on:
   push:
     branches:
+      - develop
       - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Manual version (optional, e.g. 1.0.0)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
 
 jobs:
-  main-release:
+  build:
+    name: Build & distribute Android Release
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Cache Gradle
         uses: actions/cache@v3
@@ -17,70 +38,69 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Get latest main tag
-        id: get-main-tag
-        run: |
-          set -e
-          LAST_TAG=$(git tag --list "[0-9]*.*" | sort -V | tail -n 1)
-          if [ -z "$LAST_TAG" ]; then
-            # أول merge على main
-            NEW_TAG="0.0.1"
-          else
-            IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"
-            PATCH=$((PATCH+1))
-            NEW_TAG="$MAJOR.$MINOR.$PATCH"
-          fi
-          VERSION_CODE=$(echo $NEW_TAG | awk -F'[-.]' '{print $1*10000 + $2*100 + $3}')
-          echo "version-name=$NEW_TAG" >> $GITHUB_OUTPUT
-          echo "version-code=$VERSION_CODE" >> $GITHUB_OUTPUT
-          git tag $NEW_TAG
-          git push origin $NEW_TAG
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      - name: Setup JDK & Gradle
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Decode keystore
-        run: |
-          echo ${{ secrets.KEYSTORE_BASE64 }} | base64 --decode > keystore.jks
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Decode google-services.json
         run: |
-          echo ${{ secrets.GOOGLE_SERVICES_JSON }} | base64 --decode > shared/src/androidMain/google-services.json
+          mkdir -p composeApp/src/
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > shared/src/androidMain/google-services.json
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+
+      - name: Determine & bump version
+        id: set_version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION_FILE="shared/src/commonMain/resources/version.txt"
+            mkdir -p $(dirname $VERSION_FILE)
+            if [ ! -f "$VERSION_FILE" ]; then
+              echo "1.0.0" > $VERSION_FILE
+            fi
+            CURRENT_VERSION=$(cat $VERSION_FILE)
+            IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+            patch=$((patch + 1))
+            VERSION="$major.$minor.$patch"
+            echo "$VERSION" > $VERSION_FILE
+          fi
+          VERSION_CODE=$(echo $VERSION | awk -F'.' '{print $1*10000 + $2*100 + $3}')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
       - name: Build Android Release APK
         run: |
-          set -e
           ./gradlew assembleRelease \
             -Pandroid.injected.signing.store.file=keystore.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
-            -PVERSION_CODE=${{ steps.get-main-tag.outputs.version-code }} \
-            -PVERSION_NAME=${{ steps.get-main-tag.outputs.version-name }}
+            -PVERSION_CODE=${{ env.VERSION_CODE }} \
+            -PVERSION_NAME=${{ env.VERSION }}
 
-      - name: Rename APK for main
+      - name: Rename APK
         run: |
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/zat-${{ steps.get-main-tag.outputs.version-name }}.apk
-          echo "APK_PATH=app/build/outputs/apk/release/zat-${{ steps.get-main-tag.outputs.version-name }}.apk" >> $GITHUB_ENV
-
-      - name: GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.get-main-tag.outputs.version-name }}
-          files: ${{ env.APK_PATH }}
-          body: "Main release version ${{ steps.get-main-tag.outputs.version-name }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
+          echo "APK_PATH=app/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk" >> $GITHUB_ENV
 
       - name: Upload to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          groups: internal
+          groups: internal-testers
           file: ${{ env.APK_PATH }}
+          releaseNotes: |
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            By: ${{ github.actor }}
