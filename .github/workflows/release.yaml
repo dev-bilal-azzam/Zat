@@ -54,26 +54,26 @@ jobs:
       - name: Decode keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > composeApp/keystore.jks
 
-      - name: Determine & bump version
+      - name: Determine & bump version from Git tag
         id: set_version
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION_FILE="composeApp/src/commonMain/resources/version.txt"
-            mkdir -p $(dirname $VERSION_FILE)
-            if [ ! -f "$VERSION_FILE" ]; then
-              echo "1.0.0" > $VERSION_FILE
-            fi
-            CURRENT_VERSION=$(cat $VERSION_FILE)
-            IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
-            patch=$((patch + 1))
-            VERSION="$major.$minor.$patch"
-            echo "$VERSION" > $VERSION_FILE
-          fi
-          VERSION_CODE=$(echo $VERSION | awk -F'.' '{print $1*10000 + $2*100 + $3}')
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
+          echo "Last tag: $LAST_TAG"
+          
+          IFS='.' read -r major minor patch <<< "$LAST_TAG"
+          
+          patch=$((patch + 1))
+          VERSION="$major.$minor.$patch"
+          VERSION_CODE=$((major*10000 + minor*100 + patch))
+          
+          echo "New version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
 
       - name: Check files
         run: ls -la composeApp
@@ -93,18 +93,6 @@ jobs:
           mv composeApp/build/outputs/apk/release/composeApp-release.apk composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
           echo "APK_PATH=composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk" >> $GITHUB_ENV
 
-      - name: Upload to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          groups: testers
-          file: ${{ env.APK_PATH }}
-          releaseNotes: |
-            Branch: ${{ github.ref_name }}
-            Commit: ${{ github.sha }}
-            By: ${{ github.actor }}
-
       - name: Upload signed APK to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -121,3 +109,15 @@ jobs:
           files: composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          groups: testers
+          file: ${{ env.APK_PATH }}
+          releaseNotes: |
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            By: ${{ github.actor }}
