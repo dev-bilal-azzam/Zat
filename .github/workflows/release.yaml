@@ -49,9 +49,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Decode google-services.json
-        run: |
-          mkdir -p composeApp/src/
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > shared/src/androidMain/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > composeApp/src/google-services.json
 
       - name: Decode keystore
         run: |
