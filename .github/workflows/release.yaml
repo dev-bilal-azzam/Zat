@@ -23,11 +23,16 @@ jobs:
         id: get-main-tag
         run: |
           set -e
-          LAST_TAG=$(git tag --list "[0-9]*.*" | sort -V | tail -n 1 || echo "0.0.0")
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"
-          PATCH=$((PATCH+1))
-          NEW_TAG="$MAJOR.$MINOR.$PATCH"
-          VERSION_CODE=$((MAJOR*10000 + MINOR*100 + PATCH))
+          LAST_TAG=$(git tag --list "[0-9]*.*" | sort -V | tail -n 1)
+          if [ -z "$LAST_TAG" ]; then
+            # أول merge على main
+            NEW_TAG="0.0.1"
+          else
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"
+            PATCH=$((PATCH+1))
+            NEW_TAG="$MAJOR.$MINOR.$PATCH"
+          fi
+          VERSION_CODE=$(echo $NEW_TAG | awk -F'[-.]' '{print $1*10000 + $2*100 + $3}')
           echo "version-name=$NEW_TAG" >> $GITHUB_OUTPUT
           echo "version-code=$VERSION_CODE" >> $GITHUB_OUTPUT
           git tag $NEW_TAG
