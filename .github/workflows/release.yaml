@@ -81,7 +81,7 @@ jobs:
       - name: Build Android Release APK
         run: |
           ./gradlew :composeApp:assembleRelease \
-          -Pandroid.injected.signing.store.file=keystore.jks \
+          -Pandroid.injected.signing.store.file=$(pwd)/composeApp/keystore.jks \
           -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
           -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
