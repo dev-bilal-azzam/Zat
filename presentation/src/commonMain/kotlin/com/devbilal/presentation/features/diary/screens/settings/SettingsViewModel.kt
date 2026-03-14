@@ -4,6 +4,7 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.usecase.settings.AppThemeUseCase
+import com.devbilal.domain.usecase.settings.VersionUseCase
 import com.devbilal.presentation.base.BaseViewModel
 import com.devbilal.presentation.features.auth.screens.onboarding.toAppTheme
 import com.devbilal.presentation.features.auth.screens.onboarding.toSettingsAppTheme
@@ -12,6 +13,7 @@ import com.devbilal.domain.util.AppLanguage as SettingsAppLanguage
 class SettingsViewModel(
     private val appLanguageUseCase: AppLanguageUseCase,
     private val appThemeUseCase: AppThemeUseCase,
+    private val versionUseCase: VersionUseCase
 ) : BaseViewModel<SettingsState, SettingsIntent, SettingsEffect>(
     SettingsState()
 ) {
@@ -19,7 +21,9 @@ class SettingsViewModel(
     init {
         getLanguage()
         getTheme()
+        getVersion()
     }
+
 
     override fun handleIntent(intent: SettingsIntent) {
         when (intent) {
@@ -52,6 +56,13 @@ class SettingsViewModel(
         safeExecute(
             block = appLanguageUseCase::getAppLanguage,
             onSuccess = { updateState { copy(selectedLanguage = AppLanguage.fromIso(it.iso)) } }
+        )
+    }
+
+    private fun getVersion() {
+        safeExecute(
+            block = versionUseCase::getVersionName,
+            onSuccess = { updateState { copy(version = it) } }
         )
     }
 
