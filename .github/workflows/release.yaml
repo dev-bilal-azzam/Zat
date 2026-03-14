@@ -58,7 +58,7 @@ jobs:
         id: set_version
         run: |
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
-          echo "Last tag: $LAST_TAG"
+          LAST_TAG=$(echo "$LAST_TAG" | sed 's/^v*//')  # تشيل كل v في البداية
           
           IFS='.' read -r major minor patch <<< "$LAST_TAG"
           
