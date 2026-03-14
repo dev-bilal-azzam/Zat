@@ -24,7 +24,7 @@ data class BottomNavItem(
     val titleRes: StringResource,
 )
 
-val topLevelRoutes = mapOf(
+val diaryTopLevelRoutes = mapOf(
     Route.Home to BottomNavItem (
         notSelectedIconRes = Res.drawable.ic_home,
         selectedIconRes = Res.drawable.ic_home_selected,

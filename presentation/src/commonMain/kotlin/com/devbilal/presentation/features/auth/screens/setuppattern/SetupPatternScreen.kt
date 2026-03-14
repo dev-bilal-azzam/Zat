@@ -29,6 +29,7 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.components.PatternView
+import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.features.auth.screens.setuppattern.components.SetupPatternHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -41,15 +42,15 @@ import zat.presentation.generated.resources.pattern_usage_message
 @Composable
 fun SetupPatternScreen(
     viewModel: SetupPatternViewModel = koinViewModel(),
-    onSuccessfulSetup: () -> Unit,
-    navigateBack: () -> Unit
+    onSuccessfulSetup: () -> Unit
 ) {
     val snackBarHost = LocalSnackBarHostController.current
     val state = viewModel.collectState()
+    val navigator = LocalNavigator.current
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPatternEffect.NavigateBack -> navigateBack()
+            SetupPatternEffect.NavigateBack -> navigator.navigateBack()
             SetupPatternEffect.SuccessfulSetup -> { onSuccessfulSetup() }
             is SetupPatternEffect.ShowSnackBar -> snackBarHost.showSnackBar(
                 it.snackBarData

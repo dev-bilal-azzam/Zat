@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface Route: NavKey {
+    val disposable: Boolean
+        get() = false
+
 
     @Serializable
     data object Onboarding: Route, NavKey
@@ -13,23 +16,7 @@ sealed interface Route: NavKey {
     data object InitSecurity: Route, NavKey
 
     @Serializable
-    data class SetupPin(val onSuccessfulSetup: (() -> Unit)? = null): Route, NavKey
-
-
-    @Serializable
-    data class SetupPattern(val onSuccessfulSetup: (() -> Unit)? = null): Route, NavKey
-
-
-
-    @Serializable
     data object InitBiometric: Route, NavKey
-
-    @Serializable
-    data class Unlock(
-        val title: String? = null,
-        val description: String? = null,
-        val onSuccessfulUnlock: (() -> Unit)? = null
-    ) : Route, NavKey
 
     @Serializable
     data object Home: Route, NavKey
@@ -48,5 +35,26 @@ sealed interface Route: NavKey {
 
     @Serializable
     data object Security: Route, NavKey
+
+}
+
+
+abstract class DisposableRoute: Route {
+    final override val disposable = true
+
+    @Serializable
+    data class SetupPin(val onSuccessfulSetup: (() -> Unit)? = null): DisposableRoute()
+
+
+    @Serializable
+    data class SetupPattern(val onSuccessfulSetup: (() -> Unit)? = null): DisposableRoute()
+
+
+    @Serializable
+    data class Unlock(
+        val title: String? = null,
+        val description: String? = null,
+        val onSuccessfulUnlock: (() -> Unit)? = null
+    ) : DisposableRoute()
 
 }

@@ -33,8 +33,8 @@ import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.features.auth.common.LocalBackStack
-import com.devbilal.presentation.features.auth.common.navigateToInitSecurity
+import com.devbilal.presentation.common.navigation.LocalNavigator
+import com.devbilal.presentation.features.auth.common.navigation.navigateToInitSecurity
 import com.devbilal.presentation.features.auth.screens.onboarding.components.AppearanceSection
 import com.devbilal.presentation.features.auth.screens.onboarding.components.LanguageSection
 import com.devbilal.presentation.features.auth.screens.onboarding.components.OnBoardingHeader
@@ -50,12 +50,12 @@ import zat.presentation.generated.resources.ic_arrow_right
 fun OnBoardingScreen(
     viewModel: OnBoardingViewModel = koinViewModel()
 ) {
-    val backStack = LocalBackStack.current
+    val navigator = LocalNavigator.current
     val state = viewModel.collectState()
 
     viewModel.ObserveEffects {
         when(it) {
-            OnBoardingEffect.NavigateToInitSecurity -> { backStack.navigateToInitSecurity() }
+            OnBoardingEffect.NavigateToInitSecurity -> { navigator.navigateToInitSecurity() }
         }
     }
 

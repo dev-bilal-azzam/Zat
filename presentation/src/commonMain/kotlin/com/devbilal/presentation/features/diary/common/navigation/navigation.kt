@@ -1,5 +1,7 @@
 package com.devbilal.presentation.features.diary.common.navigation
 
+import com.devbilal.presentation.common.navigation.DisposableRoute
+import com.devbilal.presentation.common.navigation.Navigator
 import com.devbilal.presentation.common.navigation.Route
 
 
@@ -19,17 +21,21 @@ internal fun Navigator.navigateToCalendar() = navigate(Route.Calendar)
 internal fun Navigator.navigateToAddEditDiary() = navigate(Route.AddEditDiary)
 
 // Security
-internal fun Navigator.navigateToSecurity() = navigate(Route.Security)
+internal fun Navigator.navigateToSecurity(
+    navOptions: Navigator.NavOptions = Navigator.NavOptions(singleTop = true)
+) = navigate(Route.Security, navOptions)
 
 // Unlock
 internal fun Navigator.navigateToUnlock(
     title: String? = null,
     description: String? = null,
     onSuccessfulUnlock: (() -> Unit)? = null
-) = navigate(Route.Unlock(title, description, onSuccessfulUnlock))
+) = navigate(DisposableRoute.Unlock(title, description, onSuccessfulUnlock))
 
 // Set Pin
-internal fun Navigator.navigateToSetPin(onSuccessfulSetup: (() -> Unit)? = null) = navigate(Route.SetupPin(onSuccessfulSetup))
+internal fun Navigator.navigateToSetPin(onSuccessfulSetup: (() -> Unit)? = null) =
+    navigate(DisposableRoute.SetupPin(onSuccessfulSetup))
 
 // Set Pattern
-internal fun Navigator.navigateToSetPattern(onSuccessfulSetup: (() -> Unit)? = null) = navigate(Route.SetupPattern(onSuccessfulSetup))
+internal fun Navigator.navigateToSetPattern(onSuccessfulSetup: (() -> Unit)? = null) =
+    navigate(DisposableRoute.SetupPattern(onSuccessfulSetup))

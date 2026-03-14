@@ -9,7 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.devbilal.presentation.common.navigation.DisposableRoute
+import com.devbilal.presentation.common.navigation.Navigator
 import com.devbilal.presentation.common.navigation.Route
+import com.devbilal.presentation.common.navigation.toEntries
 import com.devbilal.presentation.features.auth.screens.setuppattern.SetupPatternScreen
 import com.devbilal.presentation.features.auth.screens.setuppin.SetupPinScreen
 import com.devbilal.presentation.features.auth.screens.unlock.UnlockScreen
@@ -66,7 +69,7 @@ fun DiaryNavDisplay(
                     SecurityScreen()
                 }
 
-                entry<Route.Unlock> {
+                entry<DisposableRoute.Unlock> {
                     val title = it.title
                     val description = it.description
                     val onSuccessfulUnlock = it.onSuccessfulUnlock
@@ -78,18 +81,16 @@ fun DiaryNavDisplay(
                     )
                 }
 
-                entry<Route.SetupPin> {
+                entry<DisposableRoute.SetupPin> {
                     val onSuccessfulSetup = it.onSuccessfulSetup
                     SetupPinScreen(
-                        onSuccessfulSetup = onSuccessfulSetup ?: {},
-                        navigateBack = { navigator.navigateBack() }
+                        onSuccessfulSetup = onSuccessfulSetup ?: {}
                     )
                 }
 
-                entry<Route.SetupPattern> {
+                entry<DisposableRoute.SetupPattern> {
                     SetupPatternScreen(
-                        onSuccessfulSetup = it.onSuccessfulSetup ?: {},
-                        navigateBack = { navigator.navigateBack() }
+                        onSuccessfulSetup = it.onSuccessfulSetup ?: {}
                     )
                 }
             }

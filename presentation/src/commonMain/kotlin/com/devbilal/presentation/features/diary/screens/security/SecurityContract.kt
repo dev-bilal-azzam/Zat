@@ -24,8 +24,8 @@ sealed interface SecurityIntent : UiIntent {
 
 sealed interface SecurityEffect : UiEffect {
     data object NavigateBack : SecurityEffect
-    data object NavigateToUnlockForChangePin : SecurityEffect
-    data object NavigateToUnlockForChangePattern : SecurityEffect
+    data object NavigateToUnlockForSetPin : SecurityEffect
+    data object NavigateToUnlockForSetPattern : SecurityEffect
     data object NavigateToSetupPin : SecurityEffect
     data object NavigateToSetupPattern : SecurityEffect
     data class ShowSnackBar(val snackBarData: SnackBarData) : SecurityEffect
