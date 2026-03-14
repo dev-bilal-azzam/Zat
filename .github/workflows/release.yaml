@@ -87,8 +87,8 @@ jobs:
 
       - name: Rename APK
         run: |
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
-          echo "APK_PATH=app/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk" >> $GITHUB_ENV
+          mv composeApp/build/outputs/apk/release/composeApp-release.apk composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk
+          echo "APK_PATH=composeApp/build/outputs/apk/release/zat-v${{ env.VERSION }}.apk" >> $GITHUB_ENV
 
       - name: Upload to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
