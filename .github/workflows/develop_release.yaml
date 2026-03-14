@@ -23,12 +23,17 @@ jobs:
         id: get-dev-tag
         run: |
           set -e
-          LAST_TAG=$(git tag --list "dev-*" | sort -V | tail -n 1 || echo "dev-0.0.0")
-          BASE_VERSION=${LAST_TAG#dev-}
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$BASE_VERSION"
-          PATCH=$((PATCH+1))
-          NEW_TAG="dev-$MAJOR.$MINOR.$PATCH"
-          VERSION_CODE=$((MAJOR*10000 + MINOR*100 + PATCH))
+          LAST_TAG=$(git tag --list "dev-*" | sort -V | tail -n 1)
+          if [ -z "$LAST_TAG" ]; then
+            # أول merge → نبدأ من dev-0.0.1
+            NEW_TAG="dev-0.0.1"
+          else
+            BASE_VERSION=${LAST_TAG#dev-}
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$BASE_VERSION"
+            PATCH=$((PATCH+1))
+            NEW_TAG="dev-$MAJOR.$MINOR.$PATCH"
+          fi
+          VERSION_CODE=$(echo $NEW_TAG | awk -F'[-.]' '{print $2*10000 + $3*100 + $4}')
           echo "version-name=$NEW_TAG" >> $GITHUB_OUTPUT
           echo "version-code=$VERSION_CODE" >> $GITHUB_OUTPUT
           git tag $NEW_TAG
