@@ -98,7 +98,7 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          groups: internal-testers
+          groups: testers
           file: ${{ env.APK_PATH }}
           releaseNotes: |
             Branch: ${{ github.ref_name }}
