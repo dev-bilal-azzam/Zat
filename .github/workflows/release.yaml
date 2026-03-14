@@ -75,15 +75,18 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
+      - name: Check files
+        run: ls -la composeApp
+
       - name: Build Android Release APK
         run: |
-          ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=composeApp/keystore.jks \
-            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
-            -PVERSION_CODE=${{ env.VERSION_CODE }} \
-            -PVERSION_NAME=${{ env.VERSION }}
+          ./gradlew :composeApp:assembleRelease \
+          -Pandroid.injected.signing.store.file=keystore.jks \
+          -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+          -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+          -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
+          -PVERSION_CODE=${{ env.VERSION_CODE }} \
+          -PVERSION_NAME=${{ env.VERSION }}
 
       - name: Rename APK
         run: |
