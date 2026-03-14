@@ -8,7 +8,8 @@ import com.devbilal.presentation.base.UiState
 
 data class SettingsState(
     val selectedLanguage: AppLanguage = AppLanguage.English,
-    val selectedTheme: AppTheme = AppTheme.DARK
+    val selectedTheme: AppTheme = AppTheme.DARK,
+    val version: String? = null
 ) : UiState
 
 sealed interface SettingsIntent : UiIntent {

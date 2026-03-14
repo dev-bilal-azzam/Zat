@@ -14,13 +14,13 @@ import com.devbilal.designsystem.theme.theme.Theme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import zat.presentation.generated.resources.Res
-import zat.presentation.generated.resources.app_version
 import zat.presentation.generated.resources.zat
 import zat.presentation.generated.resources.zat_logo
 
 @Composable
 fun SettingsHeader(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    version: String?
 ) {
     Column(
         modifier = modifier,
@@ -41,7 +41,7 @@ fun SettingsHeader(
         )
 
         Text(
-            text = stringResource(Res.string.app_version),
+            text = version ?: "0.0.0",
             style = Theme.typography.label.medium,
             color = Theme.colorScheme.shadeTertiary
         )

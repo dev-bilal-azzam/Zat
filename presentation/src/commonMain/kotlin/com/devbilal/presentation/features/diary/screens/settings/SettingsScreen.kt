@@ -87,7 +87,7 @@ private fun SettingsScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            SettingsHeader()
+            SettingsHeader(version = state.version)
 
             SettingsSection(title = stringResource(Res.string.security)) {
                 SettingsItem(

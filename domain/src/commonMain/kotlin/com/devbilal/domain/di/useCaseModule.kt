@@ -8,6 +8,7 @@ import com.devbilal.domain.usecase.authentication.SetAuthenticationMethodUseCase
 import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.usecase.settings.AppThemeUseCase
 import com.devbilal.domain.usecase.settings.OnboardingDoneUseCase
+import com.devbilal.domain.usecase.settings.VersionUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -22,4 +23,5 @@ internal val useCaseModule = module {
 
     singleOf(::AppThemeUseCase)
     singleOf(::AppLanguageUseCase)
+    singleOf(::VersionUseCase)
 }
