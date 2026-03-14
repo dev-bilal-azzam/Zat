@@ -28,6 +28,8 @@ kotlinx-coroutines = "1.10.2"
 # navigation
 cmpNavigation3 = "1.0.0-alpha06"
 
+googleGmsGoogleServices = "4.4.4"
+
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
@@ -103,6 +105,7 @@ androidLint = { id = "com.android.lint", version.ref = "agp" }
 room = { id = "androidx.room", version.ref = "room" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
 
 [bundles]

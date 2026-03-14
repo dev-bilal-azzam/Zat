@@ -23,3 +23,6 @@ iosApp/Pods
 *.xcworkspace
 *.lock
 *.log
+/keystore.jks
+/keystore-base64.txt
+/src/google-services.json
