@@ -60,7 +60,7 @@ jobs:
           if [ -n "${{ github.event.inputs.version }}" ]; then
             VERSION="${{ github.event.inputs.version }}"
           else
-            VERSION_FILE="shared/src/commonMain/resources/version.txt"
+            VERSION_FILE="composeApp/src/commonMain/resources/version.txt"
             mkdir -p $(dirname $VERSION_FILE)
             if [ ! -f "$VERSION_FILE" ]; then
               echo "1.0.0" > $VERSION_FILE
