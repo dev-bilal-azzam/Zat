@@ -1,0 +1,20 @@
+name: Build Ios
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build Ios
+        run: ./gradlew iosSimulatorArm64Binaries
