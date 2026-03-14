@@ -35,12 +35,11 @@ import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.designsystem.util.AppLanguage
 import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.presentation.base.ObserveEffects
-import com.devbilal.presentation.features.auth.common.LocalBackStack
+import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.features.auth.screens.initsecurity.components.InitSecurityHeader
 import com.devbilal.presentation.features.auth.screens.initsecurity.components.UnlockMethodsSection
-import com.devbilal.presentation.features.auth.common.navigateBack
-import com.devbilal.presentation.features.auth.common.navigateToSetupPattern
-import com.devbilal.presentation.features.auth.common.navigateToSetupPin
+import com.devbilal.presentation.features.auth.common.navigation.navigateToSetupPattern
+import com.devbilal.presentation.features.auth.common.navigation.navigateToSetupPin
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
@@ -54,13 +53,13 @@ fun InitSecurityScreen(
     viewModel: InitSecurityViewModel = koinViewModel(),
     navigateHome: () -> Unit
 ) {
-    val backStack = LocalBackStack.current
+    val navigator = LocalNavigator.current
     viewModel.ObserveEffects {
         when (it) {
-            InitSecurityEffect.NavigateBack -> backStack.navigateBack()
+            InitSecurityEffect.NavigateBack -> navigator.navigateBack()
             InitSecurityEffect.NavigateToHome -> navigateHome()
-            InitSecurityEffect.NavigateToSetPattern -> backStack.navigateToSetupPattern()
-            InitSecurityEffect.NavigateToSetPin -> backStack.navigateToSetupPin()
+            InitSecurityEffect.NavigateToSetPattern -> navigator.navigateToSetupPattern()
+            InitSecurityEffect.NavigateToSetPin -> navigator.navigateToSetupPin()
         }
     }
 

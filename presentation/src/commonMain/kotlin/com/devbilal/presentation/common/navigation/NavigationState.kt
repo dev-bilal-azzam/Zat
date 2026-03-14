@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.diary.common.navigation
+package com.devbilal.presentation.common.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,10 +18,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.savedstate.compose.serialization.serializers.MutableStateSerializer
 import androidx.savedstate.serialization.SavedStateConfiguration
-import com.devbilal.presentation.common.navigation.Route
 import kotlinx.serialization.PolymorphicSerializer
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
 
 class NavigationState(
     val startRoute: NavKey,
@@ -41,12 +38,13 @@ class NavigationState(
 @Composable
 fun rememberNavigationState(
     startRoute: NavKey,
-    topLevelRoutes: Set<NavKey>
+    topLevelRoutes: Set<NavKey>,
+    configuration: SavedStateConfiguration
 ): NavigationState {
     val topLevelRoute = rememberSerializable(
         startRoute,
         topLevelRoutes,
-        configuration = serializersConfig,
+        configuration = configuration,
         serializer = MutableStateSerializer(PolymorphicSerializer(NavKey::class))
     ) {
         mutableStateOf(startRoute)
@@ -54,7 +52,7 @@ fun rememberNavigationState(
 
     val backStacks = topLevelRoutes.associateWith { key ->
         rememberNavBackStack(
-            configuration = serializersConfig,
+            configuration = configuration,
             key
         )
     }
@@ -68,19 +66,6 @@ fun rememberNavigationState(
     }
 }
 
-val serializersConfig = SavedStateConfiguration {
-    serializersModule = SerializersModule {
-        polymorphic(NavKey::class) {
-            subclass(Route.Home::class, Route.Home.serializer())
-            subclass(Route.Search::class, Route.Search.serializer())
-            subclass(Route.Settings::class, Route.Settings.serializer())
-            subclass(Route.Calendar::class, Route.Calendar.serializer())
-            subclass(Route.AddEditDiary::class, Route.AddEditDiary.serializer())
-            subclass(Route.Security::class, Route.Security.serializer())
-        }
-    }
-}
-
 @Composable
 fun NavigationState.toEntries(
     entryProvider: (NavKey) -> NavEntry<NavKey>
@@ -90,6 +75,7 @@ fun NavigationState.toEntries(
             rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
             rememberViewModelStoreNavEntryDecorator()
         )
+
         rememberDecoratedNavEntries(
             backStack = stack,
             entryDecorators = decorators,

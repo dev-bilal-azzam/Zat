@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import com.devbilal.designsystem.component.bottomNavigation.BottomNavigationBar
-import com.devbilal.presentation.features.diary.common.navigation.topLevelRoutes
+import com.devbilal.presentation.features.diary.common.navigation.diaryTopLevelRoutes
 
 @Composable
 fun ZatNavBar(
@@ -13,7 +13,7 @@ fun ZatNavBar(
     modifier: Modifier = Modifier
 ) {
     BottomNavigationBar(modifier = modifier) {
-        topLevelRoutes.forEach { item ->
+        diaryTopLevelRoutes.forEach { item ->
             bottomNavigationItem(
                 notSelectedIcon = item.value.notSelectedIconRes,
                 selectedIcon = item.value.selectedIconRes,

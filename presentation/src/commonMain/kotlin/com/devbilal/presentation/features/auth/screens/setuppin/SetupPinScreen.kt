@@ -28,6 +28,7 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.components.Numpad
 import com.devbilal.presentation.common.components.PinIndicator
+import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.features.auth.screens.setuppin.components.SetupPinHeader
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -40,15 +41,15 @@ import zat.presentation.generated.resources.pin_usage_message
 @Composable
 fun SetupPinScreen(
     viewModel: SetupPinViewModel = koinViewModel(),
-    onSuccessfulSetup: () -> Unit,
-    navigateBack: () -> Unit
+    onSuccessfulSetup: () -> Unit
 ) {
     val snackBarHost = LocalSnackBarHostController.current
     val state = viewModel.collectState()
+    val navigator = LocalNavigator.current
 
     viewModel.ObserveEffects {
         when (it) {
-            SetupPinEffect.NavigateBack -> navigateBack()
+            SetupPinEffect.NavigateBack -> navigator.navigateBack()
             SetupPinEffect.SuccessfulSetup -> { onSuccessfulSetup() }
             is SetupPinEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
         }

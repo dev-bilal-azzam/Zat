@@ -27,8 +27,8 @@ class SecurityViewModel(
             is SecurityIntent.OnToggleProtection -> toggleProtection(intent.enabled)
             is SecurityIntent.OnMethodSelected -> updateSelectedMethod(intent.method)
             is SecurityIntent.OnToggleBiometric -> toggleBiometric(intent.enabled)
-            SecurityIntent.OnChangePinClicked -> sendEffect(SecurityEffect.NavigateToUnlockForChangePin)
-            SecurityIntent.OnChangePatternClicked -> sendEffect(SecurityEffect.NavigateToUnlockForChangePattern)
+            SecurityIntent.OnChangePinClicked -> sendEffect(SecurityEffect.NavigateToUnlockForSetPin)
+            SecurityIntent.OnChangePatternClicked -> sendEffect(SecurityEffect.NavigateToUnlockForSetPattern)
             SecurityIntent.OnSuccessfulSetup -> onSuccessfulSetup()
         }
     }
@@ -63,13 +63,25 @@ class SecurityViewModel(
     }
 
     private fun updateSelectedMethod(method: AuthenticationMethod) {
-        // todo logic corrupted
-        updateState { copy(selectedMethod = method) }
-        when (method) {
-            is AuthenticationMethod.Pin -> sendEffect(SecurityEffect.NavigateToSetupPin)
-            is AuthenticationMethod.Pattern -> sendEffect(SecurityEffect.NavigateToSetupPattern)
-            else -> {}
+        // if current is not none navigate to unlock
+        // else navigate to set
+        // on success -> load + send snack bar
+
+        if (currentState.selectedMethod == AuthenticationMethod.None) {
+            when (method) {
+                is AuthenticationMethod.Pin -> sendEffect(SecurityEffect.NavigateToSetupPin)
+                is AuthenticationMethod.Pattern -> sendEffect(SecurityEffect.NavigateToSetupPattern)
+                else -> {}
+            }
+        } else {
+            when (method) {
+                is AuthenticationMethod.Pin -> sendEffect(SecurityEffect.NavigateToUnlockForSetPin)
+                is AuthenticationMethod.Pattern -> sendEffect(SecurityEffect.NavigateToUnlockForSetPattern)
+                else -> {}
+            }
         }
+        updateState { copy(selectedMethod = method) }
+
     }
 
     private fun toggleBiometric(enabled: Boolean) {

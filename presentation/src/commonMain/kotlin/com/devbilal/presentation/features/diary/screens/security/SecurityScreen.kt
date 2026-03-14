@@ -24,8 +24,11 @@ import com.devbilal.designsystem.util.AppTheme
 import com.devbilal.domain.model.AuthenticationMethod
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.navigation.Route
-import com.devbilal.presentation.features.diary.common.navigation.LocalNavigator
+import com.devbilal.presentation.common.navigation.LocalNavigator
+import com.devbilal.presentation.features.auth.common.navigation.navigateToSetupPattern
+import com.devbilal.presentation.features.auth.common.navigation.navigateToSetupPin
+import com.devbilal.presentation.features.diary.common.navigation.navigateToSecurity
+import com.devbilal.presentation.features.diary.common.navigation.navigateToUnlock
 import com.devbilal.presentation.features.diary.screens.security.components.AuthenticationMethodsSection
 import com.devbilal.presentation.features.diary.screens.security.components.BiometricSection
 import com.devbilal.presentation.features.diary.screens.security.components.ProtectionToggle
@@ -48,32 +51,36 @@ fun SecurityScreen(
         when (it) {
             SecurityEffect.NavigateBack -> navigator.navigateBack()
 
-            SecurityEffect.NavigateToUnlockForChangePin -> {
-                navigator.navigate(Route.Unlock(onSuccessfulUnlock = {
-                    navigator.navigate(Route.SetupPin(onSuccessfulSetup = {
+            SecurityEffect.NavigateToUnlockForSetPin -> {
+                navigator.navigateToUnlock {
+                    navigator.navigateToSetupPin {
+                        navigator.navigateToSecurity()
                         viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)
-                    }))
-                }))
+                    }
+                }
             }
 
-            SecurityEffect.NavigateToUnlockForChangePattern -> {
-                navigator.navigate(Route.Unlock(onSuccessfulUnlock = {
-                    navigator.navigate(Route.SetupPattern(onSuccessfulSetup = {
+            SecurityEffect.NavigateToUnlockForSetPattern -> {
+                navigator.navigateToUnlock {
+                    navigator.navigateToSetupPattern {
+                        navigator.navigateToSecurity()
                         viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)
-                    }))
-                }))
+                    }
+                }
             }
 
             SecurityEffect.NavigateToSetupPin -> {
-                navigator.navigate(Route.SetupPin(onSuccessfulSetup = {
+                navigator.navigateToSetupPin {
+                    navigator.navigateToSecurity()
                     viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)
-                }))
+                }
             }
 
             SecurityEffect.NavigateToSetupPattern -> {
-                navigator.navigate(Route.SetupPattern(onSuccessfulSetup = {
+                navigator.navigateToSetupPattern {
+                    navigator.navigateToSecurity()
                     viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)
-                }))
+                }
             }
 
             is SecurityEffect.ShowSnackBar -> snackBarHost.showSnackBar(it.snackBarData)
