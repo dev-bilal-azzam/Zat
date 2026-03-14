@@ -125,7 +125,8 @@ private fun OnBoardingScreenContent(
                     .background(Theme.colorScheme.background.surfaceLow)
                     .padding(24.dp)
                     .align(Alignment.BottomCenter)
-                    .onSizeChanged { buttonHeight = it.height}
+                    .onSizeChanged { buttonHeight = it.height},
+                iconStartPadding = 8.dp
             )
         }
 

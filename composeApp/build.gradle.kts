@@ -60,8 +60,8 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
 
-        versionCode = project.properties["VERSION_CODE"]?.toString()?.toIntOrNull() ?: 0
-        versionName = project.properties["VERSION_NAME"]?.toString() ?: "0.0.0"
+        versionCode = project.properties["VERSION_CODE"]?.toString()?.toIntOrNull() ?: 1
+        versionName = project.properties["VERSION_NAME"]?.toString() ?: "1.0.0"
 
         buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
         buildConfigField("int", "VERSION_CODE", "${versionCode}")
