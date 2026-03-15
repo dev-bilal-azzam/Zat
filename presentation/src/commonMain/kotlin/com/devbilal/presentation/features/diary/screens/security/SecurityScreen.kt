@@ -38,6 +38,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.security
+import zat.presentation.generated.resources.unlock_to_change_settings
+import zat.presentation.generated.resources.unlock_to_proceed
 
 @Composable
 fun SecurityScreen(
@@ -47,12 +49,16 @@ fun SecurityScreen(
     val navigator = LocalNavigator.current
     val state = viewModel.collectState()
 
+    val unlockTitle = stringResource(Res.string.unlock_to_proceed)
+    val unlockDescription = stringResource(Res.string.unlock_to_change_settings)
+
+
     viewModel.ObserveEffects {
         when (it) {
             SecurityEffect.NavigateBack -> navigator.navigateBack()
 
             SecurityEffect.NavigateToUnlockForSetPin -> {
-                navigator.navigateToUnlock {
+                navigator.navigateToUnlock(unlockTitle, unlockDescription) {
                     navigator.navigateToSetupPin {
                         navigator.navigateToSecurity()
                         viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)
@@ -61,7 +67,7 @@ fun SecurityScreen(
             }
 
             SecurityEffect.NavigateToUnlockForSetPattern -> {
-                navigator.navigateToUnlock {
+                navigator.navigateToUnlock(unlockTitle, unlockDescription) {
                     navigator.navigateToSetupPattern {
                         navigator.navigateToSecurity()
                         viewModel.handleIntent(SecurityIntent.OnSuccessfulSetup)

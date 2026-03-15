@@ -81,7 +81,7 @@ private fun UnlockScreenContent(
             UnlockHeader(
                 title = title,
                 description = description,
-                primaryMethod = state.authenticationMethod
+                authenticationMethod = state.authenticationMethod
             )
 
             Box(

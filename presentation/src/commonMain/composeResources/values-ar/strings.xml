@@ -87,4 +87,6 @@
     <string name="use_biometrics_desc">بصمة الإصبع أو الوجه</string>
     <string name="security_notice">تنبيه أمني</string>
     <string name="security_notice_desc">لا يقوم "ذات" بتخزين كلمة مرورك على أي خادم. إذا فقدت رمز PIN أو النمط، فلا يمكن استعادة مذكراتك المحلية.</string>
+    <string name="unlock_to_proceed">افتح القفل للاستمرار</string>
+    <string name="unlock_to_change_settings">لتتمكن من تغيير اعدادات الأمان يجب فتح القفل أولاً</string>
 </resources>
