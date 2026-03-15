@@ -1,6 +1,8 @@
 package com.devbilal.domain.util
 
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
@@ -9,10 +11,8 @@ import kotlin.time.ExperimentalTime
 
 const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
 
-@OptIn(ExperimentalTime::class)
-fun getCurrentDate(): LocalDate {
-    val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-    return LocalDate(currentDate.year, currentDate.month, currentDate.day)
-}
+fun LocalDateTime.Companion.now(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-fun LocalDate?.orCurrentDate() = this ?: getCurrentDate()
+fun LocalDate.today() = LocalDateTime.now().date
+
+fun LocalTime.now() = LocalDateTime.now().time
