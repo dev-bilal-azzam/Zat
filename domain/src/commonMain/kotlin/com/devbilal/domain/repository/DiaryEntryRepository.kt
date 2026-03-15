@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface DiaryRepository {
+interface DiaryEntryRepository {
     suspend fun saveEntry(entry: DiaryEntry)
     suspend fun updateEntry(entry: DiaryEntry)
     suspend fun deleteEntry(id: Uuid)

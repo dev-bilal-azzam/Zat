@@ -1,6 +1,6 @@
 package com.devbilal.data.di
 
-import com.devbilal.data.repository.SettingsRepositoryImpl
+import com.devbilal.data.repository.settings.SettingsRepositoryImpl
 import com.devbilal.data.repository.authentication.AuthenticationRepositoryImpl
 import com.devbilal.data.repository.authentication.AuthenticationStrategyFactory
 import com.devbilal.domain.repository.AuthenticationRepository

@@ -5,17 +5,17 @@ package com.devbilal.domain.usecase.diary
 import com.devbilal.domain.entity.DiaryEntry
 import com.devbilal.domain.entity.DiaryVersion
 import com.devbilal.domain.repository.DiaryHistoryRepository
-import com.devbilal.domain.repository.DiaryRepository
+import com.devbilal.domain.repository.DiaryEntryRepository
 import com.devbilal.domain.util.now
 import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 
 class EditDiaryEntryUseCase(
-    private val diaryRepository: DiaryRepository,
+    private val diaryEntryRepository: DiaryEntryRepository,
     private val historyRepository: DiaryHistoryRepository
 ) {
     suspend operator fun invoke(updatedEntry: DiaryEntry) {
-        val oldEntry = diaryRepository.getEntryById(updatedEntry.id)
+        val oldEntry = diaryEntryRepository.getEntryById(updatedEntry.id)
             ?: throw IllegalArgumentException("Entry not found")
 
         // Create a version from the old entry before updating
@@ -28,7 +28,7 @@ class EditDiaryEntryUseCase(
         historyRepository.saveVersion(version)
         
         // Update the main entry with incremented history count
-        diaryRepository.updateEntry(updatedEntry.copy(
+        diaryEntryRepository.updateEntry(updatedEntry.copy(
             historyCount = oldEntry.historyCount + 1
         ))
     }
