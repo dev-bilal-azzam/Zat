@@ -11,4 +11,6 @@
     <string name="english">اللغة الإنجليزية</string>
     <string name="back">رجوع</string>
     <string name="home">الرئيسية</string>
+    <string name="ok">تأكيد</string>
+    <string name="cancel">الغاء</string>
 </resources>

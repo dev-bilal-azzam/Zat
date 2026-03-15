@@ -25,6 +25,7 @@ kotlin {
                 implementation(libs.compose.uiToolingPreview)
                 implementation(libs.squircle.shape)
                 implementation(libs.compose.ui.backhandler)
+                implementation(libs.kotlinx.datetime)
             }
         }
 
