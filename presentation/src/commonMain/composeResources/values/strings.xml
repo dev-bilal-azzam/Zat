@@ -48,6 +48,8 @@
     <string name="welcome_back">Welcome Back</string>
     <string name="enter_pin_to_unlock">Enter your PIN to unlock your diary</string>
     <string name="enter_pattern_to_unlock">Draw your pattern to unlock your diary</string>
+    <string name="unlock_to_proceed">Unlock To Proceed</string>
+    <string name="unlock_to_change_settings">Unlock to be able to change your security settings</string>
     <string name="biometric_failed">Failed to authenticate using FaceId or Fingerprint</string>
     <string name="biometric_auth_title">Use Biometric Authentication</string>
     <string name="biometric_auth_description">Put your Finger on the Fingerprint Sensor</string>

@@ -24,7 +24,7 @@ import zat.presentation.generated.resources.zat_logo
 
 @Composable
 fun UnlockHeader(
-    primaryMethod: AuthenticationMethod,
+    authenticationMethod: AuthenticationMethod,
     modifier: Modifier = Modifier,
     title: String?,
     description: String?
@@ -54,7 +54,7 @@ fun UnlockHeader(
             color = Theme.colorScheme.shadePrimary
         )
 
-        val message = when (primaryMethod) {
+        val message = when (authenticationMethod) {
             is AuthenticationMethod.Pin -> Res.string.enter_pin_to_unlock
             is AuthenticationMethod.Pattern -> Res.string.enter_pattern_to_unlock
             else -> Res.string.welcome_back
