@@ -1,12 +1,11 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.androidLibrary)
 }
 
 kotlin {
-
     androidTarget()
     iosX64()
     iosArm64()
@@ -15,22 +14,14 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":richText"))
-                implementation(libs.kotlin.stdlib)
-                implementation(libs.compose.runtime)
-                implementation(libs.compose.foundation)
+                implementation(libs.bundles.compose)
+                api(libs.richeditor.compose)
                 implementation(libs.compose.material3)
-                implementation(libs.compose.ui)
-                implementation(libs.compose.components.resources)
-                implementation(libs.compose.uiToolingPreview)
-                implementation(libs.squircle.shape)
-                implementation(libs.compose.ui.backhandler)
             }
         }
 
         commonTest {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
 
@@ -38,6 +29,7 @@ kotlin {
             dependencies {
             }
         }
+
 
         iosMain {
             dependencies {
@@ -48,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.devbilal.designsystem"
+    namespace = "com.devbilal.richtext"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

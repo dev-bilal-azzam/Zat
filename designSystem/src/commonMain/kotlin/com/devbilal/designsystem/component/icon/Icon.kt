@@ -13,7 +13,7 @@ import com.devbilal.designsystem.util.applyIf
 @Composable
 fun Icon(
     imageVector: ImageVector,
-    contentDescription: String?,
+    contentDescription: String? = null,
     modifier: Modifier = Modifier,
     tint: Color = Color.Unspecified,
     autoMirror: Boolean = true
