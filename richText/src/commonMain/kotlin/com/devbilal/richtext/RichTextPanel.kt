@@ -29,11 +29,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -51,20 +52,20 @@ fun RichTextPanel(
     chooseColorTitleStyle: TextStyle,
     chooseColorTitleColor: Color,
     itemTextStyle: TextStyle,
+    selectionIcon: @Composable () -> Unit,
+    itemSize: Dp = 32.dp,
+    colorItemSize: Dp = 24.dp,
     modifier: Modifier = Modifier,
 ) {
     var showColorPicker by remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         // Main Toolbar
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .clip(shape)
                 .background(backgroundColor)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
@@ -72,48 +73,51 @@ fun RichTextPanel(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Text Styles
-            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            Row {
                 ControlItem(
                     text = "B",
                     isSelected = state.isBold,
                     onClick = { state.toggleBold() },
-                    textStyle = itemTextStyle,
+                    textStyle = itemTextStyle.copy(fontWeight = FontWeight.Bold),
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 ControlItem(
                     text = "I",
                     isSelected = state.isItalic,
                     onClick = { state.toggleItalic() },
-                    textStyle = itemTextStyle.copy(fontStyle = FontStyle.Italic),
+                    textStyle = itemTextStyle.copy(fontFamily = FontFamily.Default, fontStyle = FontStyle.Italic),
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 ControlItem(
                     text = "U",
                     isSelected = state.isUnderline,
                     onClick = { state.toggleUnderline() },
                     textStyle = itemTextStyle.copy(
-                        fontStyle = FontStyle.Italic,
                         textDecoration = TextDecoration.Underline
                     ),
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
             }
 
             // Alignment
-            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            Row {
                 AlignmentItem(
                     type = AlignmentType.Left,
                     isSelected = state.currentAlignment == TextAlign.Start || state.currentAlignment == TextAlign.Left,
                     onClick = { state.setAlignment(TextAlign.Start) },
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 AlignmentItem(
                     type = AlignmentType.Center,
@@ -121,7 +125,8 @@ fun RichTextPanel(
                     onClick = { state.setAlignment(TextAlign.Center) },
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 AlignmentItem(
                     type = AlignmentType.Right,
@@ -129,19 +134,21 @@ fun RichTextPanel(
                     onClick = { state.setAlignment(TextAlign.End) },
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
             }
 
             // Lists & Color Toggle
-            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            Row {
                 ListItem(
                     type = ListType.Unordered,
                     isSelected = state.isUnorderedList,
                     onClick = { state.toggleUnorderedList() },
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 ListItem(
                     type = ListType.Ordered,
@@ -149,17 +156,19 @@ fun RichTextPanel(
                     onClick = { state.toggleOrderedList() },
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
                 ControlItem(
                     text = "A",
                     isSelected = showColorPicker,
                     onClick = { showColorPicker = !showColorPicker },
-                    textColor = state.currentColor,
+                    textColor = if (state.currentColor == Color.Unspecified) null else state.currentColor,
                     textStyle = itemTextStyle.copy(textDecoration = TextDecoration.Underline),
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor
+                    selectedContainerColor = selectedContainerColor,
+                    itemSize = itemSize
                 )
             }
         }
@@ -191,6 +200,8 @@ fun RichTextPanel(
                             isSelected = state.currentColor == color,
                             onClick = { state.setTextColor(color) },
                             selectedBorderColor = selectedColorBorderColor,
+                            selectionIcon = selectionIcon,
+                            colorItemSize = colorItemSize
                         )
                     }
                 }
@@ -208,12 +219,13 @@ private fun ControlItem(
     textColor: Color? = null,
     selectedContainerColor: Color,
     selectedContentColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    itemSize: Dp
 
 ) {
     Box(
         modifier = Modifier
-            .size(40.dp)
+            .size(itemSize)
             .clip(RoundedCornerShape(8.dp))
             .background(if (isSelected) selectedContainerColor else Color.Transparent)
             .clickable { onClick() },
@@ -234,11 +246,12 @@ private fun AlignmentItem(
     onClick: () -> Unit,
     selectedContainerColor: Color,
     selectedContentColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    itemSize: Dp
 ) {
     Box(
         modifier = Modifier
-            .size(40.dp)
+            .size(itemSize)
             .clip(RoundedCornerShape(8.dp))
             .background(if (isSelected) selectedContainerColor else Color.Transparent)
             .clickable { onClick() },
@@ -247,7 +260,7 @@ private fun AlignmentItem(
         val color = if (isSelected) selectedContentColor else contentColor
 
         Column(
-            modifier = Modifier.width(18.dp),
+            modifier = Modifier.width(itemSize * .5f),
             verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalAlignment = when (type) {
                 AlignmentType.Left -> Alignment.Start
@@ -270,11 +283,12 @@ private fun ListItem(
     onClick: () -> Unit,
     selectedContainerColor: Color,
     selectedContentColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    itemSize: Dp
 ) {
     Box(
         modifier = Modifier
-            .size(40.dp)
+            .size(itemSize)
             .clip(RoundedCornerShape(8.dp))
             .background(if (isSelected) selectedContainerColor else Color.Transparent)
             .clickable { onClick() },
@@ -283,7 +297,7 @@ private fun ListItem(
         val color = if (isSelected) selectedContentColor else contentColor
 
         Row(
-            modifier = Modifier.width(20.dp),
+            modifier = Modifier.width(itemSize * .5f),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -294,7 +308,7 @@ private fun ListItem(
                     } else {
                         Text(
                             text = "${it + 1}",
-                            fontSize = 6.sp,
+                            fontSize = 5.sp,
                             color = color,
                             fontWeight = FontWeight.Bold
                         )
@@ -315,41 +329,27 @@ private fun ColorItem(
     color: Color,
     isSelected: Boolean,
     onClick: () -> Unit,
-    selectedBorderColor: Color
+    selectedBorderColor: Color,
+    colorItemSize: Dp,
+    selectionIcon: @Composable () -> Unit
 ) {
     Box(
         modifier = Modifier
-            .size(28.dp)
+            .size(colorItemSize)
             .clip(CircleShape)
             .background(color)
             .then(
                 if (isSelected) Modifier.border(2.dp, selectedBorderColor, CircleShape)
                 else Modifier
             )
-            .clickable { onClick() }
-    )
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            selectionIcon()
+        }
+    }
 }
 
 private enum class AlignmentType { Left, Center, Right }
 private enum class ListType { Unordered, Ordered }
-
-
-@Preview
-@Composable
-private fun Preview() {
-    RichTextPanel(
-        state = rememberRichTextState(),
-        colors = listOf(Color.Red, Color.Black, Color.Blue, Color.Yellow),
-        shape = RoundedCornerShape(16.dp),
-        backgroundColor = Color.DarkGray,
-        contentColor = Color.White,
-        selectedContentColor = Color.Black,
-        selectedContainerColor = Color.White,
-        selectedColorBorderColor = Color.LightGray,
-        chooseColorTitle = "Text Color",
-        chooseColorTitleStyle = TextStyle(),
-        chooseColorTitleColor = Color.DarkGray,
-        itemTextStyle = TextStyle(),
-        modifier = Modifier.fillMaxWidth()
-    )
-}

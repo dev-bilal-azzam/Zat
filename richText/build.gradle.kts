@@ -15,7 +15,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.bundles.compose)
-                implementation(libs.richeditor.compose)
+                api(libs.richeditor.compose)
+                implementation(libs.compose.material3)
             }
         }
 

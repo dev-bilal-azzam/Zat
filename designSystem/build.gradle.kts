@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":richText"))
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
