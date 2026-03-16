@@ -13,9 +13,14 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -68,6 +73,10 @@ private fun AddEditDiaryScreenContent(
     state: AddEditDiaryState,
     onIntent: (AddEditDiaryIntent) -> Unit
 ) {
+    val density = LocalDensity.current
+    var footerHeight by remember { mutableStateOf(0.dp) }
+    val panelBottomPadding = (currentKeyboardHeight() - footerHeight - 32.dp).coerceAtLeast(0.dp)
+
     val richTextState = rememberRichTextState()
 
     LaunchedEffect(state.content) {
@@ -103,25 +112,24 @@ private fun AddEditDiaryScreenContent(
                     onDateClicked = { onIntent(AddEditDiaryIntent.OnShowDatePicker) }
                 )
 
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    BasicTextField(
-                        value = state.title,
-                        onValueChange = { onIntent(AddEditDiaryIntent.OnTitleChanged(it)) },
-                        textStyle = Theme.typography.title.large.copy(color = Theme.colorScheme.shadePrimary),
-                        cursorBrush = SolidColor(Theme.colorScheme.primary.primary),
-                        modifier = Modifier.fillMaxWidth(),
-                        decorationBox = { innerTextField ->
-                            if (state.title.isEmpty()) {
-                                Text(
-                                    text = stringResource(Res.string.entry_title_hint),
-                                    style = Theme.typography.title.large,
-                                    color = Theme.colorScheme.shadeTertiary
-                                )
-                            }
-                            innerTextField()
+                BasicTextField(
+                    value = state.title,
+                    onValueChange = { onIntent(AddEditDiaryIntent.OnTitleChanged(it)) },
+                    textStyle = Theme.typography.title.large.copy(color = Theme.colorScheme.shadePrimary),
+                    cursorBrush = SolidColor(Theme.colorScheme.primary.primary),
+                    modifier = Modifier.fillMaxWidth(),
+                    decorationBox = { innerTextField ->
+                        if (state.title.isEmpty()) {
+                            Text(
+                                text = stringResource(Res.string.entry_title_hint),
+                                style = Theme.typography.title.large,
+                                color = Theme.colorScheme.shadeTertiary
+                            )
                         }
-                    )
-                }
+                        innerTextField()
+                    }
+                )
+
 
                 RichTextEditor(
                     state = richTextState,
@@ -131,22 +139,28 @@ private fun AddEditDiaryScreenContent(
                         .weight(1f)
                 )
 
-
                 RichTextPanel(
                     state = richTextState,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(bottom = currentKeyboardHeight() * .24f)
-
+                        .padding(bottom = panelBottomPadding)
                 )
 
-                AddEditDiaryAttachments()
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .onGloballyPositioned { coordinates ->
+                            footerHeight = with(density) { coordinates.size.height.toDp() }
+                        }
+                ) {
+                    AddEditDiaryAttachments()
 
+                    AddEditDiaryCategorize(
+                        selectedColor = state.color,
+                        onColorSelected = { onIntent(AddEditDiaryIntent.OnColorChanged(it)) }
+                    )
+                }
 
-                AddEditDiaryCategorize(
-                    selectedColor = state.color,
-                    onColorSelected = { onIntent(AddEditDiaryIntent.OnColorChanged(it)) }
-                )
             }
 
             if (state.isDatePickerShown) {
@@ -163,7 +177,7 @@ private fun AddEditDiaryScreenContent(
 fun currentKeyboardHeight(): Dp {
     val density = LocalDensity.current
     val imeInsets = WindowInsets.ime
-    val height =  with(density) {
+    val height = with(density) {
         imeInsets.getBottom(density).toDp()
     }
     return height
