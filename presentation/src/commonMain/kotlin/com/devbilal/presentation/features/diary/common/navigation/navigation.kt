@@ -18,7 +18,8 @@ internal fun Navigator.navigateToSearch() = navigate(Route.Search)
 internal fun Navigator.navigateToCalendar() = navigate(Route.Calendar)
 
 // AddEditDiary
-internal fun Navigator.navigateToAddEditDiary() = navigate(Route.AddEditDiary)
+internal fun Navigator.navigateToAddEditDiary(entryId: String? = null) =
+    navigate(Route.AddEditDiary(entryId = entryId))
 
 // Security
 internal fun Navigator.navigateToSecurity(

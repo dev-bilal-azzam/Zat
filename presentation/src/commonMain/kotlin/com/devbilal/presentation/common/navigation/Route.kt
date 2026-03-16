@@ -31,7 +31,7 @@ sealed interface Route: NavKey {
     data object Calendar: Route, NavKey
 
     @Serializable
-    data object AddEditDiary: Route, NavKey
+    data class AddEditDiary(val entryId: String? = null): Route, NavKey
 
     @Serializable
     data object Security: Route, NavKey

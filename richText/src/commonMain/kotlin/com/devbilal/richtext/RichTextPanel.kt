@@ -1,5 +1,6 @@
 package com.devbilal.richtext
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -174,7 +175,7 @@ fun RichTextPanel(
         }
 
         // Color Picker Row
-        if (showColorPicker) {
+        AnimatedVisibility (showColorPicker) {
             Row(
                 modifier = Modifier
                     .wrapContentWidth()

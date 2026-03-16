@@ -41,6 +41,7 @@
     <string name="enable">تفعيل</string>
     <string name="skip_for_now">تخطي الآن</string>
     <string name="error">خطأ</string>
+    <string name="success">تم بنجاح</string>
     <string name="couldnt_set_pattern">عفواً لم يتم ضبط النمط!</string>
     <string name="couldnt_set_pinn">عفواً لم يتم ضبط الرمز!</string>
     <string name="wrong_pattern">نمط غير صحيح, أعد المحاولة!</string>
@@ -89,4 +90,21 @@
     <string name="security_notice_desc">لا يقوم "ذات" بتخزين كلمة مرورك على أي خادم. إذا فقدت رمز PIN أو النمط، فلا يمكن استعادة مذكراتك المحلية.</string>
     <string name="unlock_to_proceed">افتح القفل للاستمرار</string>
     <string name="unlock_to_change_settings">لتتمكن من تغيير اعدادات الأمان يجب فتح القفل أولاً</string>
+    <string name="add_entry">إضافة مدونة</string>
+    <string name="edit_entry">تعديل مدونة</string>
+    <string name="save">حفظ</string>
+    <string name="date">التاريخ</string>
+    <string name="time">الوقت</string>
+    <string name="entry_title_hint">عنوان المدونة...</string>
+    <string name="how_was_your_day_hint">كيف كان يومك؟ اكتب هنا...</string>
+    <string name="attachment">المرفقات</string>
+    <string name="image">صورة</string>
+    <string name="video">فيديو</string>
+    <string name="audio">صوت</string>
+    <string name="categorize">تصنيف</string>
+    <string name="diary_not_found">خطأ, لم نجد اليومية!</string>
+    <string name="diary_version_not_found">خطأ, النسخة مفقودة!</string>
+    <string name="diary_title_cannot_be_empty">عنوان اليومية لا يمكن أن يكون فارغ!</string>
+    <string name="diary_entry_not_saved">نعتذر لم نتمكن من حفظ اليومية!</string>
+    <string name="diary_entry_saved">تم حفظ اليومية بنجاح</string>
 </resources>

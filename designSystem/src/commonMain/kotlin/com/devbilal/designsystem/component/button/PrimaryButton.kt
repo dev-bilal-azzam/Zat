@@ -41,7 +41,7 @@ fun PrimaryButton(
     disabledContentColor: Color = Theme.colorScheme.textDisabled,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = Theme.spacing._16,
-        vertical = 13.dp
+        vertical = 12.dp
     ),
     shape: Shape = SquircleShape(Theme.radius.md)
 ) {
