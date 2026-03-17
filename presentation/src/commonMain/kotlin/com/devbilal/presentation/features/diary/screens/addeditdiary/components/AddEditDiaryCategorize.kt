@@ -25,12 +25,12 @@ fun AddEditDiaryCategorize(
     modifier: Modifier = Modifier
 ) {
     val colors = listOf(
-        DiaryColor(colorPalette.red.shade400.value.toLong()),
-        DiaryColor(colorPalette.yellow.shade400.value.toLong()),
-        DiaryColor(colorPalette.green.shade400.value.toLong()),
-        DiaryColor(colorPalette.navy.shade400.value.toLong()),
-        DiaryColor(colorPalette.gray.shade500.value.toLong()),
-        DiaryColor(colorPalette.coffee.shade500.value.toLong())
+        colorPalette.red.shade400,
+        colorPalette.yellow.shade400,
+        colorPalette.green.shade400,
+        colorPalette.navy.shade400,
+        colorPalette.gray.shade500,
+        colorPalette.coffee.shade500
     )
 
     Column(
@@ -46,9 +46,10 @@ fun AddEditDiaryCategorize(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            colors.forEach { diaryColor ->
+            colors.forEach { color ->
+                val diaryColor = DiaryColor(color.value.toLong())
                 ColorItem(
-                    color = Color(diaryColor.value.toULong()),
+                    color = color.copy(alpha = .5f),
                     isSelected = selectedColor == diaryColor,
                     onClick = { onColorSelected(diaryColor) }
                 )
