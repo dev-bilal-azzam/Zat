@@ -15,7 +15,10 @@ data class AddEditDiaryState(
     val color: DiaryColor = DiaryColor.Default,
     val isEditMode: Boolean = false,
     val isLoading: Boolean = false,
-    val isDatePickerShown: Boolean = false,
+    val isDatePickerVisible: Boolean = false,
+    val isAttachImageOverlayVisible: Boolean = false,
+    val isAttachVideoOverlayVisible: Boolean = false,
+    val isAttachAudioOverlayVisible: Boolean = false
 ) : UiState
 
 sealed interface AddEditDiaryIntent : UiIntent {
@@ -25,8 +28,14 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data class OnContentChanged(val content: String) : AddEditDiaryIntent
     data class OnDateChanged(val date: LocalDate) : AddEditDiaryIntent
     data class OnColorChanged(val color: DiaryColor) : AddEditDiaryIntent
-    data object OnShowDatePicker : AddEditDiaryIntent
+    data object OnPickDateClicked : AddEditDiaryIntent
     data object OnDismissDatePicker : AddEditDiaryIntent
+    data object OnAttachImageClicked : AddEditDiaryIntent
+    data object OnAttachVideoClicked : AddEditDiaryIntent
+    data object OnAttachAudioClicked : AddEditDiaryIntent
+    data object OnDismissAttachImageOverlay : AddEditDiaryIntent
+    data object OnDismissAttachVideoOverlay : AddEditDiaryIntent
+    data object OnDismissAttachAudioOverlay : AddEditDiaryIntent
 }
 
 sealed interface AddEditDiaryEffect : UiEffect {

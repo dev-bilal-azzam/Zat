@@ -109,7 +109,7 @@ private fun AddEditDiaryScreenContent(
             ) {
                 AddEditDiaryHeader(
                     date = state.date,
-                    onDateClicked = { onIntent(AddEditDiaryIntent.OnShowDatePicker) }
+                    onDateClicked = { onIntent(AddEditDiaryIntent.OnPickDateClicked) }
                 )
 
                 BasicTextField(
@@ -163,7 +163,7 @@ private fun AddEditDiaryScreenContent(
 
             }
 
-            if (state.isDatePickerShown) {
+            if (state.isDatePickerVisible) {
                 DatePicker(
                     onDateSelected = { onIntent(AddEditDiaryIntent.OnDateChanged(it)) },
                     onDismissRequest = { onIntent(AddEditDiaryIntent.OnDismissDatePicker) }

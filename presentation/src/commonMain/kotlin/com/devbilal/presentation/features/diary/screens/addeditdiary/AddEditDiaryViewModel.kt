@@ -43,8 +43,14 @@ class AddEditDiaryViewModel(
             is AddEditDiaryIntent.OnContentChanged -> updateState { copy(content = intent.content) }
             is AddEditDiaryIntent.OnDateChanged -> updateState { copy(date = intent.date) }
             is AddEditDiaryIntent.OnColorChanged -> updateState { copy(color = intent.color) }
-            AddEditDiaryIntent.OnShowDatePicker -> updateState { copy(isDatePickerShown = true) }
-            AddEditDiaryIntent.OnDismissDatePicker -> updateState { copy(isDatePickerShown = false) }
+            AddEditDiaryIntent.OnPickDateClicked -> updateState { copy(isDatePickerVisible = true) }
+            AddEditDiaryIntent.OnDismissDatePicker -> updateState { copy(isDatePickerVisible = false) }
+            AddEditDiaryIntent.OnAttachAudioClicked -> updateState { copy(isAttachAudioOverlayVisible = true) }
+            AddEditDiaryIntent.OnAttachImageClicked -> updateState { copy(isAttachImageOverlayVisible = true) }
+            AddEditDiaryIntent.OnAttachVideoClicked -> updateState { copy(isAttachVideoOverlayVisible = true) }
+            AddEditDiaryIntent.OnDismissAttachAudioOverlay -> updateState { copy(isAttachAudioOverlayVisible = false) }
+            AddEditDiaryIntent.OnDismissAttachImageOverlay -> updateState { copy(isAttachImageOverlayVisible = false) }
+            AddEditDiaryIntent.OnDismissAttachVideoOverlay -> updateState { copy(isAttachVideoOverlayVisible = false) }
         }
     }
 
