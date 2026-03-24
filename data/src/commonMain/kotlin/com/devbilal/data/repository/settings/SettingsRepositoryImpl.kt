@@ -1,4 +1,4 @@
-package com.devbilal.data.repository
+package com.devbilal.data.repository.settings
 
 import com.devbilal.data.datasource.local.setting.SettingsStorage
 import com.devbilal.data.datasource.local.setting.appLanguage

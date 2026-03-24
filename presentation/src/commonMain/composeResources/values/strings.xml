@@ -41,6 +41,7 @@
     <string name="enable">Enable</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="error">Error</string>
+    <string name="success">Success</string>
     <string name="couldnt_set_pattern">Couldn\'t Set Pattern!</string>
     <string name="couldnt_set_pinn">Couldn\'t Set Pin!</string>
     <string name="wrong_pattern">Wrong Pattern, Please Try Again!</string>
@@ -87,4 +88,21 @@
     <string name="use_biometrics_desc">Fingerprint or Face ID</string>
     <string name="security_notice">Security Notice</string>
     <string name="security_notice_desc">Zat does not store your password on any server. If you lose your PIN or pattern, your local entries cannot be recovered.</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="edit_entry">Edit Entry</string>
+    <string name="save">Save</string>
+    <string name="date">DATE</string>
+    <string name="time">TIME</string>
+    <string name="entry_title_hint">Entry Title...</string>
+    <string name="how_was_your_day_hint">How was your day? Write it here...</string>
+    <string name="attachment">ATTACHMENT</string>
+    <string name="image">IMAGE</string>
+    <string name="video">VIDEO</string>
+    <string name="audio">AUDIO</string>
+    <string name="categorize">CATEGORIZE</string>
+    <string name="diary_not_found">Diary Not Found!</string>
+    <string name="diary_version_not_found">Diary Version Not Found</string>
+    <string name="diary_title_cannot_be_empty">Diary Title Cannot Be Empty</string>
+    <string name="diary_entry_not_saved">Sorry, Diary Entry Not Saved</string>
+    <string name="diary_entry_saved">Diary Entry Saved Successfully</string>
 </resources>

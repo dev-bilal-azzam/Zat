@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import com.devbilal.designsystem.theme.color.palette.ColorPalette
 import com.devbilal.designsystem.theme.color.palette.ColorPalette.ColorScale
 
-val Black: Color = Color(0xFF000000)
 val colorPalette = ColorPalette(
     navy = ColorScale(
         shade50 = Color(0xFFE6F0F2),
@@ -77,6 +76,30 @@ val colorPalette = ColorPalette(
         shade700 = Color(0xFF06923E),
         shade800 = Color(0xFF008133),
         shade900 = Color(0xFF00621F)
+    ),
+    magenta = ColorScale(
+        shade50 = Color(0xFFFCE6F4),
+        shade100 = Color(0xFFF8C2E6),
+        shade200 = Color(0xFFF39AD7),
+        shade300 = Color(0xFFED70C8),
+        shade400 = Color(0xFFE94DBD),
+        shade500 = Color(0xFFE423B0),
+        shade600 = Color(0xFFD81FA8),
+        shade700 = Color(0xFFC51A9D),
+        shade800 = Color(0xFFB31693),
+        shade900 = Color(0xFF940F82)
+    ),
+    violet = ColorScale(
+        shade50 = Color(0xFFF1E9FF),
+        shade100 = Color(0xFFD9C7FF),
+        shade200 = Color(0xFFBFA2FF),
+        shade300 = Color(0xFFA57CFF),
+        shade400 = Color(0xFF8F5EFF),
+        shade500 = Color(0xFF7A3FF7),
+        shade600 = Color(0xFF6C36E6),
+        shade700 = Color(0xFF5C2FD1),
+        shade800 = Color(0xFF4E27B8),
+        shade900 = Color(0xFF3B1F8A)
     )
 )
 internal val White = Color(0xFFFFFFFF)

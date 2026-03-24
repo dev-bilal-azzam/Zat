@@ -10,7 +10,9 @@ data class ColorPalette(
     val gray: ColorScale,
     val red: ColorScale,
     val yellow: ColorScale,
-    val green: ColorScale
+    val green: ColorScale,
+    val magenta: ColorScale,
+    val violet: ColorScale
 ) {
     data class ColorScale(
         val shade50: Color,

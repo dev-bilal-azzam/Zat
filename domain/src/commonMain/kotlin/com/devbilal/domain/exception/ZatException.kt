@@ -9,3 +9,7 @@ class InvalidCredentialException(override val message: String): ZatException(mes
 class FailedToSetBiometricAuthenticationException(override val message: String): ZatException(message)
 
 class FailedToSetAuthenticationMethodException(override val message: String): ZatException(message)
+
+class NotFoundDiaryEntryException(override val message: String): ZatException(message)
+
+class NotFoundDiaryVersionException(override val message: String): ZatException(message)

@@ -17,12 +17,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +34,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun RichTextPanel(
@@ -52,13 +51,11 @@ fun RichTextPanel(
     chooseColorTitleStyle: TextStyle,
     chooseColorTitleColor: Color,
     itemTextStyle: TextStyle,
-    selectionIcon: @Composable () -> Unit,
-    itemSize: Dp = 32.dp,
+    selectionIconRes: DrawableResource,
+    itemSize: Dp = 42.dp,
     colorItemSize: Dp = 24.dp,
     modifier: Modifier = Modifier,
 ) {
-    var showColorPicker by remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -88,7 +85,10 @@ fun RichTextPanel(
                     text = "I",
                     isSelected = state.isItalic,
                     onClick = { state.toggleItalic() },
-                    textStyle = itemTextStyle.copy(fontFamily = FontFamily.Default, fontStyle = FontStyle.Italic),
+                    textStyle = itemTextStyle.copy(
+                        fontFamily = FontFamily.Serif,
+                        fontStyle = FontStyle.Italic
+                    ),
                     contentColor = contentColor,
                     selectedContentColor = selectedContentColor,
                     selectedContainerColor = selectedContainerColor,
@@ -159,53 +159,42 @@ fun RichTextPanel(
                     selectedContainerColor = selectedContainerColor,
                     itemSize = itemSize
                 )
-                ControlItem(
-                    text = "A",
-                    isSelected = showColorPicker,
-                    onClick = { showColorPicker = !showColorPicker },
-                    textColor = if (state.currentColor == Color.Unspecified) null else state.currentColor,
-                    textStyle = itemTextStyle.copy(textDecoration = TextDecoration.Underline),
-                    contentColor = contentColor,
-                    selectedContentColor = selectedContentColor,
-                    selectedContainerColor = selectedContainerColor,
-                    itemSize = itemSize
-                )
             }
         }
 
-        // Color Picker Row
-        if (showColorPicker) {
-            Row(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .clip(shape)
-                    .background(backgroundColor)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    text = chooseColorTitle,
-                    style = chooseColorTitleStyle,
-                    color = chooseColorTitleColor
-                )
+        Row(
+            modifier = Modifier
+                .wrapContentWidth()
+                .clip(shape)
+                .background(backgroundColor)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .align(Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = chooseColorTitle,
+                style = chooseColorTitleStyle,
+                color = chooseColorTitleColor
+            )
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    items(colors) { color ->
-                        ColorItem(
-                            color = color,
-                            isSelected = state.currentColor == color,
-                            onClick = { state.setTextColor(color) },
-                            selectedBorderColor = selectedColorBorderColor,
-                            selectionIcon = selectionIcon,
-                            colorItemSize = colorItemSize
-                        )
-                    }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items(colors) { color ->
+                    ColorItem(
+                        color = color,
+                        isSelected = state.currentColor == color,
+                        onClick = { state.setTextColor(color) },
+                        selectedBorderColor = if (colors.indexOf(color) != 0) colors.first() else colors[1],
+                        selectionIconRes = selectionIconRes,
+                        colorItemSize = colorItemSize,
+                        selectIconTint = if (colors.indexOf(color) != 0) colors.first() else colors[1]
+                    )
                 }
             }
+
         }
     }
 }
@@ -331,7 +320,8 @@ private fun ColorItem(
     onClick: () -> Unit,
     selectedBorderColor: Color,
     colorItemSize: Dp,
-    selectionIcon: @Composable () -> Unit
+    selectionIconRes: DrawableResource,
+    selectIconTint: Color
 ) {
     Box(
         modifier = Modifier
@@ -346,7 +336,11 @@ private fun ColorItem(
         contentAlignment = Alignment.Center
     ) {
         if (isSelected) {
-            selectionIcon()
+            Icon(
+                painter = painterResource(selectionIconRes),
+                contentDescription = null,
+                tint = selectIconTint
+            )
         }
     }
 }

@@ -15,7 +15,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":richText"))
+                api(project(":richText"))
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
@@ -25,6 +25,7 @@ kotlin {
                 implementation(libs.compose.uiToolingPreview)
                 implementation(libs.squircle.shape)
                 implementation(libs.compose.ui.backhandler)
+                implementation(libs.kotlinx.datetime)
             }
         }
 

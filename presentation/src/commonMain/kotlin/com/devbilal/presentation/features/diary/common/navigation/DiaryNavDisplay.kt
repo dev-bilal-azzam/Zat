@@ -22,6 +22,8 @@ import com.devbilal.presentation.features.diary.screens.home.HomeScreen
 import com.devbilal.presentation.features.diary.screens.search.SearchScreen
 import com.devbilal.presentation.features.diary.screens.security.SecurityScreen
 import com.devbilal.presentation.features.diary.screens.settings.SettingsScreen
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DiaryNavDisplay(
@@ -61,8 +63,10 @@ fun DiaryNavDisplay(
                     CalendarScreen()
                 }
 
-                entry<Route.AddEditDiary> {
-                    AddEditDiaryScreen()
+                entry<Route.AddEditDiary> { route ->
+                    AddEditDiaryScreen(
+                        viewModel = koinViewModel { parametersOf(route) }
+                    )
                 }
 
                 entry<Route.Security> {
