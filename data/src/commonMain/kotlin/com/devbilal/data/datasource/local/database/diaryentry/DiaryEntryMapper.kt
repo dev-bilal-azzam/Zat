@@ -44,7 +44,8 @@ fun DiaryEntryDto.toSummary(historyCount: Int): DiaryEntrySummary {
         date = LocalDate.parse(date),
         historyCount = historyCount,
         attachmentTypes = attachments.map { AttachmentType.valueOf(it.type) }.distinct(),
-        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path
+        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path,
+        color = DiaryColor(color)
     )
 }
 
@@ -55,7 +56,8 @@ fun DiaryEntryWithHistoryCount.toSummary(): DiaryEntrySummary {
         date = LocalDate.parse(date),
         historyCount = historyCount,
         attachmentTypes = attachments.map { AttachmentType.valueOf(it.type) }.distinct(),
-        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path
+        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path,
+        color = DiaryColor(color)
     )
 }
 
