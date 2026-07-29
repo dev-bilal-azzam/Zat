@@ -1,5 +1,6 @@
 package com.devbilal.presentation.features.diary.common.navigation
 
+import androidx.navigation3.runtime.NavKey
 import com.devbilal.presentation.common.navigation.Route
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
@@ -24,7 +25,7 @@ data class BottomNavItem(
     val titleRes: StringResource,
 )
 
-val diaryTopLevelRoutes = mapOf(
+val diaryTopLevelRoutes = mapOf<NavKey, BottomNavItem>(
     Route.Home to BottomNavItem (
         notSelectedIconRes = Res.drawable.ic_home,
         selectedIconRes = Res.drawable.ic_home_selected,
