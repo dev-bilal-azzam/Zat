@@ -155,18 +155,23 @@ jobs:
 
       - name: Build with Xcode
         run: |
+          VERSION="${{ needs.version-and-tag.outputs.version }}"
+          VERSION_CODE="${{ needs.version-and-tag.outputs.version_code }}"
+        
           ./gradlew clean
           xcodebuild clean build \
             -project iosApp/iosApp.xcodeproj \
             -scheme iosApp \
-            -configuration Debug \
+            -configuration Release \
             -sdk iphonesimulator \
             -derivedDataPath build-ios \
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             ENABLE_PREVIEWS=NO \
-            ASSETCATALOG_COMPILER_THINNING=""
+            ASSETCATALOG_COMPILER_THINNING="" \
+            MARKETING_VERSION="$VERSION" \
+            CURRENT_PROJECT_VERSION="$VERSION_CODE"
 
       - name: Zip .app bundle
         run: |
