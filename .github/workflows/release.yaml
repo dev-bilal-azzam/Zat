@@ -155,9 +155,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Decode GoogleService-Info.plist
-        run: echo "${{ secrets.GOOGLE_SERVICES_PLIST_BASE64 }}" | base64 -d > iosApp/iosApp/GoogleService-Info.plist
-
       - name: Build with Xcode
         run: |
           ./gradlew clean
@@ -167,7 +164,7 @@ jobs:
             -configuration Release \
             -sdk iphonesimulator \
             -derivedDataPath build-ios \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             ENABLE_PREVIEWS=NO
