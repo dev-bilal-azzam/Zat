@@ -10,12 +10,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -23,6 +23,8 @@ import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.painterResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.*
@@ -73,11 +75,23 @@ private fun AttachmentPreviewItem(
         ) {
             when (attachment) {
                 is Attachment.Image -> {
-                    val bitmap = remember(attachment.id) {
-                        attachment.bytes.decodeToImageBitmap()
+                    var bitmap by remember(attachment.id) { mutableStateOf<ImageBitmap?>(null) }
+                    
+                    LaunchedEffect(attachment.id) {
+                        bitmap = withContext(Dispatchers.Default) {
+                            attachment.bytes.decodeToImageBitmap()
+                        }
                     }
-                    Image(
-                        bitmap = bitmap,
+                    
+                    bitmap?.let {
+                        Image(
+                            bitmap = it,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    } ?: Image(
+                        painter = painterResource(Res.drawable.ic_add_image),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

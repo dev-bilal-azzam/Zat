@@ -78,10 +78,8 @@ class AddEditDiaryViewModel(
     }
 
     private fun loadEntry(id: String) {
-
-        updateState { copy(isLoading = true) }
-
         safeExecute(
+            onStart = { updateState { copy(isLoading = true) } },
             block = { getDiaryEntryUseCase(Uuid.parse(id)) },
             onSuccess = ::onLoadEntrySuccess,
             onError = { showSnackBar(messageStringResource = Res.string.diary_not_found) }
