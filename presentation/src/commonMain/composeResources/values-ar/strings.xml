@@ -108,4 +108,19 @@
     <string name="diary_entry_not_saved">نعتذر لم نتمكن من حفظ اليومية!</string>
     <string name="diary_entry_saved">تم حفظ اليومية بنجاح</string>
     <string name="no_entries_yet">لا توجد مذكرات بعد. ابدأ بكتابة قصتك!</string>
+    <string name="add_image">إضافة صورة</string>
+    <string name="add_video">إضافة فيديو</string>
+    <string name="add_audio">إضافة صوت</string>
+    <string name="choose_from_gallery">اختر من المعرض</string>
+    <string name="select_from_existing_photos">اختر من صورك الموجودة</string>
+    <string name="capture_photo">التقط صورة</string>
+    <string name="take_new_photo_with_camera">التقط صورة جديدة بالكاميرا</string>
+    <string name="select_video_from_gallery">اختر فيديو من المعرض</string>
+    <string name="browse_your_existing_media">تصفح وسائطك الموجودة</string>
+    <string name="record_video">سجل فيديو</string>
+    <string name="use_camera_to_capture_new_video">استخدم الكاميرا لتسجيل فيديو جديد</string>
+    <string name="select_audio_from_files">اختر صوتاً من الملفات</string>
+    <string name="browse_your_existing_audio">تصفح ملفاتك الصوتية الموجودة</string>
+    <string name="record_audio">سجل صوتاً</string>
+    <string name="use_mic_to_record_new_audio">استخدم الميكروفون لتسجيل صوت جديد</string>
 </resources>

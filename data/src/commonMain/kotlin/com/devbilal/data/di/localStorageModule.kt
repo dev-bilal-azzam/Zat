@@ -12,6 +12,7 @@ import com.russhwolf.settings.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -30,7 +31,11 @@ internal val localStorageModule = module {
     single<ZatDatabase> { getChatDatabase(get()) }
     single<DiaryEntryDao> { get<ZatDatabase>().getDiaryEntryDao() }
     single<DiaryHistoryDao> { get<ZatDatabase>().getDiaryHistoryDao() }
+
+    expectFileManager()
 }
+
+expect fun Module.expectFileManager()
 
 expect fun Scope.getDatabaseBuilder(): RoomDatabase.Builder<ZatDatabase>
 

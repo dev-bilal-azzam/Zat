@@ -1,6 +1,7 @@
 package com.devbilal.presentation.features.diary.screens.addeditdiary.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,8 +18,8 @@ import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.attachment
 import zat.presentation.generated.resources.audio
@@ -30,6 +31,9 @@ import zat.presentation.generated.resources.video
 
 @Composable
 fun AddEditDiaryAttachments(
+    onAttachImageClicked: () -> Unit,
+    onAttachVideoClicked: () -> Unit,
+    onAttachAudioClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -48,17 +52,20 @@ fun AddEditDiaryAttachments(
             AttachmentItem(
                 icon = Res.drawable.ic_add_image,
                 label = stringResource(Res.string.image),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = onAttachImageClicked
             )
             AttachmentItem(
                 icon = Res.drawable.ic_video,
                 label = stringResource(Res.string.video),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = onAttachVideoClicked
             )
             AttachmentItem(
                 icon = Res.drawable.ic_mic,
                 label = stringResource(Res.string.audio),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = onAttachAudioClicked
             )
         }
     }
@@ -68,18 +75,20 @@ fun AddEditDiaryAttachments(
 private fun AttachmentItem(
     icon: DrawableResource,
     label: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(Theme.radius.md))
             .background(Theme.colorScheme.background.surface)
+            .clickable { onClick() }
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
-            imageVector = vectorResource(icon),
+            painter = painterResource(icon),
             contentDescription = null,
             tint = Theme.colorScheme.primary.primary,
             modifier = Modifier.size(24.dp)

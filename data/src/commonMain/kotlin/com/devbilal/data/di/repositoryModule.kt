@@ -18,6 +18,6 @@ internal val repositoryModule = module {
     single<AuthenticationRepository> {
         AuthenticationRepositoryImpl(settingsStorage = get(), strategyFactory = get())
     }
-    single<DiaryEntryRepository> { DiaryEntryRepositoryImpl(diaryEntryDao = get()) }
-    single<DiaryHistoryRepository> { DiaryHistoryRepositoryImpl(diaryHistoryDao = get()) }
+    single<DiaryEntryRepository> { DiaryEntryRepositoryImpl(diaryEntryDao = get(), fileManager = get()) }
+    single<DiaryHistoryRepository> { DiaryHistoryRepositoryImpl(diaryHistoryDao = get(), fileManager = get()) }
 }

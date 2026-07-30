@@ -26,6 +26,10 @@ kotlin {
                 implementation(libs.bundles.koin.compose)
                 implementation(libs.bundles.navigation3)
 
+                implementation(libs.peekaboo.ui)
+                implementation(libs.peekaboo.image.picker)
+                implementation(libs.filekit.compose)
+
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
             }

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
+import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.domain.entity.DiaryEntrySummary
 import org.jetbrains.compose.resources.painterResource
@@ -86,6 +87,7 @@ fun DiaryEntryItem(
             }
 
             entry.attachmentTypes.distinct().forEach { type ->
+                println("Attachments -> $type")
                 val icon = when (type) {
                     AttachmentType.IMAGE -> Res.drawable.ic_add_image
                     AttachmentType.VIDEO -> Res.drawable.ic_video
@@ -114,7 +116,7 @@ fun DiaryEntryItem(
 @androidx.compose.ui.tooling.preview.Preview
 @Composable
 private fun DiaryEntryItemPreview() {
-    com.devbilal.designsystem.theme.theme.ZatTheme {
+    ZatTheme {
         DiaryEntryItem(
             entry = DiaryEntrySummary(
                 id = kotlin.uuid.Uuid.random(),

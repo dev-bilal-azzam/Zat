@@ -1,6 +1,7 @@
 package com.devbilal.presentation.features.diary.screens.addeditdiary
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
+import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.DiaryColor
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent
@@ -13,12 +14,14 @@ data class AddEditDiaryState(
     val content: String = "",
     val date: LocalDate,
     val color: DiaryColor = DiaryColor.Default,
+    val attachments: List<Attachment> = emptyList(),
     val isEditMode: Boolean = false,
     val isLoading: Boolean = false,
     val isDatePickerVisible: Boolean = false,
     val isAttachImageOverlayVisible: Boolean = false,
     val isAttachVideoOverlayVisible: Boolean = false,
-    val isAttachAudioOverlayVisible: Boolean = false
+    val isAttachAudioOverlayVisible: Boolean = false,
+    val isRecordingAudio: Boolean = false
 ) : UiState
 
 sealed interface AddEditDiaryIntent : UiIntent {
@@ -36,9 +39,26 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data object OnDismissAttachImageOverlay : AddEditDiaryIntent
     data object OnDismissAttachVideoOverlay : AddEditDiaryIntent
     data object OnDismissAttachAudioOverlay : AddEditDiaryIntent
+    data object OnCapturePhotoClicked : AddEditDiaryIntent
+    data object OnRecordVideoClicked : AddEditDiaryIntent
+    data object OnRecordAudioClicked : AddEditDiaryIntent
+    data object OnStartRecordAudio: AddEditDiaryIntent
+    data object OnStopRecordAudioClicked : AddEditDiaryIntent
+    data object OnPickImageClicked: AddEditDiaryIntent
+    data object OnPickVideoClicked: AddEditDiaryIntent
+    data object OnPickAudioClicked: AddEditDiaryIntent
+    data class OnAddAttachment(val attachment: Attachment) : AddEditDiaryIntent
+    data class OnRemoveAttachment(val attachment: Attachment) : AddEditDiaryIntent
 }
 
 sealed interface AddEditDiaryEffect : UiEffect {
     data object NavigateBack : AddEditDiaryEffect
     data class ShowSnackBar(val snackBarData: SnackBarData) : AddEditDiaryEffect
+    data object LaunchCamera : AddEditDiaryEffect
+    data object LaunchVideoRecorder : AddEditDiaryEffect
+    data object LaunchAudioRecorder : AddEditDiaryEffect
+    data object StopAudioRecorder : AddEditDiaryEffect
+    data object LaunchImagePicker: AddEditDiaryEffect
+    data object LaunchVideoPicker: AddEditDiaryEffect
+    data object LaunchAudioPicker: AddEditDiaryEffect
 }

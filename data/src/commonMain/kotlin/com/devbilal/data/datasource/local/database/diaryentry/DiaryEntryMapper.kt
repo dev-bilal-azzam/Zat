@@ -12,7 +12,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-fun DiaryEntryDto.toEntity(historyCount: Int): DiaryEntry {
+fun DiaryEntryDto.toEntity(historyCount: Int, attachments: List<Attachment>): DiaryEntry {
     return DiaryEntry(
         id = Uuid.parse(id),
         title = title,
@@ -20,12 +20,12 @@ fun DiaryEntryDto.toEntity(historyCount: Int): DiaryEntry {
         date = LocalDate.parse(date),
         createdAt = LocalDateTime.parse(createdAt),
         color = DiaryColor(color),
-        attachments = attachments.map { it.toEntity() },
+        attachments = attachments,
         historyCount = historyCount
     )
 }
 
-fun DiaryEntry.toDto(): DiaryEntryDto {
+fun DiaryEntry.toDto(attachments: List<AttachmentDto>): DiaryEntryDto {
     return DiaryEntryDto(
         id = id.toString(),
         title = title,
@@ -33,7 +33,7 @@ fun DiaryEntry.toDto(): DiaryEntryDto {
         date = date.toString(),
         createdAt = createdAt.toString(),
         color = color.value,
-        attachments = attachments.map { it.toDto() }
+        attachments = attachments
     )
 }
 
@@ -43,8 +43,8 @@ fun DiaryEntryDto.toSummary(historyCount: Int): DiaryEntrySummary {
         title = title,
         date = LocalDate.parse(date),
         historyCount = historyCount,
-        attachmentTypes = attachments.map { AttachmentType.valueOf(it.type) }.distinct(),
-        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path,
+        attachmentTypes = attachments.map(AttachmentDto::toAttachmentType).distinct(),
+        firstImageUrl = null,
         color = DiaryColor(color)
     )
 }
@@ -55,20 +55,26 @@ fun DiaryEntryWithHistoryCount.toSummary(): DiaryEntrySummary {
         title = title,
         date = LocalDate.parse(date),
         historyCount = historyCount,
-        attachmentTypes = attachments.map { AttachmentType.valueOf(it.type) }.distinct(),
-        firstImageUrl = attachments.filterIsInstance<AttachmentDto.Image>().firstOrNull()?.path,
+        attachmentTypes = attachments.map(AttachmentDto::toAttachmentType).distinct(),
+        firstImageUrl = null,
         color = DiaryColor(color)
     )
 }
 
-fun Attachment.toDto(): AttachmentDto = when (this) {
-    is Attachment.Image -> AttachmentDto.Image(id = id.toString(), path = path)
-    is Attachment.Video -> AttachmentDto.Video(id = id.toString(), path = path)
-    is Attachment.Audio -> AttachmentDto.Audio(id = id.toString(), path = path)
+fun Attachment.toDto(path: String): AttachmentDto = when (this) {
+    is Attachment.Image -> AttachmentDto.Image(id = id.toString(), filePath = path)
+    is Attachment.Video -> AttachmentDto.Video(id = id.toString(), filePath = path)
+    is Attachment.Audio -> AttachmentDto.Audio(id = id.toString(), filePath = path)
 }
 
-fun AttachmentDto.toEntity(): Attachment = when (this) {
-    is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), path = path)
-    is AttachmentDto.Video -> Attachment.Video(id = Uuid.parse(id), path = path)
-    is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), path = path)
+fun AttachmentDto.toEntity(bytes: ByteArray): Attachment = when (this) {
+    is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), bytes = bytes)
+    is AttachmentDto.Video -> Attachment.Video(id = Uuid.parse(id), bytes = bytes)
+    is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), bytes = bytes)
+}
+
+fun AttachmentDto.toAttachmentType(): AttachmentType = when(this) {
+    is AttachmentDto.Audio -> AttachmentType.AUDIO
+    is AttachmentDto.Image -> AttachmentType.IMAGE
+    is AttachmentDto.Video -> AttachmentType.VIDEO
 }

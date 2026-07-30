@@ -51,6 +51,29 @@ class AddEditDiaryViewModel(
             AddEditDiaryIntent.OnDismissAttachAudioOverlay -> updateState { copy(isAttachAudioOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachImageOverlay -> updateState { copy(isAttachImageOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachVideoOverlay -> updateState { copy(isAttachVideoOverlayVisible = false) }
+            AddEditDiaryIntent.OnCapturePhotoClicked -> sendEffect(AddEditDiaryEffect.LaunchCamera)
+            AddEditDiaryIntent.OnRecordVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoRecorder)
+            AddEditDiaryIntent.OnRecordAudioClicked -> {
+                updateState { copy(isAttachAudioOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchAudioRecorder)
+            }
+            AddEditDiaryIntent.OnStopRecordAudioClicked -> sendEffect(AddEditDiaryEffect.StopAudioRecorder)
+            is AddEditDiaryIntent.OnAddAttachment -> updateState {
+                copy(
+                    attachments = attachments + intent.attachment,
+                    isAttachAudioOverlayVisible = false,
+                    isAttachImageOverlayVisible = false,
+                    isAttachVideoOverlayVisible = false,
+                    isRecordingAudio = false
+                )
+            }
+            is AddEditDiaryIntent.OnRemoveAttachment -> updateState {
+                copy(attachments = attachments - intent.attachment)
+            }
+            AddEditDiaryIntent.OnStartRecordAudio -> updateState { copy(isRecordingAudio = true) }
+            AddEditDiaryIntent.OnPickAudioClicked -> sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
+            AddEditDiaryIntent.OnPickImageClicked -> sendEffect(AddEditDiaryEffect.LaunchImagePicker)
+            AddEditDiaryIntent.OnPickVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
         }
     }
 
@@ -73,6 +96,7 @@ class AddEditDiaryViewModel(
                 content = entry.content,
                 date = entry.date,
                 color = entry.color,
+                attachments = entry.attachments,
                 isEditMode = true,
                 isLoading = false
             )
@@ -88,7 +112,14 @@ class AddEditDiaryViewModel(
 
         safeExecute(
             onSuccess = { onSaveEntrySuccess() },
-            onError = { showSnackBar(messageStringResource = Res.string.diary_entry_not_saved) }
+            onError = {
+
+                println("Attachments -> Error ${it.message}")
+                println("Attachments -> Error $it")
+                it.printStackTrace()
+
+                showSnackBar(messageStringResource = Res.string.diary_entry_not_saved)
+            }
         ) {
             val entry = DiaryEntry(
                 id = currentState.id?.let { Uuid.parse(it) } ?: Uuid.random(),
@@ -96,7 +127,8 @@ class AddEditDiaryViewModel(
                 content = currentState.content,
                 date = currentState.date,
                 createdAt = LocalDateTime.now(),
-                color = currentState.color
+                color = currentState.color,
+                attachments = currentState.attachments
             )
 
             if (currentState.isEditMode) {
