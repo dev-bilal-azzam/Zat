@@ -52,6 +52,7 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.components.
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentBottomSheet
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentOption
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentPreview
+import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.getVideoUtils
 import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberCameraLauncher
 import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberVideoLauncher
 import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberVoiceRecorder
@@ -59,6 +60,8 @@ import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
 import io.github.vinceglb.filekit.core.PlatformFile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -123,7 +126,7 @@ fun AddEditDiaryScreen(
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
             file?.let {
-                scope.launch {
+                scope.launch(Dispatchers.IO) {
                     val bytes = it.readBytes()
                     viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Image(bytes = bytes)))
                 }
@@ -136,14 +139,17 @@ fun AddEditDiaryScreen(
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
             file?.let {
-                scope.launch {
+                scope.launch(Dispatchers.IO) {
                     val bytes = it.readBytes()
-                    // Note: Ideally we generate a thumbnail here too, 
-                    // but since it's a cross-platform picker, we might need a common way or just use a placeholder if bytes are missing.
-                    // For now, let's assume we want a real thumbnail.
-                    // I will use a simple placeholder if I can't generate it easily here, 
-                    // or I'll implement a common utility.
-                    viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = bytes, thumbnail = byteArrayOf())))
+                    val thumbnail = getVideoUtils().generateThumbnail(bytes)
+                    viewModel.handleIntent(
+                        AddEditDiaryIntent.OnAddAttachment(
+                            Attachment.Video(
+                                bytes = bytes,
+                                thumbnail = thumbnail ?: byteArrayOf()
+                            )
+                        )
+                    )
                 }
             }
         }
@@ -154,7 +160,7 @@ fun AddEditDiaryScreen(
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
             file?.let {
-                scope.launch {
+                scope.launch(Dispatchers.IO) {
                     val bytes = it.readBytes()
                     viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Audio(bytes = bytes)))
                 }
@@ -171,7 +177,7 @@ fun AddEditDiaryScreen(
             AddEditDiaryEffect.LaunchCamera -> {
                 permissionHandler.askPermission(Permission.CAMERA) { isGranted ->
                     if (isGranted) {
-                        cameraLauncher.launch()
+                        scope.launch(Dispatchers.IO) { cameraLauncher.launch() }
                     }
                 }
             }
@@ -179,7 +185,7 @@ fun AddEditDiaryScreen(
             AddEditDiaryEffect.LaunchVideoRecorder -> {
                 permissionHandler.askPermission(Permission.CAMERA) { isGranted ->
                     if (isGranted) {
-                        videoLauncher.launch()
+                        scope.launch(Dispatchers.IO) { videoLauncher.launch() }
                     }
                 }
             }
@@ -187,17 +193,19 @@ fun AddEditDiaryScreen(
             AddEditDiaryEffect.LaunchAudioRecorder -> {
                 permissionHandler.askPermission(Permission.RECORD_AUDIO) { isGranted ->
                     if (isGranted) {
-                        voiceRecorder.onResult { bytes ->
-                            viewModel.handleIntent(
-                                AddEditDiaryIntent.OnAddAttachment(
-                                    Attachment.Audio(
-                                        bytes = bytes
+                        scope.launch(Dispatchers.IO) {
+                            voiceRecorder.onResult { bytes ->
+                                viewModel.handleIntent(
+                                    AddEditDiaryIntent.OnAddAttachment(
+                                        Attachment.Audio(
+                                            bytes = bytes
+                                        )
                                     )
                                 )
-                            )
+                            }
+                            viewModel.handleIntent(AddEditDiaryIntent.OnStartRecordAudio)
+                            voiceRecorder.startRecording()
                         }
-                        viewModel.handleIntent(AddEditDiaryIntent.OnStartRecordAudio)
-                        voiceRecorder.startRecording()
                     }
                 }
             }

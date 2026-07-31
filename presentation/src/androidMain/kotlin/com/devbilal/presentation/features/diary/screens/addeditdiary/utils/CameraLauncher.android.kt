@@ -1,7 +1,5 @@
 package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
 
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 class AndroidCameraLauncher(
@@ -28,7 +25,7 @@ class AndroidCameraLauncher(
         if (success) {
             val bytes = file.readBytes()
             if (isVideo) {
-                val thumbnail = generateVideoThumbnail(file)
+                val thumbnail = getVideoUtils().generateThumbnail(bytes)
                 onVideoResult?.invoke(bytes, thumbnail)
             } else {
                 onResult(bytes)
@@ -36,21 +33,6 @@ class AndroidCameraLauncher(
             file.delete()
         } else {
             if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
-        }
-    }
-
-    private fun generateVideoThumbnail(file: File): ByteArray? {
-        val retriever = MediaMetadataRetriever()
-        return try {
-            retriever.setDataSource(file.absolutePath)
-            val bitmap = retriever.getFrameAtTime(1000000) // 1 second
-            val stream = ByteArrayOutputStream()
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 80, stream)
-            stream.toByteArray()
-        } catch (e: Exception) {
-            null
-        } finally {
-            retriever.release()
         }
     }
 }

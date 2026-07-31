@@ -109,7 +109,7 @@ private fun AttachmentPreviewItem(
                     }
 
                     Box(
-                        modifier = Modifier.fillMaxSize().background(Theme.colorScheme.background.surfaceLow),
+                        modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         thumbnailBitmap?.let {
@@ -129,9 +129,11 @@ private fun AttachmentPreviewItem(
                                     tint = Color.White
                                 )
                             }
-                        } ?: Icon(
+                        } ?: Image(
                             painter = painterResource(Res.drawable.ic_video),
-                            tint = Theme.colorScheme.primary.primary
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
                         )
                     }
                 }

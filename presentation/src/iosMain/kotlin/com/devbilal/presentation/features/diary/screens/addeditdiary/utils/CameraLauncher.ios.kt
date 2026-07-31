@@ -7,8 +7,6 @@ import androidx.compose.runtime.remember
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
-import platform.AVFoundation.*
-import platform.CoreMedia.*
 import platform.Foundation.NSData
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
@@ -68,7 +66,7 @@ class IosCameraLauncher(
                     }
                 }
             }
-            val thumbnailBytes = videoUrl?.let { generateVideoThumbnail(it) }
+            val thumbnailBytes = videoUrl?.let { getVideoUtils().generateThumbnail(videoBytes) }
             onVideoResult?.invoke(videoBytes, thumbnailBytes)
         } else {
             val image =
@@ -88,26 +86,6 @@ class IosCameraLauncher(
             onResult(bytes)
         }
         picker.dismissViewControllerAnimated(true, completion = null)
-    }
-
-    private fun generateVideoThumbnail(url: NSURL): ByteArray? {
-        val asset = AVAsset.assetWithURL(url)
-        val generator = AVAssetImageGenerator(asset = asset).apply {
-            appliesPreferredTrackTransform = true
-        }
-        val time = CMTimeMake(value = 1, timescale = 1)
-        val imageRef = generator.copyCGImageAtTime(time, actualTime = null, error = null) ?: return null
-        val uiImage = UIImage.imageWithCGImage(imageRef)
-        val data = UIImageJPEGRepresentation(uiImage, 0.8) ?: return null
-        return ByteArray(data.length.toInt()).apply {
-            if (data.length > 0u) {
-                data.bytes?.let { ptr ->
-                    usePinned { pinned ->
-                        memcpy(pinned.addressOf(0), ptr, data.length)
-                    }
-                }
-            }
-        }
     }
 
     override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {

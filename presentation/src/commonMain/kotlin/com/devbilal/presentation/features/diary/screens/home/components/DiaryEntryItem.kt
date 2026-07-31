@@ -87,7 +87,6 @@ fun DiaryEntryItem(
             }
 
             entry.attachmentTypes.distinct().forEach { type ->
-                println("Attachments -> $type")
                 val icon = when (type) {
                     AttachmentType.IMAGE -> Res.drawable.ic_add_image
                     AttachmentType.VIDEO -> Res.drawable.ic_video

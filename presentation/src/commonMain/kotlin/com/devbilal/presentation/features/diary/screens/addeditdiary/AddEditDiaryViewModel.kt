@@ -111,11 +111,6 @@ class AddEditDiaryViewModel(
         safeExecute(
             onSuccess = { onSaveEntrySuccess() },
             onError = {
-
-                println("Attachments -> Error ${it.message}")
-                println("Attachments -> Error $it")
-                it.printStackTrace()
-
                 showSnackBar(messageStringResource = Res.string.diary_entry_not_saved)
             }
         ) {
