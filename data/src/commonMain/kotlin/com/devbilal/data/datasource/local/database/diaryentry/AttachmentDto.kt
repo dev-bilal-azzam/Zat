@@ -17,6 +17,7 @@ sealed interface AttachmentDto {
     data class Video(
         override val id: String,
         override val filePath: String,
+        val thumbnailFilePath: String
     ) : AttachmentDto
 
     @Serializable

@@ -61,15 +61,23 @@ fun DiaryEntryWithHistoryCount.toSummary(): DiaryEntrySummary {
     )
 }
 
-fun Attachment.toDto(path: String): AttachmentDto = when (this) {
+fun Attachment.toDto(path: String, thumbnailPath: String? = null): AttachmentDto = when (this) {
     is Attachment.Image -> AttachmentDto.Image(id = id.toString(), filePath = path)
-    is Attachment.Video -> AttachmentDto.Video(id = id.toString(), filePath = path)
+    is Attachment.Video -> AttachmentDto.Video(
+        id = id.toString(),
+        filePath = path,
+        thumbnailFilePath = thumbnailPath ?: ""
+    )
     is Attachment.Audio -> AttachmentDto.Audio(id = id.toString(), filePath = path)
 }
 
-fun AttachmentDto.toEntity(bytes: ByteArray): Attachment = when (this) {
+fun AttachmentDto.toEntity(bytes: ByteArray, thumbnail: ByteArray? = null): Attachment = when (this) {
     is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), bytes = bytes)
-    is AttachmentDto.Video -> Attachment.Video(id = Uuid.parse(id), bytes = bytes)
+    is AttachmentDto.Video -> Attachment.Video(
+        id = Uuid.parse(id),
+        bytes = bytes,
+        thumbnail = thumbnail ?: byteArrayOf()
+    )
     is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), bytes = bytes)
 }
 

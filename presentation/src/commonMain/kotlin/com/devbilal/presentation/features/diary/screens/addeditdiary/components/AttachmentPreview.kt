@@ -98,13 +98,40 @@ private fun AttachmentPreviewItem(
                     )
                 }
                 is Attachment.Video -> {
+                    var thumbnailBitmap by remember(attachment.id) { mutableStateOf<ImageBitmap?>(null) }
+                    
+                    LaunchedEffect(attachment.id) {
+                        if (attachment.thumbnail.isNotEmpty()) {
+                            thumbnailBitmap = withContext(Dispatchers.Default) {
+                                attachment.thumbnail.decodeToImageBitmap()
+                            }
+                        }
+                    }
+
                     Box(
-                        modifier = Modifier.fillMaxSize().background(Theme.colorScheme.primary.primary.copy(alpha = 0.2f)),
+                        modifier = Modifier.fillMaxSize().background(Theme.colorScheme.background.surfaceLow),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
+                        thumbnailBitmap?.let {
+                            Image(
+                                bitmap = it,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                            // Play icon overlay
+                            Box(
+                                modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.2f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.ic_video),
+                                    tint = Color.White
+                                )
+                            }
+                        } ?: Icon(
                             painter = painterResource(Res.drawable.ic_video),
-                            tint = Color.White
+                            tint = Theme.colorScheme.primary.primary
                         )
                     }
                 }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 expect fun rememberCameraLauncher(onResult: (ByteArray?) -> Unit): CameraLauncher
 
 @Composable
-expect fun rememberVideoLauncher(onResult: (ByteArray?) -> Unit): CameraLauncher
+expect fun rememberVideoLauncher(onResult: (ByteArray?, ByteArray?) -> Unit): CameraLauncher
 
 interface CameraLauncher {
     fun launch()

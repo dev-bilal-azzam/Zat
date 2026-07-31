@@ -2,12 +2,14 @@
 
 package com.devbilal.data.repository.diary
 
+import com.devbilal.data.datasource.local.database.diaryentry.AttachmentDto
 import com.devbilal.data.datasource.local.database.diaryentry.toDto
 import com.devbilal.data.datasource.local.database.diaryentry.toEntity
 import com.devbilal.data.datasource.local.database.diaryhistory.DiaryHistoryDao
 import com.devbilal.data.datasource.local.database.diaryhistory.toDto
 import com.devbilal.data.datasource.local.database.diaryhistory.toEntity
 import com.devbilal.data.util.FileManager
+import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.DiaryVersion
 import com.devbilal.domain.repository.DiaryHistoryRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +25,11 @@ class DiaryHistoryRepositoryImpl(
         val attachmentDtos = version.entry.attachments.map { attachment ->
             val fileName = "${attachment.id}_${attachment.type}.bin"
             val path = fileManager.saveFile(fileName, attachment.bytes)
-            attachment.toDto(path)
+            val thumbnailPath = if (attachment is Attachment.Video) {
+                val thumbName = "${attachment.id}_${attachment.type}_thumb.jpg"
+                fileManager.saveFile(thumbName, attachment.thumbnail)
+            } else null
+            attachment.toDto(path, thumbnailPath)
         }
         diaryHistoryDao.insertVersion(version.toDto(attachmentDtos))
     }
@@ -41,7 +47,10 @@ class DiaryHistoryRepositoryImpl(
             list.map { dto ->
                 val attachmentsWithBytes = dto.attachments.map { attachmentDto ->
                     val bytes = fileManager.readFile(attachmentDto.filePath) ?: byteArrayOf()
-                    attachmentDto.toEntity(bytes)
+                    val thumbnail = if (attachmentDto is AttachmentDto.Video) {
+                        fileManager.readFile(attachmentDto.thumbnailFilePath)
+                    } else null
+                    attachmentDto.toEntity(bytes, thumbnail)
                 }
                 dto.toEntity(attachmentsWithBytes)
             }

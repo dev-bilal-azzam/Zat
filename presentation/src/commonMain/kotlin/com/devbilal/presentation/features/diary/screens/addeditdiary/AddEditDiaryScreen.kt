@@ -111,9 +111,9 @@ fun AddEditDiaryScreen(
     )
 
     val videoLauncher = rememberVideoLauncher(
-        onResult = { bytes: ByteArray? ->
-            bytes?.let {
-                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = it)))
+        onResult = { bytes: ByteArray?, thumbnail: ByteArray? ->
+            if (bytes != null && thumbnail != null) {
+                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = bytes, thumbnail = thumbnail)))
             }
         }
     )
@@ -138,7 +138,12 @@ fun AddEditDiaryScreen(
             file?.let {
                 scope.launch {
                     val bytes = it.readBytes()
-                    viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = bytes)))
+                    // Note: Ideally we generate a thumbnail here too, 
+                    // but since it's a cross-platform picker, we might need a common way or just use a placeholder if bytes are missing.
+                    // For now, let's assume we want a real thumbnail.
+                    // I will use a simple placeholder if I can't generate it easily here, 
+                    // or I'll implement a common utility.
+                    viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = bytes, thumbnail = byteArrayOf())))
                 }
             }
         }

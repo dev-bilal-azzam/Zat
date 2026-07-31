@@ -33,7 +33,8 @@ sealed interface Attachment {
 
     data class Video(
         override val id: Uuid = Uuid.random(),
-        override val bytes: ByteArray
+        override val bytes: ByteArray,
+        val thumbnail: ByteArray
     ) : Attachment {
         override val type: AttachmentType = AttachmentType.VIDEO
 
@@ -42,12 +43,14 @@ sealed interface Attachment {
             if (other !is Video) return false
             if (id != other.id) return false
             if (!bytes.contentEquals(other.bytes)) return false
+            if (!thumbnail.contentEquals(other.thumbnail)) return false
             return true
         }
 
         override fun hashCode(): Int {
             var result = id.hashCode()
             result = 31 * result + bytes.contentHashCode()
+            result = 31 * result + thumbnail.contentHashCode()
             return result
         }
     }
