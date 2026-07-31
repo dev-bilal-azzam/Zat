@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
     initialState: State
@@ -45,9 +46,9 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         dispatcher: CoroutineDispatcher = Dispatchers.IO,
         block: suspend () -> T
     ) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             onStart()
-            runCatching { block() }
+            withContext(dispatcher) { runCatching { block() } }
                 .onSuccess { onSuccess(it) }
                 .onFailure { onError(it) }
             onCompleted()
