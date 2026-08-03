@@ -9,3 +9,14 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
     alias(libs.plugins.androidLint) apply false
 }
+
+subprojects {
+    plugins.withId("org.jetbrains.kotlin.multiplatform") {
+        configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
+            sourceSets.all {
+                languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            }
+        }
+    }
+}

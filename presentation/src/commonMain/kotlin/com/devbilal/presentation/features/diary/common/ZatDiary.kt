@@ -29,6 +29,8 @@ fun ZatDiary(
     modifier: Modifier = Modifier
 ) {
 
+    val topLevelNavKeys: Set<NavKey> = remember { diaryTopLevelRoutes.keys.toSet() }
+
     val serializersConfig = SavedStateConfiguration {
         serializersModule = SerializersModule {
             polymorphic(NavKey::class) {
@@ -44,15 +46,17 @@ fun ZatDiary(
 
     val navigationState = rememberNavigationState(
         startRoute = Route.Home,
-        topLevelRoutes = diaryTopLevelRoutes.keys,
+        topLevelRoutes = topLevelNavKeys,
         configuration = serializersConfig
     )
     val navigator = remember {
         Navigator(navigationState)
     }
 
-    val isBottomBarVisible = diaryTopLevelRoutes.keys
-        .contains(navigationState.backStacks[navigationState.topLevelRoute]?.last())
+    val lastKeyOnStack: NavKey? = navigationState.backStacks[navigationState.topLevelRoute]?.lastOrNull()
+
+    val isBottomBarVisible = topLevelNavKeys
+        .contains(lastKeyOnStack)
 
     Scaffold(
         modifier = modifier,
