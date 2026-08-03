@@ -1,4 +1,4 @@
-name: Android PR Build Check
+name: iOS PR Build Check
 
 on:
   pull_request:
@@ -7,9 +7,9 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build Android
-    runs-on: ubuntu-latest
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
@@ -34,11 +34,17 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > composeApp/src/google-services.json
-
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Build iOS with Xcode
+        run: |
+          ./gradlew clean
+          xcodebuild clean build \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -derivedDataPath build-ios \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            ENABLE_PREVIEWS=NO \
+            ASSETCATALOG_COMPILER_THINNING=""
