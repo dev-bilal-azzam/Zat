@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 
-package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
+package com.devbilal.presentation.common.media
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi

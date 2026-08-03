@@ -52,10 +52,10 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.components.
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentBottomSheet
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentOption
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentPreview
-import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.getVideoUtils
-import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberCameraLauncher
-import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberVideoLauncher
-import com.devbilal.presentation.features.diary.screens.addeditdiary.utils.rememberVoiceRecorder
+import com.devbilal.presentation.common.media.getVideoUtils
+import com.devbilal.presentation.common.media.rememberCameraLauncher
+import com.devbilal.presentation.common.media.rememberVideoLauncher
+import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
@@ -96,14 +96,11 @@ fun AddEditDiaryScreen(
     val snackBar = LocalSnackBarHostController.current
     val navigator = LocalNavigator.current
     val state = viewModel.collectState()
-
+    val scope = rememberCoroutineScope()
 
     val permissionHandler = rememberPermissionHandler()
 
     val voiceRecorder = rememberVoiceRecorder()
-
-    val scope = rememberCoroutineScope()
-
 
     val cameraLauncher = rememberCameraLauncher(
         onResult = { bytes: ByteArray? ->

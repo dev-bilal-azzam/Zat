@@ -1,5 +1,6 @@
-package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
+package com.devbilal.presentation.common.media
 
+import android.content.Context
 import android.media.MediaRecorder
 import android.os.Build
 import androidx.compose.runtime.Composable
@@ -7,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
-class AndroidVoiceRecorder(private val context: android.content.Context) : VoiceRecorder {
+class AndroidVoiceRecorder(private val context: Context) : VoiceRecorder {
     private var mediaRecorder: MediaRecorder? = null
     private var outputFile: File? = null
     private var onResultCallback: ((ByteArray) -> Unit)? = null

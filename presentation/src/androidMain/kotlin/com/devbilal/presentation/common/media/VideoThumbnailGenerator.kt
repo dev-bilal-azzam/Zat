@@ -1,4 +1,4 @@
-package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
+package com.devbilal.presentation.common.media
 
 import android.graphics.Bitmap
 import android.media.MediaDataSource

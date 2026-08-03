@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalForeignApi::class)
 
-package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
+package com.devbilal.presentation.common.media
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

@@ -1,7 +1,8 @@
-package com.devbilal.presentation.features.diary.screens.addeditdiary.utils
+package com.devbilal.presentation.common.media
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -12,7 +13,7 @@ import java.io.File
 class AndroidCameraLauncher(
     private val onResult: (ByteArray?) -> Unit,
     private val onVideoResult: ((ByteArray?, ByteArray?) -> Unit)? = null,
-    private val launcher: androidx.activity.result.ActivityResultLauncher<Uri>,
+    private val launcher: ActivityResultLauncher<Uri>,
     private val fileUri: Uri,
     private val file: File,
     private val isVideo: Boolean = false
