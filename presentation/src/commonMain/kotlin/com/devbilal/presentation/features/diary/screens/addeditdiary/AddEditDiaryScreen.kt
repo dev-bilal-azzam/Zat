@@ -42,6 +42,10 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
+import com.devbilal.presentation.common.media.getVideoUtils
+import com.devbilal.presentation.common.media.rememberCameraLauncher
+import com.devbilal.presentation.common.media.rememberVideoLauncher
+import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.common.permission.Permission
 import com.devbilal.presentation.common.permission.rememberPermissionHandler
@@ -52,10 +56,6 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.components.
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentBottomSheet
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentOption
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentPreview
-import com.devbilal.presentation.common.media.getVideoUtils
-import com.devbilal.presentation.common.media.rememberCameraLauncher
-import com.devbilal.presentation.common.media.rememberVideoLauncher
-import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
@@ -103,17 +103,24 @@ fun AddEditDiaryScreen(
     val voiceRecorder = rememberVoiceRecorder()
 
     val cameraLauncher = rememberCameraLauncher(
-        onResult = { bytes: ByteArray? ->
-            bytes?.let {
-                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Image(bytes = it)))
+        onResult = { filePath: String? ->
+            filePath?.let {
+                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Image(filePath = it)))
             }
         }
     )
 
     val videoLauncher = rememberVideoLauncher(
-        onResult = { bytes: ByteArray?, thumbnail: ByteArray? ->
-            if (bytes != null && thumbnail != null) {
-                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Video(bytes = bytes, thumbnail = thumbnail)))
+        onResult = { filePath: String?, thumbnail: ByteArray? ->
+            if (filePath != null && thumbnail != null) {
+                viewModel.handleIntent(
+                    AddEditDiaryIntent.OnAddAttachment(
+                        Attachment.Video(
+                            filePath = filePath,
+                            thumbnail = thumbnail
+                        )
+                    )
+                )
             }
         }
     )
@@ -124,8 +131,14 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val bytes = it.readBytes()
-                    viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Image(bytes = bytes)))
+                    val filePath = it.path ?: return@launch
+                    viewModel.handleIntent(
+                        AddEditDiaryIntent.OnAddAttachment(
+                            Attachment.Image(
+                                filePath = filePath
+                            )
+                        )
+                    )
                 }
             }
         }
@@ -137,12 +150,12 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val bytes = it.readBytes()
-                    val thumbnail = getVideoUtils().generateThumbnail(bytes)
+                    val filePath = it.path ?: return@launch
+                    val thumbnail = getVideoUtils().generateThumbnail(filePath)
                     viewModel.handleIntent(
                         AddEditDiaryIntent.OnAddAttachment(
                             Attachment.Video(
-                                bytes = bytes,
+                                filePath = filePath,
                                 thumbnail = thumbnail ?: byteArrayOf()
                             )
                         )
@@ -158,8 +171,14 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val bytes = it.readBytes()
-                    viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Audio(bytes = bytes)))
+                    val filePath = it.path ?: return@launch
+                    viewModel.handleIntent(
+                        AddEditDiaryIntent.OnAddAttachment(
+                            Attachment.Audio(
+                                filePath = filePath
+                            )
+                        )
+                    )
                 }
             }
         }
@@ -171,6 +190,7 @@ fun AddEditDiaryScreen(
             is AddEditDiaryEffect.ShowSnackBar -> {
                 snackBar.showSnackBar(effect.snackBarData)
             }
+
             AddEditDiaryEffect.LaunchCamera -> {
                 permissionHandler.askPermission(Permission.CAMERA) { isGranted ->
                     if (isGranted) {
@@ -191,11 +211,11 @@ fun AddEditDiaryScreen(
                 permissionHandler.askPermission(Permission.RECORD_AUDIO) { isGranted ->
                     if (isGranted) {
                         scope.launch(Dispatchers.IO) {
-                            voiceRecorder.onResult { bytes ->
+                            voiceRecorder.onResult { filePath ->
                                 viewModel.handleIntent(
                                     AddEditDiaryIntent.OnAddAttachment(
                                         Attachment.Audio(
-                                            bytes = bytes
+                                            filePath = filePath
                                         )
                                     )
                                 )

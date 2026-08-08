@@ -5,46 +5,27 @@ package com.devbilal.presentation.common.media
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCObjectVar
-import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.readBytes
-import kotlinx.cinterop.usePinned
 import platform.AVFoundation.AVAssetImageGenerator
-import platform.AVFoundation.AVURLAsset
 import platform.CoreMedia.CMTime
 import platform.CoreMedia.CMTimeMake
-import platform.Foundation.NSData
 import platform.Foundation.NSError
 import platform.Foundation.NSFileManager
-import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL
-import platform.Foundation.NSUUID
-import platform.Foundation.create
-import platform.Foundation.writeToURL
 import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
 
 
 class IosVideoUtils : VideoUtils {
-    override fun generateThumbnail(videoBytes: ByteArray?): ByteArray? {
+    override fun generateThumbnail(filePath: String): ByteArray? {
         memScoped {
             return try {
-                if (videoBytes == null) return null
-
-                val data = videoBytes.usePinned { pinned ->
-                    NSData.create(
-                        bytes = pinned.addressOf(0),
-                        length = videoBytes.size.toULong()
-                    )
-                }
-
-                val tempPath = NSTemporaryDirectory() + NSUUID().UUIDString + ".mp4"
-                val fileUrl = NSURL.fileURLWithPath(tempPath)
-                data.writeToURL(fileUrl, atomically = true)
-
-                val asset = AVURLAsset(fileUrl, null)
+                val cleanPath = filePath.replace("file://", "")
+                val url = NSURL.fileURLWithPath(cleanPath)
+                val asset = platform.AVFoundation.AVAsset.assetWithURL(url)
                 val generator = AVAssetImageGenerator(asset).apply {
                     appliesPreferredTrackTransform = true
                 }
@@ -55,7 +36,7 @@ class IosVideoUtils : VideoUtils {
 
                 val cgImage = generator.copyCGImageAtTime(time, actualTime.ptr, error.ptr)
 
-                NSFileManager.defaultManager.removeItemAtURL(fileUrl, null)
+                NSFileManager.defaultManager.removeItemAtURL(url, null)
 
                 if (cgImage != null) {
                     val uiImage = UIImage.imageWithCGImage(cgImage)
@@ -77,4 +58,4 @@ class IosVideoUtils : VideoUtils {
 }
 
 
-actual fun getVideoUtils(): VideoUtils = IosVideoUtils()
+actual fun getVideoUtils(context: Any?): VideoUtils = IosVideoUtils()

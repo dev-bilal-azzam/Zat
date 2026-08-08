@@ -20,17 +20,10 @@ import kotlin.uuid.Uuid
 class DiaryHistoryRepositoryImpl(
     private val diaryHistoryDao: DiaryHistoryDao,
     private val fileManager: FileManager
-): DiaryHistoryRepository {
+) : DiaryHistoryRepository {
+
     override suspend fun saveVersion(version: DiaryVersion) {
-        val attachmentDtos = version.entry.attachments.map { attachment ->
-            val fileName = "${attachment.id}_${attachment.type}.bin"
-            val path = fileManager.saveFile(fileName, attachment.bytes)
-            val thumbnailPath = if (attachment is Attachment.Video) {
-                val thumbName = "${attachment.id}_${attachment.type}_thumb.jpg"
-                fileManager.saveFile(thumbName, attachment.thumbnail)
-            } else null
-            attachment.toDto(path, thumbnailPath)
-        }
+        val attachmentDtos = processAttachments(version.entry.attachments)
         diaryHistoryDao.insertVersion(version.toDto(attachmentDtos))
     }
 
@@ -45,15 +38,29 @@ class DiaryHistoryRepositoryImpl(
     override fun getHistoryByEntryId(entryId: Uuid): Flow<List<DiaryVersion>> {
         return diaryHistoryDao.getHistoryByEntryId(entryId.toString()).map { list ->
             list.map { dto ->
-                val attachmentsWithBytes = dto.attachments.map { attachmentDto ->
-                    val bytes = fileManager.readFile(attachmentDto.filePath) ?: byteArrayOf()
+                val attachments = dto.attachments.map { attachmentDto ->
                     val thumbnail = if (attachmentDto is AttachmentDto.Video) {
                         fileManager.readFile(attachmentDto.thumbnailFilePath)
                     } else null
-                    attachmentDto.toEntity(bytes, thumbnail)
+                    attachmentDto.toEntity(attachmentDto.filePath, thumbnail)
                 }
-                dto.toEntity(attachmentsWithBytes)
+                dto.toEntity(attachments)
             }
+        }
+    }
+
+    private suspend fun processAttachments(attachments: List<Attachment>): List<AttachmentDto> {
+        return attachments.map { attachment ->
+            val fileExtension = attachment.filePath.substringAfterLast('.', "bin")
+            val fileName = "history_${attachment.id}_${attachment.type}.$fileExtension"
+
+            val path = fileManager.copyFile(attachment.filePath, fileName)
+            val thumbnailPath = if (attachment is Attachment.Video) {
+                val thumbName = "history_${attachment.id}_${attachment.type}_thumb.jpg"
+                fileManager.saveFile(thumbName, attachment.thumbnail)
+            } else null
+
+            attachment.toDto(path, thumbnailPath)
         }
     }
 }

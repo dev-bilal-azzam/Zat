@@ -11,7 +11,7 @@ import java.io.File
 class AndroidVoiceRecorder(private val context: Context) : VoiceRecorder {
     private var mediaRecorder: MediaRecorder? = null
     private var outputFile: File? = null
-    private var onResultCallback: ((ByteArray) -> Unit)? = null
+    private var onResultCallback: ((String) -> Unit)? = null
 
     override fun startRecording() {
         val file = File(context.cacheDir, "temp_recording_${System.currentTimeMillis()}.m4a")
@@ -42,15 +42,14 @@ class AndroidVoiceRecorder(private val context: Context) : VoiceRecorder {
             mediaRecorder = null
         }
 
-        outputFile?.let {
-            if (it.exists()) {
-                onResultCallback?.invoke(it.readBytes())
-                it.delete()
+        outputFile?.let { file ->
+            if (file.exists() && file.length() > 0) {
+                onResultCallback?.invoke(file.absolutePath)
             }
         }
     }
 
-    override fun onResult(callback: (ByteArray) -> Unit) {
+    override fun onResult(callback: (String) -> Unit) {
         onResultCallback = callback
     }
 }

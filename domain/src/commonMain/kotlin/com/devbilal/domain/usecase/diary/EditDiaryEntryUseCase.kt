@@ -27,7 +27,6 @@ class EditDiaryEntryUseCase(
 
         historyRepository.saveVersion(version)
         
-        // Update the main entry with incremented history count
         diaryEntryRepository.updateEntry(updatedEntry.copy(
             historyCount = oldEntry.historyCount + 1
         ))

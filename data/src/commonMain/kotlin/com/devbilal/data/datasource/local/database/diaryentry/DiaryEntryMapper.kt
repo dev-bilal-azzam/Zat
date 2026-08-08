@@ -71,14 +71,14 @@ fun Attachment.toDto(path: String, thumbnailPath: String? = null): AttachmentDto
     is Attachment.Audio -> AttachmentDto.Audio(id = id.toString(), filePath = path)
 }
 
-fun AttachmentDto.toEntity(bytes: ByteArray, thumbnail: ByteArray? = null): Attachment = when (this) {
-    is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), bytes = bytes)
+fun AttachmentDto.toEntity(filePath: String, thumbnail: ByteArray? = null): Attachment = when (this) {
+    is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), filePath = filePath)
     is AttachmentDto.Video -> Attachment.Video(
         id = Uuid.parse(id),
-        bytes = bytes,
+        filePath = filePath,
         thumbnail = thumbnail ?: byteArrayOf()
     )
-    is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), bytes = bytes)
+    is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), filePath = filePath)
 }
 
 fun AttachmentDto.toAttachmentType(): AttachmentType = when(this) {

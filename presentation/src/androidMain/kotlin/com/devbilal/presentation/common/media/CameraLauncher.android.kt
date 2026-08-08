@@ -11,8 +11,8 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 class AndroidCameraLauncher(
-    private val onResult: (ByteArray?) -> Unit,
-    private val onVideoResult: ((ByteArray?, ByteArray?) -> Unit)? = null,
+    private val onResult: (String?) -> Unit,
+    private val onVideoResult: ((String?, ByteArray?) -> Unit)? = null,
     private val launcher: ActivityResultLauncher<Uri>,
     private val fileUri: Uri,
     private val file: File,
@@ -24,12 +24,11 @@ class AndroidCameraLauncher(
 
     fun handleResult(success: Boolean) {
         if (success) {
-            val bytes = file.readBytes()
             if (isVideo) {
-                val thumbnail = getVideoUtils().generateThumbnail(bytes)
-                onVideoResult?.invoke(bytes, thumbnail)
+                val thumbnail = getVideoUtils().generateThumbnail(file.path)
+                onVideoResult?.invoke(file.path, thumbnail)
             } else {
-                onResult(bytes)
+                onResult(file.path)
             }
             file.delete()
         } else {
@@ -39,7 +38,7 @@ class AndroidCameraLauncher(
 }
 
 @Composable
-actual fun rememberCameraLauncher(onResult: (ByteArray?) -> Unit): CameraLauncher {
+actual fun rememberCameraLauncher(onResult: (String?) -> Unit): CameraLauncher {
     val context = LocalContext.current
     val photoFile = remember {
         File(context.cacheDir, "temp_photo_${System.currentTimeMillis()}.jpg")
@@ -73,7 +72,7 @@ actual fun rememberCameraLauncher(onResult: (ByteArray?) -> Unit): CameraLaunche
 }
 
 @Composable
-actual fun rememberVideoLauncher(onResult: (ByteArray?, ByteArray?) -> Unit): CameraLauncher {
+actual fun rememberVideoLauncher(onResult: (String?, ByteArray?) -> Unit): CameraLauncher {
     val context = LocalContext.current
     val videoFile = remember {
         File(context.cacheDir, "temp_video_${System.currentTimeMillis()}.mp4")

@@ -8,6 +8,7 @@ androidx-splash = "1.2.0"
 androidx-lifecycle = "2.10.0-beta01"
 appcompat = "1.7.1"
 biometric = "1.1.0"
+coilCompose = "3.5.0"
 composeMultiplatform = "1.10.2"
 jbcrypt = "0.4"
 kotlin = "2.3.10"
@@ -105,6 +106,8 @@ peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekit" }
 
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

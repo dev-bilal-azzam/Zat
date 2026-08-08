@@ -16,35 +16,35 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 class DiaryEntryRepositoryImpl(
     private val diaryEntryDao: DiaryEntryDao,
     private val fileManager: FileManager
 ): DiaryEntryRepository {
+
     override suspend fun saveEntry(entry: DiaryEntry) {
-        val attachmentsWithPaths = entry.attachments.map { attachment ->
-            val fileName = "${attachment.id}_${attachment.type}.bin"
-            val path = fileManager.saveFile(fileName, attachment.bytes)
-            val thumbnailPath = if (attachment is Attachment.Video) {
-                val thumbName = "${attachment.id}_${attachment.type}_thumb.jpg"
-                fileManager.saveFile(thumbName, attachment.thumbnail)
-            } else null
-            attachment.toDto(path, thumbnailPath)
-        }
+        val attachmentsWithPaths = processAttachments(entry.attachments)
         diaryEntryDao.insertEntry(entry.toDto(attachmentsWithPaths))
     }
 
     override suspend fun updateEntry(entry: DiaryEntry) {
-        val attachmentsWithPaths = entry.attachments.map { attachment ->
-            val fileName = "${attachment.id}_${attachment.type}.bin"
-            val path = fileManager.saveFile(fileName, attachment.bytes)
+        val attachmentsWithPaths = processAttachments(entry.attachments)
+        diaryEntryDao.updateEntry(entry.toDto(attachmentsWithPaths))
+    }
+
+    private suspend fun processAttachments(attachments: List<Attachment>): List<AttachmentDto> {
+        return attachments.map { attachment ->
+            val fileExtension = attachment.filePath.substringAfterLast('.', "bin")
+            val fileName = "${attachment.id}_${attachment.type}.$fileExtension"
+
+            val path = fileManager.copyFile(attachment.filePath, fileName)
+
             val thumbnailPath = if (attachment is Attachment.Video) {
                 val thumbName = "${attachment.id}_${attachment.type}_thumb.jpg"
                 fileManager.saveFile(thumbName, attachment.thumbnail)
             } else null
+
             attachment.toDto(path, thumbnailPath)
         }
-        diaryEntryDao.updateEntry(entry.toDto(attachmentsWithPaths))
     }
 
     override suspend fun deleteEntry(id: Uuid) {
@@ -63,11 +63,10 @@ class DiaryEntryRepositoryImpl(
         val historyCount = diaryEntryDao.getHistoryCount(id.toString())
 
         val attachmentsWithBytes = dto.attachments.map { attachmentDto ->
-            val bytes = fileManager.readFile(attachmentDto.filePath) ?: byteArrayOf()
             val thumbnail = if (attachmentDto is AttachmentDto.Video) {
                 fileManager.readFile(attachmentDto.thumbnailFilePath)
             } else null
-            attachmentDto.toEntity(bytes, thumbnail)
+            attachmentDto.toEntity(attachmentDto.filePath, thumbnail)
         }
 
         return dto.toEntity(historyCount, attachmentsWithBytes)

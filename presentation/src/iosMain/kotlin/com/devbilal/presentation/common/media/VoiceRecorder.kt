@@ -5,8 +5,6 @@ package com.devbilal.presentation.common.media
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.usePinned
 import platform.AVFAudio.AVAudioQualityMedium
 import platform.AVFAudio.AVAudioRecorder
 import platform.AVFAudio.AVAudioSession
@@ -18,27 +16,25 @@ import platform.AVFAudio.AVSampleRateKey
 import platform.AVFAudio.setActive
 import platform.CoreAudioTypes.kAudioFormatMPEG4AAC
 import platform.Foundation.NSCachesDirectory
-import platform.Foundation.NSData
 import platform.Foundation.NSDate
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSNumber
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
-import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.timeIntervalSince1970
-import platform.posix.memcpy
 
+@OptIn(ExperimentalForeignApi::class)
 class IosVoiceRecorder : VoiceRecorder {
     private var recorder: AVAudioRecorder? = null
     private val audioSession = AVAudioSession.sharedInstance()
-    private var onResultCallback: ((ByteArray) -> Unit)? = null
+    private var onResultCallback: ((String) -> Unit)? = null
     private var outputFileUrl: NSURL? = null
 
     override fun startRecording() {
         val fileManager = NSFileManager.defaultManager
         val cachesDir =
             fileManager.URLsForDirectory(NSCachesDirectory, NSUserDomainMask).first() as NSURL
-        val fileName = "temp_recording_${NSDate().timeIntervalSince1970}.m4a"
+        val fileName = "temp_recording_${NSDate().timeIntervalSince1970.toLong()}.m4a"
         outputFileUrl = cachesDir.URLByAppendingPathComponent(fileName)
 
         val settings = mapOf<Any?, Any?>(
@@ -61,25 +57,15 @@ class IosVoiceRecorder : VoiceRecorder {
         recorder?.stop()
         audioSession.setActive(false, error = null)
 
-        outputFileUrl?.let { url ->
-            val data = NSData.dataWithContentsOfURL(url)
-            if (data != null) {
-                val bytes = ByteArray(data.length.toInt())
-                if (data.length > 0u) {
-                    data.bytes?.let { ptr ->
-                        bytes.usePinned { pinned ->
-                            memcpy(pinned.addressOf(0), ptr, data.length)
-                        }
-                    }
-                    onResultCallback?.invoke(bytes)
-                }
+        outputFileUrl?.path?.let { filePath ->
+            if (NSFileManager.defaultManager.fileExistsAtPath(filePath)) {
+                onResultCallback?.invoke(filePath)
             }
-            NSFileManager.defaultManager.removeItemAtURL(url, null)
         }
         recorder = null
     }
 
-    override fun onResult(callback: (ByteArray) -> Unit) {
+    override fun onResult(callback: (String) -> Unit) {
         onResultCallback = callback
     }
 }

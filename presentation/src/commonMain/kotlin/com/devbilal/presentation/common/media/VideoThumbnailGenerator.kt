@@ -1,7 +1,7 @@
 package com.devbilal.presentation.common.media
 
 interface VideoUtils {
-    fun generateThumbnail(videoBytes: ByteArray?): ByteArray?
+    fun generateThumbnail(filePath: String): ByteArray?
 }
 
-expect fun getVideoUtils(): VideoUtils
+expect fun getVideoUtils(context: Any? = null): VideoUtils

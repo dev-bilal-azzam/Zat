@@ -1,37 +1,22 @@
 package com.devbilal.presentation.common.media
 
+import android.content.Context
 import android.graphics.Bitmap
-import android.media.MediaDataSource
 import android.media.MediaMetadataRetriever
+import androidx.core.net.toUri
 import java.io.ByteArrayOutputStream
 
-class AndroidVideoUtils : VideoUtils {
-    override fun generateThumbnail(videoBytes: ByteArray?): ByteArray? {
+class AndroidVideoUtils(private val context: Context) : VideoUtils {
+    override fun generateThumbnail(filePath: String): ByteArray? {
         val retriever = MediaMetadataRetriever()
         return try {
-            if (videoBytes == null) {
-                retriever.release()
-                return null
+            if (filePath.startsWith("content://")) {
+                retriever.setDataSource(context, filePath.toUri())
+            } else {
+                retriever.setDataSource(filePath)
             }
-            retriever.setDataSource(object : MediaDataSource() {
-                override fun readAt(
-                    position: Long,
-                    buffer: ByteArray,
-                    offset: Int,
-                    size: Int
-                ): Int {
-                    if (position >= videoBytes.size) return -1
-                    val bytesToRead = minOf(size, (videoBytes.size - position).toInt())
-                    System.arraycopy(videoBytes, position.toInt(), buffer, offset, bytesToRead)
-                    return bytesToRead
-                }
 
-                override fun getSize(): Long = videoBytes.size.toLong()
-                override fun close() {}
-            })
-
-            val bitmap =
-                retriever.getFrameAtTime(1_000_000L, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            val bitmap = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
             bitmap?.let {
                 val stream = ByteArrayOutputStream()
@@ -44,8 +29,10 @@ class AndroidVideoUtils : VideoUtils {
         } finally {
             retriever.release()
         }
-
     }
 }
 
-actual fun getVideoUtils(): VideoUtils = AndroidVideoUtils()
+actual fun getVideoUtils(context: Any?): VideoUtils {
+    requireNotNull(context) { "Context is required on Android to initialize VideoUtils" }
+    return AndroidVideoUtils(context as Context)
+}

@@ -30,6 +30,9 @@ kotlin {
                 implementation(libs.peekaboo.image.picker)
                 implementation(libs.filekit.compose)
 
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network.okhttp)
+
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
             }
