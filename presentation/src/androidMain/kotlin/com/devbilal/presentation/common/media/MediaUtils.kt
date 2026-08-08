@@ -20,11 +20,19 @@ class AndroidMediaUtils(private val context: Context) : MediaUtils {
                 retriever.setDataSource(filePath)
             }
 
-            val bitmap = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            val durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val durationMs = durationStr?.toLongOrNull() ?: 0L
+
+            val midPointUs = if (durationMs > 0) (durationMs / 2) * 1000L else 1_000_000L
+
+            val bitmap = retriever.getFrameAtTime(
+                midPointUs,
+                MediaMetadataRetriever.OPTION_CLOSEST_SYNC
+            )
 
             bitmap?.let {
                 val stream = ByteArrayOutputStream()
-                it.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                it.compress(Bitmap.CompressFormat.JPEG, 80, stream)
                 stream.toByteArray()
             }
         } catch (e: Exception) {
