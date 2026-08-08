@@ -3,6 +3,7 @@
 package com.devbilal.presentation.common.media
 
 import androidx.compose.runtime.Composable
+import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCObjectVar
@@ -20,7 +21,7 @@ import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
 
 
-class IosVideoUtils : VideoUtils {
+class IosMediaUtils : MediaUtils {
     override fun generateThumbnail(filePath: String): ByteArray? {
         memScoped {
             return try {
@@ -56,9 +57,11 @@ class IosVideoUtils : VideoUtils {
         }
     }
 
+    override fun platformFileToTempFile(file: PlatformFile) = file.path ?: throw IllegalStateException("File path is null on iOS")
+
 }
 
-actual fun getVideoUtils(context: Any?): VideoUtils = IosVideoUtils()
+actual fun getMediaUtils(context: Any?): MediaUtils = IosMediaUtils()
 
 @Composable
-actual fun rememberVideoUtils(): VideoUtils  = IosVideoUtils()
+actual fun rememberMediaUtils(): MediaUtils  = IosMediaUtils()

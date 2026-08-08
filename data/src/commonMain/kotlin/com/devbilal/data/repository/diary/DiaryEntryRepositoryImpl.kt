@@ -77,4 +77,8 @@ class DiaryEntryRepositoryImpl(
             list.map { it.toSummary() }
         }
     }
+
+    override suspend fun clearTempCache() {
+        fileManager.clearTempCache()
+    }
 }

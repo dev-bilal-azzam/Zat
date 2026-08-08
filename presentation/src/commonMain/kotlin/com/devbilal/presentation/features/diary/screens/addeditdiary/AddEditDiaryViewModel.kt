@@ -5,6 +5,7 @@ package com.devbilal.presentation.features.diary.screens.addeditdiary
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.designsystem.component.uitext.UiText
 import com.devbilal.domain.entity.DiaryEntry
+import com.devbilal.domain.usecase.diary.ClearTempCacheUseCase
 import com.devbilal.domain.usecase.diary.EditDiaryEntryUseCase
 import com.devbilal.domain.usecase.diary.GetDiaryEntryUseCase
 import com.devbilal.domain.usecase.diary.SaveDiaryEntryUseCase
@@ -26,7 +27,8 @@ class AddEditDiaryViewModel(
     args: AddEditDiaryArgs,
     private val getDiaryEntryUseCase: GetDiaryEntryUseCase,
     private val editDiaryEntryUseCase: EditDiaryEntryUseCase,
-    private val saveDiaryEntryUseCase: SaveDiaryEntryUseCase
+    private val saveDiaryEntryUseCase: SaveDiaryEntryUseCase,
+    private val clearTempCacheUseCase: ClearTempCacheUseCase
 ) : BaseViewModel<AddEditDiaryState, AddEditDiaryIntent, AddEditDiaryEffect>(
     AddEditDiaryState(date = LocalDateTime.now().date)
 ) {
@@ -155,5 +157,10 @@ class AddEditDiaryViewModel(
                 )
             )
         )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clearTempCacheUseCase()
     }
 }

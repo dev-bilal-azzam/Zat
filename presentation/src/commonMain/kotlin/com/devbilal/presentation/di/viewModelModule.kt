@@ -39,6 +39,7 @@ internal val viewModelModule = module {
             getDiaryEntryUseCase = get(),
             editDiaryEntryUseCase = get(),
             saveDiaryEntryUseCase = get(),
+            clearTempCacheUseCase = get(),
         )
     }
 

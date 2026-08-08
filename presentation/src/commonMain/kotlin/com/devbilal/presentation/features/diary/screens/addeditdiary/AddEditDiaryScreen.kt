@@ -44,7 +44,7 @@ import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.media.rememberCameraLauncher
 import com.devbilal.presentation.common.media.rememberVideoLauncher
-import com.devbilal.presentation.common.media.rememberVideoUtils
+import com.devbilal.presentation.common.media.rememberMediaUtils
 import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.common.permission.Permission
@@ -100,6 +100,7 @@ fun AddEditDiaryScreen(
 
     val permissionHandler = rememberPermissionHandler()
 
+    val mediaUtils = rememberMediaUtils()
     val voiceRecorder = rememberVoiceRecorder()
 
     val cameraLauncher = rememberCameraLauncher(
@@ -129,13 +130,14 @@ fun AddEditDiaryScreen(
         type = PickerType.Image,
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
+            println("Attachments -> picked file path = ${file?.path}")
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val filePath = it.path ?: return@launch
+                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
                     viewModel.handleIntent(
                         AddEditDiaryIntent.OnAddAttachment(
                             Attachment.Image(
-                                filePath = filePath
+                                filePath = tempFilePath
                             )
                         )
                     )
@@ -144,19 +146,18 @@ fun AddEditDiaryScreen(
         }
     )
 
-    val videoUtils = rememberVideoUtils()
     val videoPickerLauncher = rememberFilePickerLauncher(
         type = PickerType.Video,
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val filePath = it.path ?: return@launch
-                    val thumbnail = videoUtils.generateThumbnail(filePath)
+                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
+                    val thumbnail = mediaUtils.generateThumbnail(tempFilePath)
                     viewModel.handleIntent(
                         AddEditDiaryIntent.OnAddAttachment(
                             Attachment.Video(
-                                filePath = filePath,
+                                filePath = tempFilePath,
                                 thumbnail = thumbnail ?: byteArrayOf()
                             )
                         )
@@ -172,11 +173,11 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val filePath = it.path ?: return@launch
+                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
                     viewModel.handleIntent(
                         AddEditDiaryIntent.OnAddAttachment(
                             Attachment.Audio(
-                                filePath = filePath
+                                filePath = tempFilePath
                             )
                         )
                     )

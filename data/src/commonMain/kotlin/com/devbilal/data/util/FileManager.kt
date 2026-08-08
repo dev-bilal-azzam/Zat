@@ -5,4 +5,5 @@ interface FileManager {
     suspend fun copyFile(sourceFilePath: String, fileName: String): String
     suspend fun readFile(filePath: String): ByteArray?
     suspend fun deleteFile(filePath: String): Boolean
+    suspend fun clearTempCache()
 }

@@ -19,17 +19,12 @@ class AndroidFileManager(private val context: Context) : FileManager {
 
     override suspend fun copyFile(sourceFilePath: String, fileName: String): String = withContext(Dispatchers.IO) {
         val destFile = File(attachmentDir, fileName)
-
-        if (sourceFilePath == destFile.absolutePath) {
-            return@withContext destFile.absolutePath
-        }
+        if (sourceFilePath == destFile.absolutePath) return@withContext destFile.absolutePath
 
         if (sourceFilePath.startsWith("content://")) {
             val uri = Uri.parse(sourceFilePath)
             context.contentResolver.openInputStream(uri)?.use { input ->
-                destFile.outputStream().use { output ->
-                    input.copyTo(output)
-                }
+                destFile.outputStream().use { output -> input.copyTo(output) }
             }
         } else {
             val sourceFile = File(sourceFilePath)
@@ -48,5 +43,11 @@ class AndroidFileManager(private val context: Context) : FileManager {
     override suspend fun deleteFile(filePath: String): Boolean = withContext(Dispatchers.IO) {
         val file = File(filePath)
         if (file.exists()) file.delete() else false
+    }
+
+    override suspend fun clearTempCache(): Unit = withContext(Dispatchers.IO) {
+        context.cacheDir.listFiles()?.forEach { file ->
+            if (file.isFile) file.delete()
+        }
     }
 }

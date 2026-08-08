@@ -14,4 +14,5 @@ interface DiaryEntryRepository {
     suspend fun deleteEntry(id: Uuid)
     suspend fun getEntryById(id: Uuid): DiaryEntry?
     fun getAllEntries(): Flow<List<DiaryEntrySummary>>
+    suspend fun clearTempCache()
 }

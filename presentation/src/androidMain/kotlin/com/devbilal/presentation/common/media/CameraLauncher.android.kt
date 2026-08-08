@@ -26,12 +26,12 @@ class AndroidCameraLauncher(
     fun handleResult(context: Context, success: Boolean) {
         if (success) {
             if (isVideo) {
-                val thumbnail = getVideoUtils(context).generateThumbnail(file.path)
+                val thumbnail = getMediaUtils(context).generateThumbnail(file.path)
                 onVideoResult?.invoke(file.path, thumbnail)
             } else {
                 onResult(file.path)
             }
-            file.delete()
+            //file.delete()
         } else {
             if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
         }

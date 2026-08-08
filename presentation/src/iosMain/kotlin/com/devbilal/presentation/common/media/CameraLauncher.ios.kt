@@ -56,7 +56,7 @@ class IosCameraLauncher(
             val videoPath = videoUrl?.path
 
             if (videoPath != null) {
-                val thumbnailBytes = getVideoUtils().generateThumbnail(videoPath)
+                val thumbnailBytes = getMediaUtils().generateThumbnail(videoPath)
                 onVideoResult?.invoke(videoPath, thumbnailBytes)
             } else {
                 onVideoResult?.invoke(null, null)

@@ -80,7 +80,7 @@ private fun AttachmentItem(
                             is AsyncImagePainter.State.Success -> println("Attachments -> image loaded, result = ${it.result}")
                             is AsyncImagePainter.State.Empty -> println("Attachments -> image empty")
                             is AsyncImagePainter.State.Error -> println("Attachments -> image error, result = ${it.result.throwable}")
-                            is AsyncImagePainter.State.Loading -> println("Attachments -> image loaded")
+                            is AsyncImagePainter.State.Loading -> println("Attachments -> image loading")
                         }
                     },
                     contentDescription = "Image Attachment",

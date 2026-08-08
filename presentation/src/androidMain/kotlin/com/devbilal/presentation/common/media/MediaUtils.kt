@@ -6,9 +6,11 @@ import android.media.MediaMetadataRetriever
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import io.github.vinceglb.filekit.core.PlatformFile
 import java.io.ByteArrayOutputStream
+import java.io.File
 
-class AndroidVideoUtils(private val context: Context) : VideoUtils {
+class AndroidMediaUtils(private val context: Context) : MediaUtils {
     override fun generateThumbnail(filePath: String): ByteArray? {
         val retriever = MediaMetadataRetriever()
         return try {
@@ -32,15 +34,28 @@ class AndroidVideoUtils(private val context: Context) : VideoUtils {
             retriever.release()
         }
     }
+
+    override fun platformFileToTempFile(file: PlatformFile): String {
+        val extension = file.name.substringAfterLast('.', "tmp")
+        val tempFile = File(context.cacheDir, "picked_${System.currentTimeMillis()}.$extension")
+
+        context.contentResolver.openInputStream(file.uri)?.use { input ->
+            tempFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return tempFile.absolutePath
+    }
 }
 
-actual fun getVideoUtils(context: Any?): VideoUtils {
+actual fun getMediaUtils(context: Any?): MediaUtils {
     requireNotNull(context) { "Context is required on Android to initialize VideoUtils" }
-    return AndroidVideoUtils(context as Context)
+    return AndroidMediaUtils(context as Context)
 }
 
 @Composable
-actual fun rememberVideoUtils(): VideoUtils {
+actual fun rememberMediaUtils(): MediaUtils {
     val context = LocalContext.current
-    return AndroidVideoUtils(context)
+    return AndroidMediaUtils(context)
 }
