@@ -1,5 +1,7 @@
 import SwiftUI
 import ComposeApp
+import AVFoundation
+import CoreMedia
 
 @main
 struct iOSApp: App {
