@@ -23,7 +23,7 @@ kotlin {
                 implementation(libs.compose.ui)
                 implementation(libs.compose.components.resources)
                 implementation(libs.compose.uiToolingPreview)
-                implementation(libs.squircle.shape)
+                api(libs.squircle.shape)
                 implementation(libs.compose.ui.backhandler)
                 implementation(libs.kotlinx.datetime)
             }

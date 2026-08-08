@@ -5,27 +5,24 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface AttachmentDto {
     val id: String
-    val path: String
-    val type: String
+    val filePath: String
 
     @Serializable
     data class Image(
         override val id: String,
-        override val path: String,
-        override val type: String = "IMAGE"
+        override val filePath: String,
     ) : AttachmentDto
 
     @Serializable
     data class Video(
         override val id: String,
-        override val path: String,
-        override val type: String = "VIDEO"
+        override val filePath: String,
+        val thumbnailFilePath: String
     ) : AttachmentDto
 
     @Serializable
     data class Audio(
         override val id: String,
-        override val path: String,
-        override val type: String = "AUDIO"
+        override val filePath: String,
     ) : AttachmentDto
 }

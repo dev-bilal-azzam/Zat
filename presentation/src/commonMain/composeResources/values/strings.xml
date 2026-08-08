@@ -105,4 +105,20 @@
     <string name="diary_title_cannot_be_empty">Diary Title Cannot Be Empty</string>
     <string name="diary_entry_not_saved">Sorry, Diary Entry Not Saved</string>
     <string name="diary_entry_saved">Diary Entry Saved Successfully</string>
+    <string name="no_entries_yet">No entries yet. Start writing your story!</string>
+    <string name="add_image">Add Image</string>
+    <string name="add_video">Add Video</string>
+    <string name="add_audio">Add Audio</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="select_from_existing_photos">Select from your existing photos</string>
+    <string name="capture_photo">Capture Photo</string>
+    <string name="take_new_photo_with_camera">Take a new photo with camera</string>
+    <string name="select_video_from_gallery">Select Video from Gallery</string>
+    <string name="browse_your_existing_media">Browse your existing media</string>
+    <string name="record_video">Record Video</string>
+    <string name="use_camera_to_capture_new_video">Use camera to capture new video</string>
+    <string name="select_audio_from_files">Select Audio from Files</string>
+    <string name="browse_your_existing_audio">Browse your existing audio</string>
+    <string name="record_audio">Record Audio</string>
+    <string name="use_mic_to_record_new_audio">Use mic to record new audio</string>
 </resources>

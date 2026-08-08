@@ -24,5 +24,6 @@ data class DiaryEntrySummary(
     val date: LocalDate,
     val historyCount: Int,
     val attachmentTypes: List<AttachmentType>,
-    val firstImageUrl: String?
+    val firstImageUrl: String?,
+    val color: DiaryColor
 )

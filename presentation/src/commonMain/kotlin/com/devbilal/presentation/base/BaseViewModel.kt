@@ -2,6 +2,9 @@ package com.devbilal.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +14,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
     initialState: State
@@ -39,11 +43,12 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         onSuccess: suspend (T) -> Unit = {},
         onError: suspend (Throwable) -> Unit = {},
         onCompleted: suspend () -> Unit = {},
+        dispatcher: CoroutineDispatcher = Dispatchers.IO,
         block: suspend () -> T
     ) {
         viewModelScope.launch {
             onStart()
-            runCatching { block() }
+            withContext(dispatcher) { runCatching { block() } }
                 .onSuccess { onSuccess(it) }
                 .onFailure { onError(it) }
             onCompleted()

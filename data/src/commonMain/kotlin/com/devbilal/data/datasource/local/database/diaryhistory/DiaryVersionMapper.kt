@@ -2,8 +2,8 @@
 
 package com.devbilal.data.datasource.local.database.diaryhistory
 
-import com.devbilal.data.datasource.local.database.diaryentry.toDto
-import com.devbilal.data.datasource.local.database.diaryentry.toEntity
+import com.devbilal.data.datasource.local.database.diaryentry.AttachmentDto
+import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.DiaryColor
 import com.devbilal.domain.entity.DiaryEntry
 import com.devbilal.domain.entity.DiaryVersion
@@ -12,7 +12,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-fun DiaryVersionDto.toEntity(): DiaryVersion {
+fun DiaryVersionDto.toEntity(attachments: List<Attachment>): DiaryVersion {
     val entry = DiaryEntry(
         id = Uuid.parse(primaryEntryId),
         title = title,
@@ -20,7 +20,7 @@ fun DiaryVersionDto.toEntity(): DiaryVersion {
         date = LocalDate.parse(date),
         createdAt = LocalDateTime.parse(createdAt),
         color = DiaryColor(color),
-        attachments = attachments.map { it.toEntity() },
+        attachments = attachments,
         historyCount = 0
     )
     return DiaryVersion(
@@ -31,7 +31,7 @@ fun DiaryVersionDto.toEntity(): DiaryVersion {
     )
 }
 
-fun DiaryVersion.toDto(): DiaryVersionDto {
+fun DiaryVersion.toDto(attachments: List<AttachmentDto>): DiaryVersionDto {
     return DiaryVersionDto(
         id = id.toString(),
         primaryEntryId = primaryEntryId.toString(),
@@ -40,7 +40,7 @@ fun DiaryVersion.toDto(): DiaryVersionDto {
         date = entry.date.toString(),
         createdAt = entry.createdAt.toString(),
         color = entry.color.value,
-        attachments = entry.attachments.map { it.toDto() },
+        attachments = attachments,
         versionCreatedAt = versionCreatedAt.toString()
     )
 }
