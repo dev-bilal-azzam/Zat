@@ -27,8 +27,64 @@ class IosCameraLauncher(
     private val onResult: (String?) -> Unit,
     private val onVideoResult: ((filePath: String?, thumbnail: ByteArray?) -> Unit)? = null,
     private val isVideo: Boolean
-) : CameraLauncher, NSObject(), UIImagePickerControllerDelegateProtocol,
-    UINavigationControllerDelegateProtocol {
+) : CameraLauncher {
+
+    private class PickerDelegate(
+        private val isVideo: Boolean,
+        private val onResult: (String?) -> Unit,
+        private val onVideoResult: ((filePath: String?, thumbnail: ByteArray?) -> Unit)?
+    ) : NSObject(), UIImagePickerControllerDelegateProtocol, UINavigationControllerDelegateProtocol {
+
+        override fun imagePickerController(
+            picker: UIImagePickerController,
+            didFinishPickingMediaWithInfo: Map<Any?, *>
+        ) {
+            if (isVideo) {
+                val videoUrl = didFinishPickingMediaWithInfo[UIImagePickerControllerMediaURL] as? NSURL
+                val videoPath = videoUrl?.path
+
+                if (videoPath != null) {
+                    val thumbnailBytes = getMediaUtils().generateThumbnail(videoPath)
+                    onVideoResult?.invoke(videoPath, thumbnailBytes)
+                } else {
+                    onVideoResult?.invoke(null, null)
+                }
+            } else {
+                val image = didFinishPickingMediaWithInfo[UIImagePickerControllerOriginalImage] as? UIImage
+                val data = image?.let { UIImageJPEGRepresentation(it, 0.8) }
+
+                val imagePath = data?.let { nsData ->
+                    if (nsData.length > 0u) {
+                        saveImageToTempFile(nsData)
+                    } else null
+                }
+
+                onResult(imagePath)
+            }
+            picker.dismissViewControllerAnimated(true, completion = null)
+        }
+
+        override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
+            if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
+            picker.dismissViewControllerAnimated(true, completion = null)
+        }
+
+        private fun saveImageToTempFile(data: NSData): String? {
+            val fileName = "captured_image_${NSDate().timeIntervalSince1970.toLong()}.jpg"
+            val tempDir = NSTemporaryDirectory()
+            val filePath = "$tempDir$fileName"
+            val fileUrl = NSURL.fileURLWithPath(filePath)
+
+            return if (data.writeToURL(fileUrl, true)) {
+                filePath
+            } else {
+                null
+            }
+        }
+    }
+
+    private val delegate = PickerDelegate(isVideo, onResult, onVideoResult)
+
     override fun launch() {
         val window = UIApplication.sharedApplication.keyWindow
             ?: UIApplication.sharedApplication.windows.firstOrNull() as? UIWindow
@@ -36,62 +92,13 @@ class IosCameraLauncher(
 
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera)) {
             val picker = UIImagePickerController().apply {
-                sourceType =
-                    UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera
+                sourceType = UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera
                 mediaTypes = if (isVideo) listOf("public.movie") else listOf("public.image")
-                delegate = this@IosCameraLauncher
+                delegate = this@IosCameraLauncher.delegate
             }
             rootViewController.presentViewController(picker, animated = true, completion = null)
         } else {
             if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
-        }
-    }
-
-    override fun imagePickerController(
-        picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo: Map<Any?, *>
-    ) {
-        if (isVideo) {
-            val videoUrl = didFinishPickingMediaWithInfo[UIImagePickerControllerMediaURL] as? NSURL
-            val videoPath = videoUrl?.path
-
-            if (videoPath != null) {
-                val thumbnailBytes = getMediaUtils().generateThumbnail(videoPath)
-                onVideoResult?.invoke(videoPath, thumbnailBytes)
-            } else {
-                onVideoResult?.invoke(null, null)
-            }
-        } else {
-            val image =
-                didFinishPickingMediaWithInfo[UIImagePickerControllerOriginalImage] as? UIImage
-            val data = image?.let { UIImageJPEGRepresentation(it, 0.8) }
-
-            val imagePath = data?.let { nsData ->
-                if (nsData.length > 0u) {
-                    saveImageToTempFile(nsData)
-                } else null
-            }
-
-            onResult(imagePath)
-        }
-        picker.dismissViewControllerAnimated(true, completion = null)
-    }
-
-    override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
-        picker.dismissViewControllerAnimated(true, completion = null)
-    }
-
-    private fun saveImageToTempFile(data: NSData): String? {
-        val fileName = "captured_image_${NSDate().timeIntervalSince1970.toLong()}.jpg"
-        val tempDir = NSTemporaryDirectory()
-        val filePath = "$tempDir$fileName"
-        val fileUrl = NSURL.fileURLWithPath(filePath)
-
-        return if (data.writeToURL(fileUrl, true)) {
-            filePath
-        } else {
-            null
         }
     }
 }
