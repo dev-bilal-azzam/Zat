@@ -4,11 +4,17 @@ package com.devbilal.presentation.features.diary.screens.addeditdiary.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,13 +22,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
 import org.jetbrains.compose.resources.painterResource
 import sv.lib.squircleshape.SquircleShape
-import zat.presentation.generated.resources.*
+import zat.presentation.generated.resources.Res
+import zat.presentation.generated.resources.ic_mic
+import zat.presentation.generated.resources.ic_play
 import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
@@ -63,8 +72,17 @@ private fun AttachmentItem(
     ) {
         when (attachment) {
             is Attachment.Image -> {
+                println("Attachments -> file path = ${attachment.filePath}")
                 AsyncImage(
                     model = attachment.filePath,
+                    onState = {
+                        when (it) {
+                            is AsyncImagePainter.State.Success -> println("Attachments -> image loaded, result = ${it.result}")
+                            is AsyncImagePainter.State.Empty -> println("Attachments -> image empty")
+                            is AsyncImagePainter.State.Error -> println("Attachments -> image error, result = ${it.result.throwable}")
+                            is AsyncImagePainter.State.Loading -> println("Attachments -> image loaded")
+                        }
+                    },
                     contentDescription = "Image Attachment",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -85,19 +103,13 @@ private fun AttachmentItem(
                             .background(Color.Black.copy(alpha = 0.25f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .background(Color.Black.copy(alpha = 0.6f), CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_play),
-                                contentDescription = "Video",
-                                tint = Color.White,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_play),
+                            contentDescription = "Video",
+                            tint = Color.White,
+                            modifier = Modifier.size(16.dp)
+                        )
+
                     }
                 }
             }

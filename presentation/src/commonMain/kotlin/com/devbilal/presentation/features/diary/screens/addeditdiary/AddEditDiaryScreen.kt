@@ -42,9 +42,9 @@ import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
-import com.devbilal.presentation.common.media.getVideoUtils
 import com.devbilal.presentation.common.media.rememberCameraLauncher
 import com.devbilal.presentation.common.media.rememberVideoLauncher
+import com.devbilal.presentation.common.media.rememberVideoUtils
 import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.common.permission.Permission
@@ -144,6 +144,7 @@ fun AddEditDiaryScreen(
         }
     )
 
+    val videoUtils = rememberVideoUtils()
     val videoPickerLauncher = rememberFilePickerLauncher(
         type = PickerType.Video,
         mode = PickerMode.Single,
@@ -151,7 +152,7 @@ fun AddEditDiaryScreen(
             file?.let {
                 scope.launch(Dispatchers.IO) {
                     val filePath = it.path ?: return@launch
-                    val thumbnail = getVideoUtils().generateThumbnail(filePath)
+                    val thumbnail = videoUtils.generateThumbnail(filePath)
                     viewModel.handleIntent(
                         AddEditDiaryIntent.OnAddAttachment(
                             Attachment.Video(

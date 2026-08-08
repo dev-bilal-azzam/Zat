@@ -1,5 +1,6 @@
 package com.devbilal.presentation.common.media
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -22,10 +23,10 @@ class AndroidCameraLauncher(
         launcher.launch(fileUri)
     }
 
-    fun handleResult(success: Boolean) {
+    fun handleResult(context: Context, success: Boolean) {
         if (success) {
             if (isVideo) {
-                val thumbnail = getVideoUtils().generateThumbnail(file.path)
+                val thumbnail = getVideoUtils(context).generateThumbnail(file.path)
                 onVideoResult?.invoke(file.path, thumbnail)
             } else {
                 onResult(file.path)
@@ -56,7 +57,7 @@ actual fun rememberCameraLauncher(onResult: (String?) -> Unit): CameraLauncher {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
-        cameraLauncher?.handleResult(success)
+        cameraLauncher?.handleResult(context, success)
     }
 
     cameraLauncher = remember(photoUri, photoFile) {
@@ -90,7 +91,7 @@ actual fun rememberVideoLauncher(onResult: (String?, ByteArray?) -> Unit): Camer
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CaptureVideo()
     ) { success ->
-        videoLauncher?.handleResult(success)
+        videoLauncher?.handleResult(context, success)
     }
 
     videoLauncher = remember(videoUri, videoFile) {

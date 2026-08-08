@@ -2,6 +2,7 @@
 
 package com.devbilal.presentation.common.media
 
+import androidx.compose.runtime.Composable
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCObjectVar
@@ -57,5 +58,7 @@ class IosVideoUtils : VideoUtils {
 
 }
 
-
 actual fun getVideoUtils(context: Any?): VideoUtils = IosVideoUtils()
+
+@Composable
+actual fun rememberVideoUtils(): VideoUtils  = IosVideoUtils()

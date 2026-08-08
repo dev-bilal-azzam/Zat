@@ -3,6 +3,8 @@ package com.devbilal.presentation.common.media
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import java.io.ByteArrayOutputStream
 
@@ -35,4 +37,10 @@ class AndroidVideoUtils(private val context: Context) : VideoUtils {
 actual fun getVideoUtils(context: Any?): VideoUtils {
     requireNotNull(context) { "Context is required on Android to initialize VideoUtils" }
     return AndroidVideoUtils(context as Context)
+}
+
+@Composable
+actual fun rememberVideoUtils(): VideoUtils {
+    val context = LocalContext.current
+    return AndroidVideoUtils(context)
 }

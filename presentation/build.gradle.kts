@@ -31,7 +31,7 @@ kotlin {
                 implementation(libs.filekit.compose)
 
                 implementation(libs.coil.compose)
-                implementation(libs.coil.network.okhttp)
+                implementation(libs.coil.network.ktor)
 
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
@@ -48,6 +48,7 @@ kotlin {
         androidMain {
             dependencies {
                 implementation(libs.androidx.biometric)
+                implementation(libs.coil.network.okhttp)
             }
         }
 
