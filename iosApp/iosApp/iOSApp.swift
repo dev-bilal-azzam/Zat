@@ -23,7 +23,7 @@ struct iOSApp: App {
                 let uiImage = UIImage(cgImage: cgImage)
 
                 if let data = uiImage.jpegData(compressionQuality: 0.8) {
-                    return data as NSData
+                    return data
                 }
             } catch {
                 print("Thumbnail generation error: \(error)")
