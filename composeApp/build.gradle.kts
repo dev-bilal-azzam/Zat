@@ -37,7 +37,7 @@ kotlin {
         commonMain.dependencies {
             // Project
             implementation(project(":designSystem"))
-            implementation(project(":presentation"))
+            api(project(":presentation"))
             implementation(project(":data"))
             implementation(project(":domain"))
 
