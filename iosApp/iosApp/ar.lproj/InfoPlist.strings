@@ -1,0 +1,2 @@
+NSCameraUsageDescription = "يحتاج التطبيق إلى استخدام الكاميرا لالتقاط الصور والفيديوهات.";
+NSMicrophoneUsageDescription = "يحتاج التطبيق إلى استخدام الميكروفون لتسجيل الصوت.";
