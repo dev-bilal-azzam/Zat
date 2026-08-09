@@ -49,6 +49,7 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data object OnPickAudioClicked: AddEditDiaryIntent
     data class OnAddAttachment(val attachment: Attachment) : AddEditDiaryIntent
     data class OnRemoveAttachment(val attachment: Attachment) : AddEditDiaryIntent
+    data class OnAttachmentClicked(val index: Int) : AddEditDiaryIntent
 }
 
 sealed interface AddEditDiaryEffect : UiEffect {
@@ -61,4 +62,5 @@ sealed interface AddEditDiaryEffect : UiEffect {
     data object LaunchImagePicker: AddEditDiaryEffect
     data object LaunchVideoPicker: AddEditDiaryEffect
     data object LaunchAudioPicker: AddEditDiaryEffect
+    data class NavigateToAttachments(val entryId: String, val initialIndex: Int) : AddEditDiaryEffect
 }

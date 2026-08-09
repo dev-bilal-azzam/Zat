@@ -43,12 +43,13 @@ import com.devbilal.domain.entity.Attachment
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.media.rememberCameraLauncher
-import com.devbilal.presentation.common.media.rememberVideoLauncher
 import com.devbilal.presentation.common.media.rememberMediaUtils
+import com.devbilal.presentation.common.media.rememberVideoLauncher
 import com.devbilal.presentation.common.media.rememberVoiceRecorder
 import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.common.permission.Permission
 import com.devbilal.presentation.common.permission.rememberPermissionHandler
+import com.devbilal.presentation.features.diary.common.navigation.navigateToAttachments
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryAppBar
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryAttachments
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryCategorize
@@ -130,7 +131,6 @@ fun AddEditDiaryScreen(
         type = PickerType.Image,
         mode = PickerMode.Single,
         onResult = { file: PlatformFile? ->
-            println("Attachments -> picked file path = ${file?.path}")
             file?.let {
                 scope.launch(Dispatchers.IO) {
                     val tempFilePath = mediaUtils.platformFileToTempFile(it)
@@ -244,6 +244,11 @@ fun AddEditDiaryScreen(
             AddEditDiaryEffect.LaunchVideoPicker -> {
                 videoPickerLauncher.launch()
             }
+
+            is AddEditDiaryEffect.NavigateToAttachments -> navigator.navigateToAttachments(
+                effect.entryId,
+                effect.initialIndex
+            )
         }
     }
 
@@ -340,7 +345,8 @@ private fun AddEditDiaryScreenContent(
                 ) {
                     AttachmentPreview(
                         attachments = state.attachments,
-                        onRemoveAttachment = { onIntent(AddEditDiaryIntent.OnRemoveAttachment(it)) }
+                        onRemoveAttachment = { onIntent(AddEditDiaryIntent.OnRemoveAttachment(it)) },
+                        onClick = { onIntent(AddEditDiaryIntent.OnAttachmentClicked(it)) },
                     )
 
                     AddEditDiaryAttachments(

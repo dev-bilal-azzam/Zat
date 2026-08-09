@@ -34,6 +34,9 @@ sealed interface Route: NavKey {
     data class AddEditDiary(val entryId: String? = null): Route, NavKey
 
     @Serializable
+    data class Attachments(val entryId: String, val initialIndex: Int = 0): Route, NavKey
+
+    @Serializable
     data object Security: Route, NavKey
 
 }

@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.compose.AsyncImagePainter
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
@@ -38,6 +37,7 @@ import kotlin.uuid.ExperimentalUuidApi
 fun AttachmentPreview(
     attachments: List<Attachment>,
     onRemoveAttachment: (Attachment) -> Unit,
+    onClick: (index: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (attachments.isEmpty()) return
@@ -47,13 +47,14 @@ fun AttachmentPreview(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        items(
+        itemsIndexed(
             items = attachments,
-            key = { it.id.toString() }
-        ) { attachment ->
+            key = { _, item -> item.id.toString() }
+        ) { index, attachment ->
             AttachmentItem(
                 attachment = attachment,
-                onRemove = { onRemoveAttachment(attachment) }
+                onRemove = { onRemoveAttachment(attachment) },
+                modifier = Modifier.clickable { onClick(index) }
             )
         }
     }
@@ -62,27 +63,19 @@ fun AttachmentPreview(
 @Composable
 private fun AttachmentItem(
     attachment: Attachment,
-    onRemove: () -> Unit
+    onRemove: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(90.dp)
             .clip(SquircleShape(Theme.radius.md))
             .background(Theme.colorScheme.background.surface)
     ) {
         when (attachment) {
             is Attachment.Image -> {
-                println("Attachments -> file path = ${attachment.filePath}")
                 AsyncImage(
                     model = attachment.filePath,
-                    onState = {
-                        when (it) {
-                            is AsyncImagePainter.State.Success -> println("Attachments -> image loaded, result = ${it.result}")
-                            is AsyncImagePainter.State.Empty -> println("Attachments -> image empty")
-                            is AsyncImagePainter.State.Error -> println("Attachments -> image error, result = ${it.result.throwable}")
-                            is AsyncImagePainter.State.Loading -> println("Attachments -> image loading")
-                        }
-                    },
                     contentDescription = "Image Attachment",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

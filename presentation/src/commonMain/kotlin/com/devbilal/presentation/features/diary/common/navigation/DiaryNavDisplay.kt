@@ -17,6 +17,7 @@ import com.devbilal.presentation.features.auth.screens.setuppattern.SetupPattern
 import com.devbilal.presentation.features.auth.screens.setuppin.SetupPinScreen
 import com.devbilal.presentation.features.auth.screens.unlock.UnlockScreen
 import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiaryScreen
+import com.devbilal.presentation.features.diary.screens.attachments.AttachmentsScreen
 import com.devbilal.presentation.features.diary.screens.calendar.CalendarScreen
 import com.devbilal.presentation.features.diary.screens.home.HomeScreen
 import com.devbilal.presentation.features.diary.screens.search.SearchScreen
@@ -65,6 +66,12 @@ fun DiaryNavDisplay(
 
                 entry<Route.AddEditDiary> { route ->
                     AddEditDiaryScreen(
+                        viewModel = koinViewModel { parametersOf(route) }
+                    )
+                }
+
+                entry<Route.Attachments> { route ->
+                    AttachmentsScreen(
                         viewModel = koinViewModel { parametersOf(route) }
                     )
                 }
