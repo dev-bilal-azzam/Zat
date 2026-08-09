@@ -31,7 +31,6 @@ class AndroidCameraLauncher(
             } else {
                 onResult(file.path)
             }
-            //file.delete()
         } else {
             if (isVideo) onVideoResult?.invoke(null, null) else onResult(null)
         }

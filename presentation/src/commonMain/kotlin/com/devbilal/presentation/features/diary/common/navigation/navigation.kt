@@ -21,6 +21,10 @@ internal fun Navigator.navigateToCalendar() = navigate(Route.Calendar)
 internal fun Navigator.navigateToAddEditDiary(entryId: String? = null) =
     navigate(Route.AddEditDiary(entryId = entryId))
 
+// Attachments
+internal fun Navigator.navigateToAttachments(entryId: String, initialIndex: Int = 0) =
+    navigate(Route.Attachments(entryId = entryId, initialIndex = initialIndex))
+
 // Security
 internal fun Navigator.navigateToSecurity(
     navOptions: Navigator.NavOptions = Navigator.NavOptions(singleTop = true)

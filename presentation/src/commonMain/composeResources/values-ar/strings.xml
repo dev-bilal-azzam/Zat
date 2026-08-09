@@ -123,4 +123,5 @@
     <string name="browse_your_existing_audio">تصفح ملفاتك الصوتية الموجودة</string>
     <string name="record_audio">سجل صوتاً</string>
     <string name="use_mic_to_record_new_audio">استخدم الميكروفون لتسجيل صوت جديد</string>
+    <string name="attachments">الوسائط</string>
 </resources>

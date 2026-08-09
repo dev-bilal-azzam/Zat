@@ -22,7 +22,7 @@ actual class HasherImpl actual constructor() : Hasher {
 
     private fun sha256(input: String): String {
         val data = input.encodeToByteArray()
-        val hash = UByteArray(32) // SHA-256
+        val hash = UByteArray(32)
         CC_SHA256(data.refTo(0), data.size.convert(), hash.refTo(0))
 
         return hash.joinToString("") { it.toByte().toHex() }

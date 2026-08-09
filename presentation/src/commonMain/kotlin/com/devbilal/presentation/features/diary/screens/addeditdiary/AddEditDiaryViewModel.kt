@@ -76,6 +76,11 @@ class AddEditDiaryViewModel(
             AddEditDiaryIntent.OnPickAudioClicked -> sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
             AddEditDiaryIntent.OnPickImageClicked -> sendEffect(AddEditDiaryEffect.LaunchImagePicker)
             AddEditDiaryIntent.OnPickVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
+            is AddEditDiaryIntent.OnAttachmentClicked -> {
+                currentState.id?.let {
+                    sendEffect(AddEditDiaryEffect.NavigateToAttachments(it, intent.index))
+                }
+            }
         }
     }
 

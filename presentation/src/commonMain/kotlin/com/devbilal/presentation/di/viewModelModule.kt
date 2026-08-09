@@ -9,6 +9,8 @@ import com.devbilal.presentation.features.auth.screens.setuppin.SetupPinViewMode
 import com.devbilal.presentation.features.auth.screens.unlock.UnlockViewModel
 import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiaryArgsImpl
 import com.devbilal.presentation.features.diary.screens.addeditdiary.AddEditDiaryViewModel
+import com.devbilal.presentation.features.diary.screens.attachments.AttachmentsArgsImpl
+import com.devbilal.presentation.features.diary.screens.attachments.AttachmentsViewModel
 import com.devbilal.presentation.features.diary.screens.calendar.CalendarViewModel
 import com.devbilal.presentation.features.diary.screens.home.HomeViewModel
 import com.devbilal.presentation.features.diary.screens.search.SearchViewModel
@@ -40,6 +42,12 @@ internal val viewModelModule = module {
             editDiaryEntryUseCase = get(),
             saveDiaryEntryUseCase = get(),
             clearTempCacheUseCase = get(),
+        )
+    }
+    viewModel { (route: Route.Attachments) ->
+        AttachmentsViewModel(
+            AttachmentsArgsImpl(route),
+            getDiaryEntryUseCase = get()
         )
     }
 
