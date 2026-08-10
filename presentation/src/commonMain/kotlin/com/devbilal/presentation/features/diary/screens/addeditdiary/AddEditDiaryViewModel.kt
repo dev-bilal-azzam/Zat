@@ -61,12 +61,15 @@ class AddEditDiaryViewModel(
             }
             AddEditDiaryIntent.OnStopRecordAudioClicked -> sendEffect(AddEditDiaryEffect.StopAudioRecorder)
             is AddEditDiaryIntent.OnAddAttachment -> updateState {
+                val newPending = pendingAttachments.filterNot { it.type == intent.attachment.type }
                 copy(
                     attachments = attachments + intent.attachment,
                     isAttachAudioOverlayVisible = false,
                     isAttachImageOverlayVisible = false,
                     isAttachVideoOverlayVisible = false,
-                    isRecordingAudio = false
+                    isRecordingAudio = false,
+                    isPickingAttachments = newPending.isNotEmpty(),
+                    pendingAttachments = newPending
                 )
             }
             is AddEditDiaryIntent.OnRemoveAttachment -> updateState {
@@ -80,6 +83,22 @@ class AddEditDiaryViewModel(
                 currentState.id?.let {
                     sendEffect(AddEditDiaryEffect.NavigateToAttachments(it, intent.index))
                 }
+            }
+            is AddEditDiaryIntent.OnProcessingStarted -> updateState {
+                copy(
+                    isPickingAttachments = true,
+                    pendingAttachments = pendingAttachments + PendingAttachmentUiState(intent.type)
+                )
+            }
+            is AddEditDiaryIntent.OnProcessingFailed -> {
+                updateState {
+                    val newPending = pendingAttachments.dropLast(1)
+                    copy(
+                        isPickingAttachments = newPending.isNotEmpty(),
+                        pendingAttachments = newPending
+                    )
+                }
+                showSnackBar(messageStringResource = Res.string.error)
             }
         }
     }

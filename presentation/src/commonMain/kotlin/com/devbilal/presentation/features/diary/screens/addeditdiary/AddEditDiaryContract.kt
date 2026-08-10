@@ -2,11 +2,17 @@ package com.devbilal.presentation.features.diary.screens.addeditdiary
 
 import com.devbilal.designsystem.component.snackbar.SnackBarData
 import com.devbilal.domain.entity.Attachment
+import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.domain.entity.DiaryColor
 import com.devbilal.presentation.base.UiEffect
 import com.devbilal.presentation.base.UiIntent
 import com.devbilal.presentation.base.UiState
 import kotlinx.datetime.LocalDate
+
+data class PendingAttachmentUiState(
+    val type: AttachmentType,
+    val progress: Float? = null
+)
 
 data class AddEditDiaryState(
     val id: String? = null,
@@ -21,7 +27,10 @@ data class AddEditDiaryState(
     val isAttachImageOverlayVisible: Boolean = false,
     val isAttachVideoOverlayVisible: Boolean = false,
     val isAttachAudioOverlayVisible: Boolean = false,
-    val isRecordingAudio: Boolean = false
+    val isRecordingAudio: Boolean = false,
+    val isPickingAttachments: Boolean = false,
+    val pickingProgress: Float? = null,
+    val pendingAttachments: List<PendingAttachmentUiState> = emptyList()
 ) : UiState
 
 sealed interface AddEditDiaryIntent : UiIntent {
@@ -50,6 +59,8 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data class OnAddAttachment(val attachment: Attachment) : AddEditDiaryIntent
     data class OnRemoveAttachment(val attachment: Attachment) : AddEditDiaryIntent
     data class OnAttachmentClicked(val index: Int) : AddEditDiaryIntent
+    data class OnProcessingStarted(val type: AttachmentType) : AddEditDiaryIntent
+    data class OnProcessingFailed(val error: String) : AddEditDiaryIntent
 }
 
 sealed interface AddEditDiaryEffect : UiEffect {

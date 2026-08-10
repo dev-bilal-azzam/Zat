@@ -40,6 +40,7 @@ import com.devbilal.designsystem.component.snackbar.LocalSnackBarHostController
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
+import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.media.rememberCameraLauncher
@@ -133,14 +134,19 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
-                    viewModel.handleIntent(
-                        AddEditDiaryIntent.OnAddAttachment(
-                            Attachment.Image(
-                                filePath = tempFilePath
+                    viewModel.handleIntent(AddEditDiaryIntent.OnProcessingStarted(AttachmentType.IMAGE))
+                    try {
+                        val tempFilePath = mediaUtils.platformFileToTempFile(it)
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnAddAttachment(
+                                Attachment.Image(
+                                    filePath = tempFilePath
+                                )
                             )
                         )
-                    )
+                    } catch (e: Exception) {
+                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                    }
                 }
             }
         }
@@ -152,16 +158,21 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
-                    val thumbnail = mediaUtils.generateThumbnail(tempFilePath)
-                    viewModel.handleIntent(
-                        AddEditDiaryIntent.OnAddAttachment(
-                            Attachment.Video(
-                                filePath = tempFilePath,
-                                thumbnail = thumbnail ?: byteArrayOf()
+                    viewModel.handleIntent(AddEditDiaryIntent.OnProcessingStarted(AttachmentType.VIDEO))
+                    try {
+                        val tempFilePath = mediaUtils.platformFileToTempFile(it)
+                        val thumbnail = mediaUtils.generateThumbnail(tempFilePath)
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnAddAttachment(
+                                Attachment.Video(
+                                    filePath = tempFilePath,
+                                    thumbnail = thumbnail ?: byteArrayOf()
+                                )
                             )
                         )
-                    )
+                    } catch (e: Exception) {
+                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                    }
                 }
             }
         }
@@ -173,14 +184,19 @@ fun AddEditDiaryScreen(
         onResult = { file: PlatformFile? ->
             file?.let {
                 scope.launch(Dispatchers.IO) {
-                    val tempFilePath = mediaUtils.platformFileToTempFile(it)
-                    viewModel.handleIntent(
-                        AddEditDiaryIntent.OnAddAttachment(
-                            Attachment.Audio(
-                                filePath = tempFilePath
+                    viewModel.handleIntent(AddEditDiaryIntent.OnProcessingStarted(AttachmentType.AUDIO))
+                    try {
+                        val tempFilePath = mediaUtils.platformFileToTempFile(it)
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnAddAttachment(
+                                Attachment.Audio(
+                                    filePath = tempFilePath
+                                )
                             )
                         )
-                    )
+                    } catch (e: Exception) {
+                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                    }
                 }
             }
         }
@@ -281,6 +297,7 @@ private fun AddEditDiaryScreenContent(
         topBar = {
             AddEditDiaryAppBar(
                 isEditMode = state.isEditMode,
+                isSaveEnabled = !state.isPickingAttachments,
                 onBackClicked = { onIntent(AddEditDiaryIntent.OnBackClicked) },
                 onSaveClick = {
                     onIntent(AddEditDiaryIntent.OnContentChanged(richTextState.toHtml()))
@@ -352,7 +369,8 @@ private fun AddEditDiaryScreenContent(
                     AddEditDiaryAttachments(
                         onAttachImageClicked = { onIntent(AddEditDiaryIntent.OnAttachImageClicked) },
                         onAttachVideoClicked = { onIntent(AddEditDiaryIntent.OnAttachVideoClicked) },
-                        onAttachAudioClicked = { onIntent(AddEditDiaryIntent.OnAttachAudioClicked) }
+                        onAttachAudioClicked = { onIntent(AddEditDiaryIntent.OnAttachAudioClicked) },
+                        isPicking = state.isPickingAttachments
                     )
 
                     AddEditDiaryCategorize(

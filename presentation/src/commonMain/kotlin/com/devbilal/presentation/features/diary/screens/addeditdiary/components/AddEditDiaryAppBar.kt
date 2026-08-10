@@ -16,9 +16,9 @@ import zat.presentation.generated.resources.save
 @Composable
 fun AddEditDiaryAppBar(
     isEditMode: Boolean = false,
+    isSaveEnabled: Boolean = true,
     onBackClicked: () -> Unit = {},
-    onSaveClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onSaveClick: () -> Unit = {}
 ) {
     AppBar(
         title = if (isEditMode) stringResource(Res.string.edit_entry)
@@ -28,6 +28,7 @@ fun AddEditDiaryAppBar(
             PrimaryButton(
                 text = stringResource(Res.string.save),
                 onClick = onSaveClick,
+                isEnabled = isSaveEnabled,
                 contentPadding = PaddingValues(horizontal = 12.dp , vertical = 4.dp),
 
                 modifier = Modifier.height(40.dp)
@@ -35,4 +36,3 @@ fun AddEditDiaryAppBar(
         }
     )
 }
-
