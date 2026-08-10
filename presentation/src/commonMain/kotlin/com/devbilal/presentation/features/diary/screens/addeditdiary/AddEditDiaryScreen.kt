@@ -2,6 +2,8 @@
 
 package com.devbilal.presentation.features.diary.screens.addeditdiary
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,12 +25,14 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.datetime.DatePicker
+import com.devbilal.designsystem.component.indicator.DotsProgressIndicator
 import com.devbilal.designsystem.component.richtext.RichTextEditor
 import com.devbilal.designsystem.component.richtext.RichTextPanel
 import com.devbilal.designsystem.component.richtext.rememberRichTextState
@@ -511,6 +515,31 @@ private fun AddEditDiaryScreenContent(
                     onStop = { onIntent(AddEditDiaryIntent.OnStopRecordAudioClicked) },
                     onCancel = { onIntent(AddEditDiaryIntent.OnCancelRecordAudio) }
                 )
+            }
+
+            if (state.isSaving) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f))
+                        .clickable(enabled = false) { },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(Theme.spacing._16)
+                    ) {
+                        DotsProgressIndicator(
+                            dotSize = 12.dp,
+                            spaceBetween = 6.dp
+                        )
+                        Text(
+                            text = "Saving...",
+                            style = Theme.typography.body.medium,
+                            color = Color.White
+                        )
+                    }
+                }
             }
         }
     }
