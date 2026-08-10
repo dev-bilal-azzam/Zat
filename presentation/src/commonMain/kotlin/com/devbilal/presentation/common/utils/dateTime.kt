@@ -1,6 +1,7 @@
 package com.devbilal.presentation.common.utils
 
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.DayOfWeekNames
 import kotlinx.datetime.format.MonthNames
@@ -20,4 +21,10 @@ fun LocalDate.formatDisplay(): String {
         year()
     }
     return this.format(format)
+}
+
+fun LocalDateTime.formatDateTime(): String {
+    val hourStr = hour.toString().padStart(2, '0')
+    val minuteStr = minute.toString().padStart(2, '0')
+    return "${date.day}/${date.month}/${date.year} $hourStr:$minuteStr"
 }

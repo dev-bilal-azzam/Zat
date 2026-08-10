@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.color.colorPalette
@@ -47,7 +48,7 @@ fun AddEditDiaryCategorize(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             colors.forEach { color ->
-                val diaryColor = DiaryColor(color.value.toLong())
+                val diaryColor = DiaryColor(color.toArgb().toLong() and 0xFFFFFFFFL)
                 ColorItem(
                     color = color.copy(alpha = .5f),
                     isSelected = selectedColor == diaryColor,

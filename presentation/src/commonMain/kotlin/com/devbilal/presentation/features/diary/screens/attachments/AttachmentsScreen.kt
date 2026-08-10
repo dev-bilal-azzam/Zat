@@ -10,11 +10,13 @@ import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.carousel.Carousel
 import com.devbilal.designsystem.component.carousel.CarouselIndicator
 import com.devbilal.designsystem.component.scaffold.Scaffold
+import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.presentation.base.ObserveEffects
 import com.devbilal.presentation.base.collectState
 import com.devbilal.presentation.common.navigation.LocalNavigator
+import com.devbilal.presentation.common.utils.formatDateTime
 import com.devbilal.presentation.features.diary.screens.attachments.components.AudioAttachmentItem
 import com.devbilal.presentation.features.diary.screens.attachments.components.ImageAttachmentItem
 import com.devbilal.presentation.features.diary.screens.attachments.components.VideoAttachmentItem
@@ -59,10 +61,24 @@ private fun AttachmentsScreenContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            AppBar(
-                title = stringResource(Res.string.attachments),
-                onLeadingClick = { onIntent(AttachmentsIntent.OnBackClicked) }
-            )
+            val currentAttachment = if (state.attachments.isNotEmpty()) {
+                state.attachments.getOrNull(pagerState.currentPage)
+            } else null
+
+            Column {
+                AppBar(
+                    title = stringResource(Res.string.attachments),
+                    onLeadingClick = { onIntent(AttachmentsIntent.OnBackClicked) }
+                )
+                currentAttachment?.let {
+                    Text(
+                        text = it.createdAt.formatDateTime(),
+                        style = Theme.typography.label.small,
+                        color = Theme.colorScheme.shadeTertiary,
+                        modifier = Modifier.padding(horizontal = Theme.spacing._16).padding(bottom = Theme.spacing._8)
+                    )
+                }
+            }
         },
         backgroundColor = Theme.colorScheme.background.surfaceLow
     ) {

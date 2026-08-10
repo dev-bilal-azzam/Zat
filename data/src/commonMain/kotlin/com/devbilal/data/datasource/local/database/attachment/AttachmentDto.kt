@@ -13,7 +13,8 @@ data class AttachmentDto(
     val type: String,
     val size: Long,
     val filePath: String,
-    val thumbnailHash: String? = null
+    val thumbnailHash: String? = null,
+    val createdAt: String,
 )
 
 @Entity(

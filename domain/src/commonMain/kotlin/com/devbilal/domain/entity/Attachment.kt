@@ -2,6 +2,7 @@
 
 package com.devbilal.domain.entity
 
+import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -9,10 +10,12 @@ sealed interface Attachment {
     val id: Uuid
     val filePath: String
     val type: AttachmentType
+    val createdAt: LocalDateTime
 
     data class Image(
         override val id: Uuid = Uuid.random(),
-        override val filePath: String
+        override val filePath: String,
+        override val createdAt: LocalDateTime
     ) : Attachment {
         override val type: AttachmentType = AttachmentType.IMAGE
     }
@@ -20,7 +23,8 @@ sealed interface Attachment {
     data class Video(
         override val id: Uuid = Uuid.random(),
         override val filePath: String,
-        val thumbnail: ByteArray
+        val thumbnail: ByteArray,
+        override val createdAt: LocalDateTime
     ) : Attachment {
         override val type: AttachmentType = AttachmentType.VIDEO
 
@@ -30,19 +34,21 @@ sealed interface Attachment {
             if (id != other.id) return false
             if (filePath != other.filePath) return false
             if (!thumbnail.contentEquals(other.thumbnail)) return false
-            return true
+            return createdAt == other.createdAt
         }
 
         override fun hashCode(): Int {
             var result = id.hashCode()
-            result = 31 * result + thumbnail.contentHashCode()
+            result = (31 * result) + thumbnail.contentHashCode()
+            result = (31 * result) + createdAt.hashCode()
             return result
         }
     }
 
     data class Audio(
         override val id: Uuid = Uuid.random(),
-        override val filePath: String
+        override val filePath: String,
+        override val createdAt: LocalDateTime
     ) : Attachment {
         override val type: AttachmentType = AttachmentType.AUDIO
     }

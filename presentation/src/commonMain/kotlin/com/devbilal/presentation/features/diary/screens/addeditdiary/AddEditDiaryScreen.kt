@@ -68,7 +68,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import com.devbilal.domain.util.now
 import org.koin.compose.viewmodel.koinViewModel
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.add_audio
@@ -133,7 +135,14 @@ fun AddEditDiaryScreen(
     val cameraLauncher = rememberCameraLauncher(
         onResult = { filePath: String? ->
             filePath?.let {
-                viewModel.handleIntent(AddEditDiaryIntent.OnAddAttachment(Attachment.Image(filePath = it)))
+                viewModel.handleIntent(
+                    AddEditDiaryIntent.OnAddAttachment(
+                        Attachment.Image(
+                            filePath = it,
+                            createdAt = LocalDateTime.now()
+                        )
+                    )
+                )
             }
         }
     )
@@ -145,7 +154,8 @@ fun AddEditDiaryScreen(
                     AddEditDiaryIntent.OnAddAttachment(
                         Attachment.Video(
                             filePath = filePath,
-                            thumbnail = thumbnail
+                            thumbnail = thumbnail,
+                            createdAt = LocalDateTime.now()
                         )
                     )
                 )
@@ -165,7 +175,8 @@ fun AddEditDiaryScreen(
                         viewModel.handleIntent(
                             AddEditDiaryIntent.OnAddAttachment(
                                 Attachment.Image(
-                                    filePath = tempFilePath
+                                    filePath = tempFilePath,
+                                    createdAt = LocalDateTime.now()
                                 )
                             )
                         )
@@ -195,7 +206,8 @@ fun AddEditDiaryScreen(
                             AddEditDiaryIntent.OnAddAttachment(
                                 Attachment.Video(
                                     filePath = tempFilePath,
-                                    thumbnail = thumbnail ?: byteArrayOf()
+                                    thumbnail = thumbnail ?: byteArrayOf(),
+                                    createdAt = LocalDateTime.now()
                                 )
                             )
                         )
@@ -223,7 +235,8 @@ fun AddEditDiaryScreen(
                         viewModel.handleIntent(
                             AddEditDiaryIntent.OnAddAttachment(
                                 Attachment.Audio(
-                                    filePath = tempFilePath
+                                    filePath = tempFilePath,
+                                    createdAt = LocalDateTime.now()
                                 )
                             )
                         )
@@ -270,7 +283,8 @@ fun AddEditDiaryScreen(
                                 viewModel.handleIntent(
                                     AddEditDiaryIntent.OnAddAttachment(
                                         Attachment.Audio(
-                                            filePath = filePath
+                                            filePath = filePath,
+                                            createdAt = LocalDateTime.now()
                                         )
                                     )
                                 )
