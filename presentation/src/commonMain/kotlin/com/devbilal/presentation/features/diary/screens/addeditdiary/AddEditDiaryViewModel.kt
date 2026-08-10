@@ -53,33 +53,67 @@ class AddEditDiaryViewModel(
             AddEditDiaryIntent.OnDismissAttachAudioOverlay -> updateState { copy(isAttachAudioOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachImageOverlay -> updateState { copy(isAttachImageOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachVideoOverlay -> updateState { copy(isAttachVideoOverlayVisible = false) }
-            AddEditDiaryIntent.OnCapturePhotoClicked -> sendEffect(AddEditDiaryEffect.LaunchCamera)
-            AddEditDiaryIntent.OnRecordVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoRecorder)
+            AddEditDiaryIntent.OnCaptureImageClicked -> {
+                updateState { copy(isAttachImageOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchCamera)
+            }
+            AddEditDiaryIntent.OnRecordVideoClicked -> {
+                updateState { copy(isAttachVideoOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchVideoRecorder)
+            }
             AddEditDiaryIntent.OnRecordAudioClicked -> {
                 updateState { copy(isAttachAudioOverlayVisible = false) }
                 sendEffect(AddEditDiaryEffect.LaunchAudioRecorder)
             }
             AddEditDiaryIntent.OnStopRecordAudioClicked -> sendEffect(AddEditDiaryEffect.StopAudioRecorder)
             is AddEditDiaryIntent.OnAddAttachment -> updateState {
+                val newPending = pendingAttachments.filterNot { it.type == intent.attachment.type }
                 copy(
                     attachments = attachments + intent.attachment,
                     isAttachAudioOverlayVisible = false,
                     isAttachImageOverlayVisible = false,
                     isAttachVideoOverlayVisible = false,
-                    isRecordingAudio = false
+                    isRecordingAudio = false,
+                    isPickingAttachments = newPending.isNotEmpty(),
+                    pendingAttachments = newPending
                 )
             }
             is AddEditDiaryIntent.OnRemoveAttachment -> updateState {
                 copy(attachments = attachments - intent.attachment)
             }
             AddEditDiaryIntent.OnStartRecordAudio -> updateState { copy(isRecordingAudio = true) }
-            AddEditDiaryIntent.OnPickAudioClicked -> sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
-            AddEditDiaryIntent.OnPickImageClicked -> sendEffect(AddEditDiaryEffect.LaunchImagePicker)
-            AddEditDiaryIntent.OnPickVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
+            AddEditDiaryIntent.OnPickAudioClicked -> {
+                updateState { copy(isAttachAudioOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
+            }
+            AddEditDiaryIntent.OnPickImageClicked -> {
+                updateState { copy(isAttachImageOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchImagePicker)
+            }
+            AddEditDiaryIntent.OnPickVideoClicked -> {
+                updateState { copy(isAttachVideoOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
+            }
             is AddEditDiaryIntent.OnAttachmentClicked -> {
                 currentState.id?.let {
                     sendEffect(AddEditDiaryEffect.NavigateToAttachments(it, intent.index))
                 }
+            }
+            is AddEditDiaryIntent.OnProcessingStarted -> updateState {
+                copy(
+                    isPickingAttachments = true,
+                    pendingAttachments = pendingAttachments + PendingAttachmentUiState(intent.type)
+                )
+            }
+            is AddEditDiaryIntent.OnProcessingFailed -> {
+                updateState {
+                    val newPending = pendingAttachments.dropLast(1)
+                    copy(
+                        isPickingAttachments = newPending.isNotEmpty(),
+                        pendingAttachments = newPending
+                    )
+                }
+                showSnackBar(messageStringResource = Res.string.error)
             }
         }
     }
