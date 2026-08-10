@@ -2,7 +2,6 @@
 
 package com.devbilal.data.datasource.local.database.diaryentry
 
-import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.domain.entity.DiaryColor
@@ -37,7 +36,10 @@ fun DiaryEntry.toDto(): DiaryEntryDto {
     )
 }
 
-fun DiaryEntryDto.toSummary(historyCount: Int, attachmentTypes: List<AttachmentType> = emptyList()): DiaryEntrySummary {
+fun DiaryEntryDto.toSummary(
+    historyCount: Int,
+    attachmentTypes: List<AttachmentType> = emptyList()
+): DiaryEntrySummary {
     return DiaryEntrySummary(
         id = Uuid.parse(id),
         title = title,
@@ -46,16 +48,5 @@ fun DiaryEntryDto.toSummary(historyCount: Int, attachmentTypes: List<AttachmentT
         attachmentTypes = attachmentTypes,
         firstImageUrl = null,
         color = DiaryColor(color)
-    )
-}
-
-fun Attachment.toEntity(hash: String, filePath: String, size: Long, thumbnailHash: String? = null): AttachmentDto {
-    return AttachmentDto(
-        hash = hash,
-        extension = filePath.substringAfterLast('.', ""),
-        type = type.name,
-        size = size,
-        filePath = filePath,
-        thumbnailHash = thumbnailHash
     )
 }

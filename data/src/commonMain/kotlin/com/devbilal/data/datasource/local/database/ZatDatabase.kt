@@ -24,7 +24,7 @@ import com.devbilal.data.datasource.local.database.diaryhistory.DiaryVersionDto
         DiaryEntryAttachmentCrossRef::class,
         DiaryVersionAttachmentCrossRef::class
     ],
-    version = 2
+    version = 3
 )
 @ConstructedBy(ZatDatabaseConstructor::class)
 abstract class ZatDatabase : RoomDatabase() {

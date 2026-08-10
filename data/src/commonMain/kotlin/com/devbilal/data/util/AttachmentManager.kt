@@ -2,8 +2,8 @@ package com.devbilal.data.util
 
 import com.devbilal.data.datasource.local.database.attachment.AttachmentDao
 import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
-import com.devbilal.data.datasource.local.database.attachment.toDomain
 import com.devbilal.data.datasource.local.database.attachment.toEntity
+import com.devbilal.data.datasource.local.database.attachment.toDto
 import com.devbilal.domain.entity.Attachment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
  */
 class AttachmentManager(
     private val attachmentDao: AttachmentDao,
-    private val fileManager: FileManager
+    private val fileManager: FileManager,
 ) {
     /**
      * Saves a list of attachments to disk using content-based hashing to avoid duplicates.
@@ -41,7 +41,8 @@ class AttachmentManager(
                             extension = "jpg",
                             type = "IMAGE",
                             size = attachment.thumbnail.size.toLong(),
-                            filePath = fileManager.getAttachmentPath(thumbName)
+                            filePath = fileManager.getAttachmentPath(thumbName),
+                            createdAt = attachment.createdAt.toString()
                         )
                     )
                 }
@@ -55,7 +56,7 @@ class AttachmentManager(
                 // Save new physical file and create metadata
                 val path = fileManager.copyFile(attachment.filePath, fileName)
                 val size = fileManager.getFileSize(path)
-                val entity = attachment.toEntity(hash, path, size, thumbnailHash)
+                val entity = attachment.toDto(hash, path, size, thumbnailHash)
                 attachmentDao.insertAttachment(entity)
                 entity
             }
@@ -72,7 +73,7 @@ class AttachmentManager(
                     fileManager.readFile(thumbEntity.filePath)
                 }
             }
-            entity.toDomain(thumbnail)
+            entity.toEntity(thumbnail)
         }
     }
 
