@@ -32,6 +32,7 @@ data class AddEditDiaryState(
     val recordingDurationMs: Long = 0L,
     val amplitudeList: List<Float> = emptyList(),
     val isPickingAttachments: Boolean = false,
+    val isSaving: Boolean = false,
     val pickingProgress: Float? = null,
     val pendingAttachments: List<PendingAttachmentUiState> = emptyList()
 ) : UiState

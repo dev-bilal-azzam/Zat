@@ -2,12 +2,7 @@ package com.devbilal.presentation.features.diary.screens.addeditdiary.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,14 +16,7 @@ import com.devbilal.designsystem.theme.theme.Theme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import zat.presentation.generated.resources.Res
-import zat.presentation.generated.resources.attachment
-import zat.presentation.generated.resources.audio
-import zat.presentation.generated.resources.ic_add_image
-import zat.presentation.generated.resources.ic_mic
-import zat.presentation.generated.resources.ic_video
-import zat.presentation.generated.resources.image
-import zat.presentation.generated.resources.video
+import zat.presentation.generated.resources.*
 
 @Composable
 fun AddEditDiaryAttachments(
@@ -40,7 +28,7 @@ fun AddEditDiaryAttachments(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(Theme.spacing._16)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

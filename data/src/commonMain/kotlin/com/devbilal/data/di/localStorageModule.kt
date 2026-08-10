@@ -8,6 +8,7 @@ import com.devbilal.data.datasource.local.database.diaryhistory.DiaryHistoryDao
 import com.devbilal.data.datasource.local.setting.SettingsStorage
 import com.devbilal.data.hash.Hasher
 import com.devbilal.data.hash.getHasherInstance
+import com.devbilal.data.util.AttachmentManager
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -31,6 +32,8 @@ internal val localStorageModule = module {
     single<ZatDatabase> { getChatDatabase(get()) }
     single<DiaryEntryDao> { get<ZatDatabase>().getDiaryEntryDao() }
     single<DiaryHistoryDao> { get<ZatDatabase>().getDiaryHistoryDao() }
+    single { get<ZatDatabase>().getAttachmentDao() }
+    singleOf(::AttachmentManager)
 
     expectFileManager()
 }
@@ -42,4 +45,5 @@ expect fun Scope.getDatabaseBuilder(): RoomDatabase.Builder<ZatDatabase>
 private fun getChatDatabase(builder: RoomDatabase.Builder<ZatDatabase>): ZatDatabase = builder
     .setDriver(BundledSQLiteDriver())
     .setQueryCoroutineContext(Dispatchers.IO)
+    .fallbackToDestructiveMigration(true)
     .build()

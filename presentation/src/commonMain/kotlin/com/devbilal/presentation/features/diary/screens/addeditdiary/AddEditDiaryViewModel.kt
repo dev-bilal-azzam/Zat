@@ -185,10 +185,12 @@ class AddEditDiaryViewModel(
         }
 
         safeExecute(
+            onStart = { updateState { copy(isSaving = true) } },
             onSuccess = { onSaveEntrySuccess() },
             onError = {
                 showSnackBar(messageStringResource = Res.string.diary_entry_not_saved)
-            }
+            },
+            onCompleted = { updateState { copy(isSaving = false) } }
         ) {
             val entry = DiaryEntry(
                 id = currentState.id?.let { Uuid.parse(it) } ?: Uuid.random(),

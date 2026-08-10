@@ -5,6 +5,7 @@ import java.io.File
 import android.net.Uri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.security.MessageDigest
 
 class AndroidFileManager(private val context: Context) : FileManager {
     private val attachmentDir = File(context.filesDir, "attachments").apply {
@@ -19,6 +20,8 @@ class AndroidFileManager(private val context: Context) : FileManager {
 
     override suspend fun copyFile(sourceFilePath: String, fileName: String): String = withContext(Dispatchers.IO) {
         val destFile = File(attachmentDir, fileName)
+        
+        // Prevent unnecessary self-copying
         if (sourceFilePath == destFile.absolutePath) return@withContext destFile.absolutePath
 
         if (sourceFilePath.startsWith("content://")) {
@@ -49,5 +52,34 @@ class AndroidFileManager(private val context: Context) : FileManager {
         context.cacheDir.listFiles()?.forEach { file ->
             if (file.isFile) file.delete()
         }
+    }
+
+    override suspend fun calculateHash(filePath: String): String = withContext(Dispatchers.IO) {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val file = File(filePath)
+        if (!file.exists()) return@withContext ""
+        
+        try {
+            file.inputStream().use { input ->
+                val buffer = ByteArray(8192)
+                var bytesRead = input.read(buffer)
+                while (bytesRead != -1) {
+                    digest.update(buffer, 0, bytesRead)
+                    bytesRead = input.read(buffer)
+                }
+            }
+            digest.digest().joinToString("") { "%02x".format(it) }
+        } catch (_: Exception) {
+            ""
+        }
+    }
+
+    override suspend fun getFileSize(filePath: String): Long = withContext(Dispatchers.IO) {
+        val file = File(filePath)
+        if (file.exists()) file.length() else 0L
+    }
+
+    override fun getAttachmentPath(fileName: String): String {
+        return File(attachmentDir, fileName).absolutePath
     }
 }

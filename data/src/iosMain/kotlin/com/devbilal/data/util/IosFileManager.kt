@@ -3,16 +3,12 @@ package com.devbilal.data.util
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
-import platform.Foundation.NSData
-import platform.Foundation.NSDocumentDirectory
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSTemporaryDirectory
-import platform.Foundation.NSURL
-import platform.Foundation.NSUserDomainMask
-import platform.Foundation.dataWithBytes
-import platform.Foundation.dataWithContentsOfFile
-import platform.Foundation.writeToURL
+import platform.Foundation.*
 import platform.posix.memcpy
+import platform.CoreCrypto.CC_SHA256
+import platform.CoreCrypto.CC_SHA256_DIGEST_LENGTH
+import kotlinx.cinterop.UByteVar
+import kotlinx.cinterop.reinterpret
 
 @OptIn(ExperimentalForeignApi::class)
 class IosFileManager : FileManager {
@@ -44,6 +40,7 @@ class IosFileManager : FileManager {
         val destPath = destUrl.path!!
         val cleanSourcePath = sourceFilePath.removePrefix("file://")
 
+        // Prevent unnecessary self-copying
         if (cleanSourcePath == destPath) return destPath
 
         if (fileManager.fileExistsAtPath(destPath)) {
@@ -70,5 +67,23 @@ class IosFileManager : FileManager {
         files?.forEach { fileName ->
             fileManager.removeItemAtPath("$tempDir$fileName", null)
         }
+    }
+
+    override suspend fun calculateHash(filePath: String): String {
+        val data = NSData.dataWithContentsOfFile(filePath) ?: return ""
+        val hash = ByteArray(CC_SHA256_DIGEST_LENGTH)
+        hash.usePinned { pinned ->
+            CC_SHA256(data.bytes, data.length.toUInt(), pinned.addressOf(0).reinterpret<UByteVar>())
+        }
+        return hash.joinToString("") { (it.toInt() and 0xFF).toString(16).padStart(2, '0') }
+    }
+
+    override suspend fun getFileSize(filePath: String): Long {
+        val attributes = fileManager.attributesOfItemAtPath(filePath, null) ?: return 0L
+        return (attributes[NSFileSize] as? NSNumber)?.longLongValue ?: 0L
+    }
+
+    override fun getAttachmentPath(fileName: String): String {
+        return attachmentDir.URLByAppendingPathComponent(fileName)!!.path!!
     }
 }
