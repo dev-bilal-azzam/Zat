@@ -15,6 +15,7 @@ import platform.AVFoundation.pause
 import platform.AVFoundation.play
 import platform.AVFoundation.removeTimeObserver
 import platform.AVFoundation.replaceCurrentItemWithPlayerItem
+import platform.AVFoundation.seekToTime
 import platform.AVKit.AVPlayerViewController
 import platform.CoreMedia.CMTimeGetSeconds
 import platform.CoreMedia.CMTimeMakeWithSeconds
@@ -67,6 +68,7 @@ actual fun AudioPlayer(
     url: String,
     modifier: Modifier,
     play: Boolean,
+    seekTo: Long?,
     onProgressUpdate: (Float, Long, Long) -> Unit
 ) {
     val player = remember {
@@ -79,6 +81,12 @@ actual fun AudioPlayer(
             player.play()
         } else {
             player.pause()
+        }
+    }
+
+    LaunchedEffect(seekTo) {
+        seekTo?.let {
+            player.seekToTime(CMTimeMakeWithSeconds(it / 1000.0, NSEC_PER_SEC.toInt()))
         }
     }
 

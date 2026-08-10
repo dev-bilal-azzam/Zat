@@ -21,7 +21,28 @@ class AttachmentsViewModel(
     override fun handleIntent(intent: AttachmentsIntent) {
         when (intent) {
             AttachmentsIntent.OnBackClicked -> sendEffect(AttachmentsEffect.NavigateBack)
-            is AttachmentsIntent.OnPageChanged -> updateState { copy(currentIndex = intent.index) }
+            is AttachmentsIntent.OnPageChanged -> updateState { 
+                copy(
+                    currentIndex = intent.index,
+                    audioPlaybackState = AudioPlaybackState() // Reset audio on page change
+                ) 
+            }
+            AttachmentsIntent.ToggleAudioPlayback -> updateState {
+                copy(audioPlaybackState = audioPlaybackState.copy(isPlaying = !audioPlaybackState.isPlaying, seekToPosition = null))
+            }
+            AttachmentsIntent.StopAudioPlayback -> updateState {
+                copy(audioPlaybackState = audioPlaybackState.copy(isPlaying = false, currentPosition = 0, seekToPosition = 0L))
+            }
+            is AttachmentsIntent.SeekAudioTo -> updateState {
+                copy(audioPlaybackState = audioPlaybackState.copy(seekToPosition = intent.positionMs))
+            }
+            is AttachmentsIntent.UpdateAudioProgress -> updateState {
+                copy(audioPlaybackState = audioPlaybackState.copy(
+                    currentPosition = intent.currentMs,
+                    totalDuration = intent.totalMs,
+                    seekToPosition = null // Clear seek request once updated
+                ))
+            }
         }
     }
 

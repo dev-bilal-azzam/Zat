@@ -1,9 +1,10 @@
 package com.devbilal.presentation.features.diary.screens.attachments
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.devbilal.designsystem.component.appBar.AppBar
 import com.devbilal.designsystem.component.carousel.Carousel
@@ -58,7 +59,6 @@ private fun AttachmentsScreenContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-
             AppBar(
                 title = stringResource(Res.string.attachments),
                 onLeadingClick = { onIntent(AttachmentsIntent.OnBackClicked) }
@@ -67,31 +67,44 @@ private fun AttachmentsScreenContent(
         backgroundColor = Theme.colorScheme.background.surfaceLow
     ) {
         if (state.attachments.isNotEmpty()) {
-            Carousel(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize(),
-                indicator = {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Carousel(
+                    state = pagerState,
+                    modifier = Modifier.weight(1f),
+                    indicator = null
+                ) { index ->
+                    when (val attachment = state.attachments[index]) {
+                        is Attachment.Image -> {
+                            ImageAttachmentItem(filePath = attachment.filePath)
+                        }
+
+                        is Attachment.Video -> {
+                            VideoAttachmentItem(
+                                filePath = attachment.filePath,
+                                thumbnail = attachment.thumbnail
+                            )
+                        }
+
+                        is Attachment.Audio -> {
+                            AudioAttachmentItem(
+                                filePath = attachment.filePath,
+                                state = state.audioPlaybackState,
+                                onIntent = onIntent
+                            )
+                        }
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = Theme.spacing._32),
+                    contentAlignment = Alignment.Center
+                ) {
                     CarouselIndicator(
                         itemCount = state.attachments.size,
                         currentPage = pagerState.currentPage
                     )
-                }
-            ) { index ->
-                when (val attachment = state.attachments[index]) {
-                    is Attachment.Image -> {
-                        ImageAttachmentItem(filePath = attachment.filePath)
-                    }
-
-                    is Attachment.Video -> {
-                        VideoAttachmentItem(
-                            filePath = attachment.filePath,
-                            thumbnail = attachment.thumbnail
-                        )
-                    }
-
-                    is Attachment.Audio -> {
-                        AudioAttachmentItem(filePath = attachment.filePath)
-                    }
                 }
             }
         }

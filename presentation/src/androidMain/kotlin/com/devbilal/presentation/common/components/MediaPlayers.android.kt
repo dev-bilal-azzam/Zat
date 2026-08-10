@@ -57,6 +57,7 @@ actual fun AudioPlayer(
     url: String,
     modifier: Modifier,
     play: Boolean,
+    seekTo: Long?,
     onProgressUpdate: (Float, Long, Long) -> Unit
 ) {
     val context = LocalContext.current
@@ -73,6 +74,10 @@ actual fun AudioPlayer(
         } else {
             exoPlayer.pause()
         }
+    }
+
+    LaunchedEffect(seekTo) {
+        seekTo?.let { exoPlayer.seekTo(it) }
     }
 
     LaunchedEffect(exoPlayer, play) {
