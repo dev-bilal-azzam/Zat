@@ -18,21 +18,22 @@ fun AddEditDiaryAppBar(
     isEditMode: Boolean = false,
     isSaveEnabled: Boolean = true,
     onBackClicked: () -> Unit = {},
-    onSaveClick: () -> Unit = {}
+    onSaveClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     AppBar(
         title = if (isEditMode) stringResource(Res.string.edit_entry)
         else stringResource(Res.string.add_entry),
-        onLeadingClick = onBackClicked ,
+        onLeadingClick = onBackClicked,
         trailingContent = {
             PrimaryButton(
                 text = stringResource(Res.string.save),
                 onClick = onSaveClick,
                 isEnabled = isSaveEnabled,
-                contentPadding = PaddingValues(horizontal = 12.dp , vertical = 4.dp),
-
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                 modifier = Modifier.height(40.dp)
             )
-        }
+        },
+        modifier = modifier
     )
 }

@@ -4,7 +4,9 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import androidx.room.TypeConverters
+import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
+import com.devbilal.data.datasource.local.database.attachment.DiaryEntryAttachmentCrossRef
+import com.devbilal.data.datasource.local.database.attachment.DiaryVersionAttachmentCrossRef
 import com.devbilal.data.datasource.local.database.diaryentry.DeletedDiaryEntryDto
 import com.devbilal.data.datasource.local.database.diaryentry.DiaryEntryDao
 import com.devbilal.data.datasource.local.database.diaryentry.DiaryEntryDto
@@ -17,15 +19,18 @@ import com.devbilal.data.datasource.local.database.diaryhistory.DiaryVersionDto
         DiaryEntryDto::class, 
         DiaryVersionDto::class, 
         DeletedDiaryEntryDto::class, 
-        DeletedDiaryVersionDto::class
+        DeletedDiaryVersionDto::class,
+        AttachmentDto::class,
+        DiaryEntryAttachmentCrossRef::class,
+        DiaryVersionAttachmentCrossRef::class
     ],
-    version = 1
+    version = 2
 )
-@TypeConverters(ZatTypeConverters::class)
 @ConstructedBy(ZatDatabaseConstructor::class)
 abstract class ZatDatabase : RoomDatabase() {
     abstract fun getDiaryEntryDao(): DiaryEntryDao
     abstract fun getDiaryHistoryDao(): DiaryHistoryDao
+    abstract fun getAttachmentDao(): com.devbilal.data.datasource.local.database.attachment.AttachmentDao
 }
 
 @Suppress("KotlinNoActualForExpect")

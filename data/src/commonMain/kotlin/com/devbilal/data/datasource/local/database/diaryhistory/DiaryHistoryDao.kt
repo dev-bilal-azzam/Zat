@@ -5,6 +5,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Embedded
+import androidx.room.Junction
+import androidx.room.Relation
+import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
+import com.devbilal.data.datasource.local.database.attachment.DiaryVersionAttachmentCrossRef
 import com.devbilal.domain.util.now
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -13,6 +18,10 @@ import kotlinx.datetime.LocalDateTime
 interface DiaryHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVersion(version: DiaryVersionDto)
+
+    @Transaction
+    @Query("SELECT * FROM diary_versions WHERE id = :versionId")
+    suspend fun getVersionWithAttachmentsById(versionId: String): DiaryVersionWithAttachments?
 
     @Query("SELECT * FROM diary_versions WHERE id = :versionId")
     suspend fun getVersionById(versionId: String): DiaryVersionDto?
@@ -34,7 +43,8 @@ interface DiaryHistoryDao {
 
     @Transaction
     suspend fun softDeleteVersion(versionId: String) {
-        val version = getVersionById(versionId) ?: return
+        val versionWithAttachments = getVersionWithAttachmentsById(versionId) ?: return
+        val version = versionWithAttachments.version
         val deletedVersion = DeletedDiaryVersionDto(
             id = version.id,
             primaryEntryId = version.primaryEntryId,
@@ -43,7 +53,6 @@ interface DiaryHistoryDao {
             date = version.date,
             createdAt = version.createdAt,
             color = version.color,
-            attachments = version.attachments,
             versionCreatedAt = version.versionCreatedAt,
             deletedAt = LocalDateTime.now().toString()
         )
@@ -66,7 +75,6 @@ interface DiaryHistoryDao {
                 date = version.date,
                 createdAt = version.createdAt,
                 color = version.color,
-                attachments = version.attachments,
                 versionCreatedAt = version.versionCreatedAt,
                 deletedAt = now
             )
@@ -75,6 +83,22 @@ interface DiaryHistoryDao {
         deleteHistoryByEntryId(entryId)
     }
 
+    @Transaction
     @Query("SELECT * FROM diary_versions WHERE primaryEntryId = :entryId ORDER BY versionCreatedAt DESC")
-    fun getHistoryByEntryId(entryId: String): Flow<List<DiaryVersionDto>>
+    fun getHistoryWithAttachmentsByEntryId(entryId: String): Flow<List<DiaryVersionWithAttachments>>
 }
+
+data class DiaryVersionWithAttachments(
+    @Embedded val version: DiaryVersionDto,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "hash",
+        associateBy = Junction(
+            value = DiaryVersionAttachmentCrossRef::class,
+            parentColumn = "versionId",
+            entityColumn = "attachmentHash"
+        )
+    )
+    val attachments: List<AttachmentDto>
+)
+

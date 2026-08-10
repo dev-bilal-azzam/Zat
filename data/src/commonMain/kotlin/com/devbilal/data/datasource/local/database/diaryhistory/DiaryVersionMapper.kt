@@ -2,7 +2,6 @@
 
 package com.devbilal.data.datasource.local.database.diaryhistory
 
-import com.devbilal.data.datasource.local.database.diaryentry.AttachmentDto
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.DiaryColor
 import com.devbilal.domain.entity.DiaryEntry
@@ -31,7 +30,7 @@ fun DiaryVersionDto.toEntity(attachments: List<Attachment>): DiaryVersion {
     )
 }
 
-fun DiaryVersion.toDto(attachments: List<AttachmentDto>): DiaryVersionDto {
+fun DiaryVersion.toDto(): DiaryVersionDto {
     return DiaryVersionDto(
         id = id.toString(),
         primaryEntryId = primaryEntryId.toString(),
@@ -40,7 +39,6 @@ fun DiaryVersion.toDto(attachments: List<AttachmentDto>): DiaryVersionDto {
         date = entry.date.toString(),
         createdAt = entry.createdAt.toString(),
         color = entry.color.value,
-        attachments = attachments,
         versionCreatedAt = versionCreatedAt.toString()
     )
 }

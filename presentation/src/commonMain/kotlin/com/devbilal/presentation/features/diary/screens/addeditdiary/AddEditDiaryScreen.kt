@@ -356,8 +356,8 @@ private fun AddEditDiaryScreenContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(Theme.spacing._24),
+                verticalArrangement = Arrangement.spacedBy(Theme.spacing._16)
             ) {
                 AddEditDiaryHeader(
                     date = state.date,
@@ -399,7 +399,7 @@ private fun AddEditDiaryScreenContent(
                 )
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(Theme.spacing._16),
                     modifier = Modifier
                         .onGloballyPositioned { coordinates ->
                             footerHeight = with(density) { coordinates.size.height.toDp() }

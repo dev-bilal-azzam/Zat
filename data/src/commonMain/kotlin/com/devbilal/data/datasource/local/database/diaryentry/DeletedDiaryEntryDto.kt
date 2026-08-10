@@ -11,6 +11,5 @@ data class DeletedDiaryEntryDto(
     val date: String,
     val createdAt: String,
     val color: Long,
-    val attachments: List<AttachmentDto>,
     val deletedAt: String
 )

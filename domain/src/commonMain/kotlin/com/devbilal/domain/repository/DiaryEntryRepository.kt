@@ -15,4 +15,5 @@ interface DiaryEntryRepository {
     suspend fun getEntryById(id: Uuid): DiaryEntry?
     fun getAllEntries(): Flow<List<DiaryEntrySummary>>
     suspend fun clearTempCache()
+    suspend fun cleanupOrphanedAttachments()
 }

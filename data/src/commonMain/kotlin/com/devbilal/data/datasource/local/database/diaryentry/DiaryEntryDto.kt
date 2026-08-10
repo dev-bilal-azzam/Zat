@@ -10,6 +10,5 @@ data class DiaryEntryDto(
     val content: String,
     val date: String,
     val createdAt: String,
-    val color: Long,
-    val attachments: List<AttachmentDto>
+    val color: Long
 )

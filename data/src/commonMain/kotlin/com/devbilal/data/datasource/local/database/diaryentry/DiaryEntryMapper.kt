@@ -2,6 +2,7 @@
 
 package com.devbilal.data.datasource.local.database.diaryentry
 
+import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
 import com.devbilal.domain.entity.Attachment
 import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.domain.entity.DiaryColor
@@ -25,64 +26,36 @@ fun DiaryEntryDto.toEntity(historyCount: Int, attachments: List<Attachment>): Di
     )
 }
 
-fun DiaryEntry.toDto(attachments: List<AttachmentDto>): DiaryEntryDto {
+fun DiaryEntry.toDto(): DiaryEntryDto {
     return DiaryEntryDto(
         id = id.toString(),
         title = title,
         content = content,
         date = date.toString(),
         createdAt = createdAt.toString(),
-        color = color.value,
-        attachments = attachments
+        color = color.value
     )
 }
 
-fun DiaryEntryDto.toSummary(historyCount: Int): DiaryEntrySummary {
+fun DiaryEntryDto.toSummary(historyCount: Int, attachmentTypes: List<AttachmentType> = emptyList()): DiaryEntrySummary {
     return DiaryEntrySummary(
         id = Uuid.parse(id),
         title = title,
         date = LocalDate.parse(date),
         historyCount = historyCount,
-        attachmentTypes = attachments.map(AttachmentDto::toAttachmentType).distinct(),
+        attachmentTypes = attachmentTypes,
         firstImageUrl = null,
         color = DiaryColor(color)
     )
 }
 
-fun DiaryEntryWithHistoryCount.toSummary(): DiaryEntrySummary {
-    return DiaryEntrySummary(
-        id = Uuid.parse(id),
-        title = title,
-        date = LocalDate.parse(date),
-        historyCount = historyCount,
-        attachmentTypes = attachments.map(AttachmentDto::toAttachmentType).distinct(),
-        firstImageUrl = null,
-        color = DiaryColor(color)
-    )
-}
-
-fun Attachment.toDto(path: String, thumbnailPath: String? = null): AttachmentDto = when (this) {
-    is Attachment.Image -> AttachmentDto.Image(id = id.toString(), filePath = path)
-    is Attachment.Video -> AttachmentDto.Video(
-        id = id.toString(),
-        filePath = path,
-        thumbnailFilePath = thumbnailPath ?: ""
-    )
-    is Attachment.Audio -> AttachmentDto.Audio(id = id.toString(), filePath = path)
-}
-
-fun AttachmentDto.toEntity(filePath: String, thumbnail: ByteArray? = null): Attachment = when (this) {
-    is AttachmentDto.Image -> Attachment.Image(id = Uuid.parse(id), filePath = filePath)
-    is AttachmentDto.Video -> Attachment.Video(
-        id = Uuid.parse(id),
+fun Attachment.toEntity(hash: String, filePath: String, size: Long, thumbnailHash: String? = null): AttachmentDto {
+    return AttachmentDto(
+        hash = hash,
+        extension = filePath.substringAfterLast('.', ""),
+        type = type.name,
+        size = size,
         filePath = filePath,
-        thumbnail = thumbnail ?: byteArrayOf()
+        thumbnailHash = thumbnailHash
     )
-    is AttachmentDto.Audio -> Attachment.Audio(id = Uuid.parse(id), filePath = filePath)
-}
-
-fun AttachmentDto.toAttachmentType(): AttachmentType = when(this) {
-    is AttachmentDto.Audio -> AttachmentType.AUDIO
-    is AttachmentDto.Image -> AttachmentType.IMAGE
-    is AttachmentDto.Video -> AttachmentType.VIDEO
 }

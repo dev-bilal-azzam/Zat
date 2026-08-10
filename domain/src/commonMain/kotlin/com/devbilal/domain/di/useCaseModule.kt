@@ -5,6 +5,7 @@ import com.devbilal.domain.usecase.authentication.BiometricAuthenticationUseCase
 import com.devbilal.domain.usecase.authentication.GetAuthenticationSettingsUseCase
 import com.devbilal.domain.usecase.authentication.IsAvailableBiometricAuthentication
 import com.devbilal.domain.usecase.authentication.SetAuthenticationMethodUseCase
+import com.devbilal.domain.usecase.diary.CleanOrphanedAttachmentsUseCase
 import com.devbilal.domain.usecase.diary.ClearTempCacheUseCase
 import com.devbilal.domain.usecase.diary.DeleteDiaryEntryUseCase
 import com.devbilal.domain.usecase.diary.DeleteDiaryHistoryUseCase
@@ -45,4 +46,5 @@ internal val useCaseModule = module {
     singleOf(::GetDiaryHistoryUseCase)
     singleOf(::SaveDiaryEntryUseCase)
     singleOf(::ClearTempCacheUseCase)
+    singleOf(::CleanOrphanedAttachmentsUseCase)
 }

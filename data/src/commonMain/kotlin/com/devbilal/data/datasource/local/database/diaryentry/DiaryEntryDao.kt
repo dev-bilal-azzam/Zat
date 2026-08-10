@@ -6,6 +6,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.room.Embedded
+import androidx.room.Junction
+import androidx.room.Relation
+import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
+import com.devbilal.data.datasource.local.database.attachment.DiaryEntryAttachmentCrossRef
 import com.devbilal.domain.util.now
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -18,6 +23,10 @@ interface DiaryEntryDao {
     @Update
     suspend fun updateEntry(entry: DiaryEntryDto)
 
+    @Transaction
+    @Query("SELECT * FROM diary_entries WHERE id = :id")
+    suspend fun getEntryWithAttachmentsById(id: String): DiaryEntryWithAttachments?
+
     @Query("SELECT * FROM diary_entries WHERE id = :id")
     suspend fun getEntryById(id: String): DiaryEntryDto?
 
@@ -29,7 +38,8 @@ interface DiaryEntryDao {
 
     @Transaction
     suspend fun softDeleteEntry(id: String) {
-        val entry = getEntryById(id) ?: return
+        val entryWithAttachments = getEntryWithAttachmentsById(id) ?: return
+        val entry = entryWithAttachments.entry
         val deletedEntry = DeletedDiaryEntryDto(
             id = entry.id,
             title = entry.title,
@@ -37,31 +47,50 @@ interface DiaryEntryDao {
             date = entry.date,
             createdAt = entry.createdAt,
             color = entry.color,
-            attachments = entry.attachments,
             deletedAt = LocalDateTime.now().toString()
         )
         insertDeletedEntry(deletedEntry)
         deleteEntry(id)
     }
 
+    @Transaction
     @Query("""
         SELECT e.*, (SELECT COUNT(*) FROM diary_versions v WHERE v.primaryEntryId = e.id) as historyCount 
         FROM diary_entries e 
         ORDER BY e.date DESC
     """)
-    fun getAllEntriesWithHistoryCount(): Flow<List<DiaryEntryWithHistoryCount>>
+    fun getAllEntriesWithAttachmentsAndHistoryCount(): Flow<List<DiaryEntryWithAttachmentsAndHistoryCount>>
 
     @Query("SELECT COUNT(*) FROM diary_versions WHERE primaryEntryId = :entryId")
     suspend fun getHistoryCount(entryId: String): Int
 }
 
-data class DiaryEntryWithHistoryCount(
-    val id: String,
-    val title: String,
-    val content: String,
-    val date: String,
-    val createdAt: String,
-    val color: Long,
+data class DiaryEntryWithAttachments(
+    @Embedded val entry: DiaryEntryDto,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "hash",
+        associateBy = Junction(
+            value = DiaryEntryAttachmentCrossRef::class,
+            parentColumn = "entryId",
+            entityColumn = "attachmentHash"
+        )
+    )
+    val attachments: List<AttachmentDto>
+)
+
+data class DiaryEntryWithAttachmentsAndHistoryCount(
+    @Embedded val entry: DiaryEntryDto,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "hash",
+        associateBy = Junction(
+            value = DiaryEntryAttachmentCrossRef::class,
+            parentColumn = "entryId",
+            entityColumn = "attachmentHash"
+        )
+    )
     val attachments: List<AttachmentDto>,
     val historyCount: Int
 )
+

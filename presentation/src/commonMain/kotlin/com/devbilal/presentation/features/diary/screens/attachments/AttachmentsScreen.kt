@@ -30,8 +30,8 @@ fun AttachmentsScreen(
     val navigator = LocalNavigator.current
     val state = viewModel.collectState()
 
-    viewModel.ObserveEffects {
-        when (it) {
+    viewModel.ObserveEffects { effect ->
+        when (effect) {
             AttachmentsEffect.NavigateBack -> navigator.navigateBack()
         }
     }
