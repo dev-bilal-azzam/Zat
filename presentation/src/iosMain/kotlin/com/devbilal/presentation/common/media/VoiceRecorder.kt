@@ -5,23 +5,10 @@ package com.devbilal.presentation.common.media
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.AVFAudio.AVAudioQualityMedium
-import platform.AVFAudio.AVAudioRecorder
-import platform.AVFAudio.AVAudioSession
-import platform.AVFAudio.AVAudioSessionCategoryPlayAndRecord
-import platform.AVFAudio.AVEncoderAudioQualityKey
-import platform.AVFAudio.AVFormatIDKey
-import platform.AVFAudio.AVNumberOfChannelsKey
-import platform.AVFAudio.AVSampleRateKey
-import platform.AVFAudio.setActive
+import platform.AVFAudio.*
 import platform.CoreAudioTypes.kAudioFormatMPEG4AAC
-import platform.Foundation.NSCachesDirectory
-import platform.Foundation.NSDate
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSNumber
-import platform.Foundation.NSURL
-import platform.Foundation.NSUserDomainMask
-import platform.Foundation.timeIntervalSince1970
+import platform.Foundation.*
+import kotlin.math.pow
 
 @OptIn(ExperimentalForeignApi::class)
 class IosVoiceRecorder : VoiceRecorder {
@@ -49,7 +36,16 @@ class IosVoiceRecorder : VoiceRecorder {
 
         val url = outputFileUrl ?: return
         recorder = AVAudioRecorder(url, settings, null)
+        recorder?.meteringEnabled = true
         recorder?.prepareToRecord()
+        recorder?.record()
+    }
+
+    override fun pauseRecording() {
+        recorder?.pause()
+    }
+
+    override fun resumeRecording() {
         recorder?.record()
     }
 
@@ -65,8 +61,25 @@ class IosVoiceRecorder : VoiceRecorder {
         recorder = null
     }
 
+    override fun cancelRecording() {
+        recorder?.stop()
+        audioSession.setActive(false, error = null)
+        outputFileUrl?.path?.let { filePath ->
+            NSFileManager.defaultManager.removeItemAtPath(filePath, error = null)
+        }
+        recorder = null
+    }
+
     override fun onResult(callback: (String) -> Unit) {
         onResultCallback = callback
+    }
+
+    override fun getAmplitude(): Float {
+        recorder?.updateMeters()
+        val power = recorder?.averagePowerForChannel(0UL) ?: -160f
+        // Convert dB to linear scale 0..1
+        // -160dB is silence, 0dB is max
+        return 10.0.pow(power.toDouble() / 20.0).toFloat()
     }
 }
 

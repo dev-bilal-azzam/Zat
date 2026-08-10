@@ -2,8 +2,6 @@
 
 package com.devbilal.presentation.features.diary.screens.addeditdiary
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,16 +19,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.devbilal.designsystem.component.button.PrimaryButton
 import com.devbilal.designsystem.component.datetime.DatePicker
 import com.devbilal.designsystem.component.richtext.RichTextEditor
 import com.devbilal.designsystem.component.richtext.RichTextPanel
@@ -58,16 +55,17 @@ import com.devbilal.presentation.features.diary.screens.addeditdiary.components.
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentBottomSheet
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentOption
 import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentPreview
+import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AudioRecordingDialog
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import sv.lib.squircleshape.SquircleShape
 import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.add_audio
 import zat.presentation.generated.resources.add_image
@@ -89,6 +87,7 @@ import zat.presentation.generated.resources.select_video_from_gallery
 import zat.presentation.generated.resources.take_new_photo_with_camera
 import zat.presentation.generated.resources.use_camera_to_capture_new_video
 import zat.presentation.generated.resources.use_mic_to_record_new_audio
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
@@ -104,6 +103,28 @@ fun AddEditDiaryScreen(
 
     val mediaUtils = rememberMediaUtils()
     val voiceRecorder = rememberVoiceRecorder()
+
+    // Recording logic
+    val currentRecordingState by rememberUpdatedState(state.isRecordingAudio to state.isRecordingPaused)
+    LaunchedEffect(state.isRecordingAudio, state.isRecordingPaused) {
+        val (isRecording, isPaused) = currentRecordingState
+        if (isRecording && !isPaused) {
+            var duration = state.recordingDurationMs
+            while (true) {
+                delay(100.milliseconds)
+                val (stillRecording, stillPaused) = currentRecordingState
+                if (!stillRecording || stillPaused) break
+
+                duration += 100
+                viewModel.handleIntent(
+                    AddEditDiaryIntent.OnUpdateRecordingProgress(
+                        durationMs = duration,
+                        amplitude = voiceRecorder.getAmplitude()
+                    )
+                )
+            }
+        }
+    }
 
     val cameraLauncher = rememberCameraLauncher(
         onResult = { filePath: String? ->
@@ -145,7 +166,11 @@ fun AddEditDiaryScreen(
                             )
                         )
                     } catch (e: Exception) {
-                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnProcessingFailed(
+                                e.message ?: ""
+                            )
+                        )
                     }
                 }
             }
@@ -171,7 +196,11 @@ fun AddEditDiaryScreen(
                             )
                         )
                     } catch (e: Exception) {
-                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnProcessingFailed(
+                                e.message ?: ""
+                            )
+                        )
                     }
                 }
             }
@@ -195,7 +224,11 @@ fun AddEditDiaryScreen(
                             )
                         )
                     } catch (e: Exception) {
-                        viewModel.handleIntent(AddEditDiaryIntent.OnProcessingFailed(e.message ?: ""))
+                        viewModel.handleIntent(
+                            AddEditDiaryIntent.OnProcessingFailed(
+                                e.message ?: ""
+                            )
+                        )
                     }
                 }
             }
@@ -245,8 +278,20 @@ fun AddEditDiaryScreen(
                 }
             }
 
+            AddEditDiaryEffect.PauseAudioRecorder -> {
+                voiceRecorder.pauseRecording()
+            }
+
+            AddEditDiaryEffect.ResumeAudioRecorder -> {
+                voiceRecorder.resumeRecording()
+            }
+
             AddEditDiaryEffect.StopAudioRecorder -> {
                 voiceRecorder.stopRecording()
+            }
+
+            AddEditDiaryEffect.CancelAudioRecorder -> {
+                voiceRecorder.cancelRecording()
             }
 
             AddEditDiaryEffect.LaunchAudioPicker -> {
@@ -297,7 +342,7 @@ private fun AddEditDiaryScreenContent(
         topBar = {
             AddEditDiaryAppBar(
                 isEditMode = state.isEditMode,
-                isSaveEnabled = !state.isPickingAttachments,
+                isSaveEnabled = !state.isPickingAttachments && !state.isRecordingAudio,
                 onBackClicked = { onIntent(AddEditDiaryIntent.OnBackClicked) },
                 onSaveClick = {
                     onIntent(AddEditDiaryIntent.OnContentChanged(richTextState.toHtml()))
@@ -450,35 +495,22 @@ private fun AddEditDiaryScreenContent(
                     )
                 )
             }
+
             if (state.isRecordingAudio) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.5f))
-                        .clickable(enabled = false) { /* Block clicks */ },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier
-                            .background(
-                                color = Theme.colorScheme.background.surface,
-                                shape = SquircleShape(Theme.radius.md)
-                            )
-                            .padding(32.dp)
-                    ) {
-                        Text(
-                            text = "Recording Audio...",
-                            style = Theme.typography.title.medium,
-                            color = Theme.colorScheme.primary.primary
-                        )
-                        PrimaryButton(
-                            text = "Stop Recording",
-                            onClick = { onIntent(AddEditDiaryIntent.OnStopRecordAudioClicked) }
-                        )
-                    }
-                }
+                AudioRecordingDialog(
+                    durationMs = state.recordingDurationMs,
+                    isPaused = state.isRecordingPaused,
+                    amplitudeList = state.amplitudeList,
+                    onPauseResume = {
+                        if (state.isRecordingPaused) {
+                            onIntent(AddEditDiaryIntent.OnResumeRecordAudio)
+                        } else {
+                            onIntent(AddEditDiaryIntent.OnPauseRecordAudio)
+                        }
+                    },
+                    onStop = { onIntent(AddEditDiaryIntent.OnStopRecordAudioClicked) },
+                    onCancel = { onIntent(AddEditDiaryIntent.OnCancelRecordAudio) }
+                )
             }
         }
     }

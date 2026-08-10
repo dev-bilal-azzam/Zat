@@ -32,6 +32,14 @@ class AndroidVoiceRecorder(private val context: Context) : VoiceRecorder {
         }
     }
 
+    override fun pauseRecording() {
+        mediaRecorder?.pause()
+    }
+
+    override fun resumeRecording() {
+        mediaRecorder?.resume()
+    }
+
     override fun stopRecording() {
         try {
             mediaRecorder?.stop()
@@ -49,8 +57,27 @@ class AndroidVoiceRecorder(private val context: Context) : VoiceRecorder {
         }
     }
 
+    override fun cancelRecording() {
+        try {
+            mediaRecorder?.stop()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            mediaRecorder?.release()
+            mediaRecorder = null
+        }
+        outputFile?.delete()
+        outputFile = null
+    }
+
     override fun onResult(callback: (String) -> Unit) {
         onResultCallback = callback
+    }
+
+    override fun getAmplitude(): Float {
+        val max = mediaRecorder?.maxAmplitude ?: 0
+        // Normalize 0..32767 to 0..1
+        return (max.toFloat() / 32767f).coerceIn(0f, 1f)
     }
 }
 

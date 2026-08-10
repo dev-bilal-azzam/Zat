@@ -89,6 +89,7 @@ private fun AttachmentsScreenContent(
                             AudioAttachmentItem(
                                 filePath = attachment.filePath,
                                 state = state.audioPlaybackState,
+                                isActive = index == state.currentIndex,
                                 onIntent = onIntent
                             )
                         }

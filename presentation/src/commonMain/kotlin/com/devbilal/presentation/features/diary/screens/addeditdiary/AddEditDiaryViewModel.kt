@@ -65,7 +65,40 @@ class AddEditDiaryViewModel(
                 updateState { copy(isAttachAudioOverlayVisible = false) }
                 sendEffect(AddEditDiaryEffect.LaunchAudioRecorder)
             }
+            AddEditDiaryIntent.OnStartRecordAudio -> updateState {
+                copy(
+                    isRecordingAudio = true,
+                    isRecordingPaused = false,
+                    recordingDurationMs = 0L,
+                    amplitudeList = emptyList()
+                )
+            }
+            AddEditDiaryIntent.OnPauseRecordAudio -> {
+                updateState { copy(isRecordingPaused = true) }
+                sendEffect(AddEditDiaryEffect.PauseAudioRecorder)
+            }
+            AddEditDiaryIntent.OnResumeRecordAudio -> {
+                updateState { copy(isRecordingPaused = false) }
+                sendEffect(AddEditDiaryEffect.ResumeAudioRecorder)
+            }
             AddEditDiaryIntent.OnStopRecordAudioClicked -> sendEffect(AddEditDiaryEffect.StopAudioRecorder)
+            AddEditDiaryIntent.OnCancelRecordAudio -> {
+                updateState {
+                    copy(
+                        isRecordingAudio = false,
+                        isRecordingPaused = false,
+                        recordingDurationMs = 0L,
+                        amplitudeList = emptyList()
+                    )
+                }
+                sendEffect(AddEditDiaryEffect.CancelAudioRecorder)
+            }
+            is AddEditDiaryIntent.OnUpdateRecordingProgress -> updateState {
+                copy(
+                    recordingDurationMs = intent.durationMs,
+                    amplitudeList = (amplitudeList + intent.amplitude).takeLast(50)
+                )
+            }
             is AddEditDiaryIntent.OnAddAttachment -> updateState {
                 val newPending = pendingAttachments.filterNot { it.type == intent.attachment.type }
                 copy(
@@ -74,6 +107,9 @@ class AddEditDiaryViewModel(
                     isAttachImageOverlayVisible = false,
                     isAttachVideoOverlayVisible = false,
                     isRecordingAudio = false,
+                    isRecordingPaused = false,
+                    recordingDurationMs = 0L,
+                    amplitudeList = emptyList(),
                     isPickingAttachments = newPending.isNotEmpty(),
                     pendingAttachments = newPending
                 )
@@ -81,7 +117,6 @@ class AddEditDiaryViewModel(
             is AddEditDiaryIntent.OnRemoveAttachment -> updateState {
                 copy(attachments = attachments - intent.attachment)
             }
-            AddEditDiaryIntent.OnStartRecordAudio -> updateState { copy(isRecordingAudio = true) }
             AddEditDiaryIntent.OnPickAudioClicked -> {
                 updateState { copy(isAttachAudioOverlayVisible = false) }
                 sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
