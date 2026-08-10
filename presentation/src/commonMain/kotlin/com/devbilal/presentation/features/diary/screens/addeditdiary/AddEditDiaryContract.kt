@@ -28,7 +28,11 @@ data class AddEditDiaryState(
     val isAttachVideoOverlayVisible: Boolean = false,
     val isAttachAudioOverlayVisible: Boolean = false,
     val isRecordingAudio: Boolean = false,
+    val isRecordingPaused: Boolean = false,
+    val recordingDurationMs: Long = 0L,
+    val amplitudeList: List<Float> = emptyList(),
     val isPickingAttachments: Boolean = false,
+    val pickingProgress: Float? = null,
     val pendingAttachments: List<PendingAttachmentUiState> = emptyList()
 ) : UiState
 
@@ -50,11 +54,15 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data object OnCaptureImageClicked : AddEditDiaryIntent
     data object OnRecordVideoClicked : AddEditDiaryIntent
     data object OnRecordAudioClicked : AddEditDiaryIntent
-    data object OnStartRecordAudio: AddEditDiaryIntent
+    data object OnStartRecordAudio : AddEditDiaryIntent
+    data object OnPauseRecordAudio : AddEditDiaryIntent
+    data object OnResumeRecordAudio : AddEditDiaryIntent
     data object OnStopRecordAudioClicked : AddEditDiaryIntent
-    data object OnPickImageClicked: AddEditDiaryIntent
-    data object OnPickVideoClicked: AddEditDiaryIntent
-    data object OnPickAudioClicked: AddEditDiaryIntent
+    data object OnCancelRecordAudio : AddEditDiaryIntent
+    data class OnUpdateRecordingProgress(val durationMs: Long, val amplitude: Float) : AddEditDiaryIntent
+    data object OnPickImageClicked : AddEditDiaryIntent
+    data object OnPickVideoClicked : AddEditDiaryIntent
+    data object OnPickAudioClicked : AddEditDiaryIntent
     data class OnAddAttachment(val attachment: Attachment) : AddEditDiaryIntent
     data class OnRemoveAttachment(val attachment: Attachment) : AddEditDiaryIntent
     data class OnAttachmentClicked(val index: Int) : AddEditDiaryIntent
@@ -68,9 +76,12 @@ sealed interface AddEditDiaryEffect : UiEffect {
     data object LaunchCamera : AddEditDiaryEffect
     data object LaunchVideoRecorder : AddEditDiaryEffect
     data object LaunchAudioRecorder : AddEditDiaryEffect
+    data object PauseAudioRecorder : AddEditDiaryEffect
+    data object ResumeAudioRecorder : AddEditDiaryEffect
     data object StopAudioRecorder : AddEditDiaryEffect
-    data object LaunchImagePicker: AddEditDiaryEffect
-    data object LaunchVideoPicker: AddEditDiaryEffect
-    data object LaunchAudioPicker: AddEditDiaryEffect
+    data object CancelAudioRecorder : AddEditDiaryEffect
+    data object LaunchImagePicker : AddEditDiaryEffect
+    data object LaunchVideoPicker : AddEditDiaryEffect
+    data object LaunchAudioPicker : AddEditDiaryEffect
     data class NavigateToAttachments(val entryId: String, val initialIndex: Int) : AddEditDiaryEffect
 }

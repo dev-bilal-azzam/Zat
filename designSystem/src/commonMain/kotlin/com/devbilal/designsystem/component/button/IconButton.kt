@@ -2,10 +2,13 @@ package com.devbilal.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,15 +24,20 @@ fun ZatIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    containerColor: Color = Theme.colorScheme.primary.primary,
-    contentColor: Color = Theme.colorScheme.primary.onPrimary
+    containerColor: Color = Theme.colorScheme.background.surface,
+    contentColor: Color = Theme.colorScheme.primary.primary
 ) {
     Box(
         modifier = modifier
             .size(48.dp)
             .clip(CircleShape)
             .background(if (enabled) containerColor else Theme.colorScheme.disabled)
-            .clickable(enabled = enabled, onClick = onClick),
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = ripple()
+            ),
         contentAlignment = Alignment.Center
     ) {
         Icon(

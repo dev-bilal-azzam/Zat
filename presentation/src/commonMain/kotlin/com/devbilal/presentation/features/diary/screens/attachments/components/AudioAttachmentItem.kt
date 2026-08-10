@@ -29,6 +29,7 @@ import zat.presentation.generated.resources.ic_stop
 fun AudioAttachmentItem(
     filePath: String,
     state: AudioPlaybackState,
+    isActive: Boolean,
     onIntent: (AttachmentsIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,9 +40,9 @@ fun AudioAttachmentItem(
     var sliderWidth by remember { mutableStateOf(0) }
     var localSliderValue by remember { mutableStateOf(0f) }
     
-    // Synchronize local value with state when not dragging and not seeking
-    LaunchedEffect(state.currentPosition, isDragged, isSeeking) {
-        if (!isDragged && !isSeeking) {
+    // Synchronize local value with state when not dragging, not seeking, and is active
+    LaunchedEffect(state.currentPosition, isDragged, isSeeking, isActive) {
+        if (!isDragged && !isSeeking && isActive) {
             localSliderValue = if (state.totalDuration > 0) {
                 state.currentPosition.toFloat() / state.totalDuration
             } else {
@@ -52,13 +53,17 @@ fun AudioAttachmentItem(
 
     AudioPlayer(
         url = filePath,
-        play = state.isPlaying,
-        seekTo = state.seekToPosition,
+        play = isActive && state.isPlaying,
+        seekTo = if (isActive) state.seekToPosition else null,
         onProgressUpdate = { _, current, total ->
-            onIntent(AttachmentsIntent.UpdateAudioProgress(current, total))
+            if (isActive && !isDragged) {
+                onIntent(AttachmentsIntent.UpdateAudioProgress(current, total))
+            }
         },
         onCompletion = {
-            onIntent(AttachmentsIntent.OnAudioPlaybackCompleted)
+            if (isActive) {
+                onIntent(AttachmentsIntent.OnAudioPlaybackCompleted)
+            }
         }
     )
 
