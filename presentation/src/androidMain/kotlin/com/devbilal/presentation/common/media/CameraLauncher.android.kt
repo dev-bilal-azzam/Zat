@@ -40,14 +40,14 @@ class AndroidCameraLauncher(
 @Composable
 actual fun rememberCameraLauncher(onResult: (String?) -> Unit): CameraLauncher {
     val context = LocalContext.current
-    val photoFile = remember {
-        File(context.cacheDir, "temp_photo_${System.currentTimeMillis()}.jpg")
+    val imageFile = remember {
+        File(context.cacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
     }
-    val photoUri = remember {
+    val imageUri = remember {
         FileProvider.getUriForFile(
             context,
             "${context.packageName}.fileprovider",
-            photoFile
+            imageFile
         )
     }
 
@@ -59,12 +59,12 @@ actual fun rememberCameraLauncher(onResult: (String?) -> Unit): CameraLauncher {
         cameraLauncher?.handleResult(context, success)
     }
 
-    cameraLauncher = remember(photoUri, photoFile) {
+    cameraLauncher = remember(imageUri, imageFile) {
         AndroidCameraLauncher(
             onResult = onResult,
             launcher = launcher,
-            fileUri = photoUri,
-            file = photoFile
+            fileUri = imageUri,
+            file = imageFile
         )
     }
 

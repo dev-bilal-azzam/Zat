@@ -53,8 +53,14 @@ class AddEditDiaryViewModel(
             AddEditDiaryIntent.OnDismissAttachAudioOverlay -> updateState { copy(isAttachAudioOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachImageOverlay -> updateState { copy(isAttachImageOverlayVisible = false) }
             AddEditDiaryIntent.OnDismissAttachVideoOverlay -> updateState { copy(isAttachVideoOverlayVisible = false) }
-            AddEditDiaryIntent.OnCapturePhotoClicked -> sendEffect(AddEditDiaryEffect.LaunchCamera)
-            AddEditDiaryIntent.OnRecordVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoRecorder)
+            AddEditDiaryIntent.OnCaptureImageClicked -> {
+                updateState { copy(isAttachImageOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchCamera)
+            }
+            AddEditDiaryIntent.OnRecordVideoClicked -> {
+                updateState { copy(isAttachVideoOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchVideoRecorder)
+            }
             AddEditDiaryIntent.OnRecordAudioClicked -> {
                 updateState { copy(isAttachAudioOverlayVisible = false) }
                 sendEffect(AddEditDiaryEffect.LaunchAudioRecorder)
@@ -76,9 +82,18 @@ class AddEditDiaryViewModel(
                 copy(attachments = attachments - intent.attachment)
             }
             AddEditDiaryIntent.OnStartRecordAudio -> updateState { copy(isRecordingAudio = true) }
-            AddEditDiaryIntent.OnPickAudioClicked -> sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
-            AddEditDiaryIntent.OnPickImageClicked -> sendEffect(AddEditDiaryEffect.LaunchImagePicker)
-            AddEditDiaryIntent.OnPickVideoClicked -> sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
+            AddEditDiaryIntent.OnPickAudioClicked -> {
+                updateState { copy(isAttachAudioOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchAudioPicker)
+            }
+            AddEditDiaryIntent.OnPickImageClicked -> {
+                updateState { copy(isAttachImageOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchImagePicker)
+            }
+            AddEditDiaryIntent.OnPickVideoClicked -> {
+                updateState { copy(isAttachVideoOverlayVisible = false) }
+                sendEffect(AddEditDiaryEffect.LaunchVideoPicker)
+            }
             is AddEditDiaryIntent.OnAttachmentClicked -> {
                 currentState.id?.let {
                     sendEffect(AddEditDiaryEffect.NavigateToAttachments(it, intent.index))

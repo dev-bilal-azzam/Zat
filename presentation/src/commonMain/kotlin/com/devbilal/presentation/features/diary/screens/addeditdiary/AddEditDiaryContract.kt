@@ -29,7 +29,6 @@ data class AddEditDiaryState(
     val isAttachAudioOverlayVisible: Boolean = false,
     val isRecordingAudio: Boolean = false,
     val isPickingAttachments: Boolean = false,
-    val pickingProgress: Float? = null,
     val pendingAttachments: List<PendingAttachmentUiState> = emptyList()
 ) : UiState
 
@@ -48,7 +47,7 @@ sealed interface AddEditDiaryIntent : UiIntent {
     data object OnDismissAttachImageOverlay : AddEditDiaryIntent
     data object OnDismissAttachVideoOverlay : AddEditDiaryIntent
     data object OnDismissAttachAudioOverlay : AddEditDiaryIntent
-    data object OnCapturePhotoClicked : AddEditDiaryIntent
+    data object OnCaptureImageClicked : AddEditDiaryIntent
     data object OnRecordVideoClicked : AddEditDiaryIntent
     data object OnRecordAudioClicked : AddEditDiaryIntent
     data object OnStartRecordAudio: AddEditDiaryIntent

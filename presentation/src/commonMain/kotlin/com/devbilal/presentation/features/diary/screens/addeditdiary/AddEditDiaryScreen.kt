@@ -403,7 +403,7 @@ private fun AddEditDiaryScreenContent(
                             title = stringResource(Res.string.capture_photo),
                             description = stringResource(Res.string.take_new_photo_with_camera),
                             icon = Res.drawable.ic_add_image,
-                            onClick = { onIntent(AddEditDiaryIntent.OnCapturePhotoClicked) }
+                            onClick = { onIntent(AddEditDiaryIntent.OnCaptureImageClicked) }
                         )
                     )
                 )
