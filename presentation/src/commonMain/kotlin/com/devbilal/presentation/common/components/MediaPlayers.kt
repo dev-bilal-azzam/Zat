@@ -15,5 +15,7 @@ expect fun AudioPlayer(
     url: String,
     modifier: Modifier = Modifier,
     play: Boolean = false,
-    onProgressUpdate: (Float, Long, Long) -> Unit = { _, _, _ -> }
+    seekTo: Long? = null,
+    onProgressUpdate: (Float, Long, Long) -> Unit = { _, _, _ -> },
+    onCompletion: () -> Unit = {}
 )
