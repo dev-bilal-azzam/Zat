@@ -23,6 +23,7 @@ sealed interface AttachmentsIntent : UiIntent {
     data class OnPageChanged(val index: Int) : AttachmentsIntent
     data object ToggleAudioPlayback : AttachmentsIntent
     data object StopAudioPlayback : AttachmentsIntent
+    data object OnAudioPlaybackCompleted : AttachmentsIntent
     data class SeekAudioTo(val positionMs: Long) : AttachmentsIntent
     data class UpdateAudioProgress(val currentMs: Long, val totalMs: Long) : AttachmentsIntent
 }

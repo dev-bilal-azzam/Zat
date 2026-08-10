@@ -33,15 +33,30 @@ class AttachmentsViewModel(
             AttachmentsIntent.StopAudioPlayback -> updateState {
                 copy(audioPlaybackState = audioPlaybackState.copy(isPlaying = false, currentPosition = 0, seekToPosition = 0L))
             }
+            AttachmentsIntent.OnAudioPlaybackCompleted -> updateState {
+                copy(audioPlaybackState = audioPlaybackState.copy(isPlaying = false, currentPosition = 0, seekToPosition = 0L))
+            }
             is AttachmentsIntent.SeekAudioTo -> updateState {
-                copy(audioPlaybackState = audioPlaybackState.copy(seekToPosition = intent.positionMs))
+                copy(
+                    audioPlaybackState = audioPlaybackState.copy(
+                        seekToPosition = intent.positionMs,
+                        currentPosition = intent.positionMs
+                    )
+                )
             }
             is AttachmentsIntent.UpdateAudioProgress -> updateState {
-                copy(audioPlaybackState = audioPlaybackState.copy(
-                    currentPosition = intent.currentMs,
-                    totalDuration = intent.totalMs,
-                    seekToPosition = null // Clear seek request once updated
-                ))
+                val seekTo = audioPlaybackState.seekToPosition
+                if (seekTo != null && kotlin.math.abs(intent.currentMs - seekTo) > 1000) {
+                    return@updateState this
+                }
+
+                copy(
+                    audioPlaybackState = audioPlaybackState.copy(
+                        currentPosition = intent.currentMs,
+                        totalDuration = intent.totalMs,
+                        seekToPosition = null // Clear seek request once updated
+                    )
+                )
             }
         }
     }

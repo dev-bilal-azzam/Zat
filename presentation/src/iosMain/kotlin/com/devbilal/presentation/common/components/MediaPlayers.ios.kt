@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFoundation.AVPlayer
+import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
 import platform.AVFoundation.addPeriodicTimeObserverForInterval
 import platform.AVFoundation.currentItem
 import platform.AVFoundation.duration
@@ -19,6 +20,8 @@ import platform.AVFoundation.seekToTime
 import platform.AVKit.AVPlayerViewController
 import platform.CoreMedia.CMTimeGetSeconds
 import platform.CoreMedia.CMTimeMakeWithSeconds
+import platform.Foundation.NSNotificationCenter
+import platform.Foundation.NSOperationQueue
 import platform.Foundation.NSURL
 import platform.darwin.NSEC_PER_SEC
 
@@ -69,7 +72,8 @@ actual fun AudioPlayer(
     modifier: Modifier,
     play: Boolean,
     seekTo: Long?,
-    onProgressUpdate: (Float, Long, Long) -> Unit
+    onProgressUpdate: (Float, Long, Long) -> Unit,
+    onCompletion: () -> Unit
 ) {
     val player = remember {
         val nsUrl = NSURL.URLWithString(url) ?: NSURL.fileURLWithPath(url)
@@ -103,9 +107,19 @@ actual fun AudioPlayer(
                 )
             }
         }
+
+        val notificationObserver = NSNotificationCenter.defaultCenter.addObserverForName(
+            name = AVPlayerItemDidPlayToEndTimeNotification,
+            `object` = player.currentItem,
+            queue = NSOperationQueue.mainQueue
+        ) { _ ->
+            onCompletion()
+        }
+
         onDispose {
             player.pause()
             player.removeTimeObserver(observer)
+            NSNotificationCenter.defaultCenter.removeObserver(notificationObserver)
             player.replaceCurrentItemWithPlayerItem(null)
         }
     }
