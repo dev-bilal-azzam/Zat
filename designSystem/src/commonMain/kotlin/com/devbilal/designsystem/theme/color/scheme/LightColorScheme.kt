@@ -30,7 +30,7 @@ internal val LightColorScheme = ColorScheme(
     ),
     background = ColorScheme.Background(
         surfaceLow = colorPalette.navy.shade50,
-        surface = colorPalette.navy.shade200,
+        surface = colorPalette.navy.shade100,
         surfaceHigh = colorPalette.navy.shade300,
         bgError = colorPalette.red.shade50,
         bgWarning = colorPalette.yellow.shade50,
