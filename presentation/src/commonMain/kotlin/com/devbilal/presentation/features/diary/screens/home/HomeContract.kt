@@ -11,13 +11,17 @@ import kotlin.uuid.Uuid
 
 data class HomeState(
     val entries: List<DiaryEntrySummary> = emptyList(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val pendingDeleteEntryId: Uuid? = null
 ) : UiState
 
 sealed interface HomeIntent : UiIntent {
     data object OnBackClicked : HomeIntent
     data class OnEntryClicked(val id: Uuid) : HomeIntent
     data object OnAddEntryClicked : HomeIntent
+    data class OnSwipeToDelete(val id: Uuid) : HomeIntent
+    data object OnConfirmDelete : HomeIntent
+    data object OnCancelDelete : HomeIntent
 }
 
 sealed interface HomeEffect : UiEffect {

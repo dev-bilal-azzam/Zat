@@ -122,4 +122,7 @@
     <string name="record_audio">Record Audio</string>
     <string name="use_mic_to_record_new_audio">Use mic to record new audio</string>
     <string name="attachments">Attachments</string>
+    <string name="delete_diary_title">Delete Diary Entry?</string>
+    <string name="delete_diary_message">This will move the entry to the trash. You can restore it later.</string>
+    <string name="delete">Delete</string>
 </resources>

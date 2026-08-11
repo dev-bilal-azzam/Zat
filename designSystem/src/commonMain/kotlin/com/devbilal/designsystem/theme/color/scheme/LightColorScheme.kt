@@ -42,7 +42,7 @@ internal val LightColorScheme = ColorScheme(
     stroke = colorPalette.gray.shade300,
     textDisabled = colorPalette.gray.shade500,
     disabled = colorPalette.gray.shade400,
-    error = colorPalette.red.shade700,
+    error = colorPalette.red.shade500,
     warning = colorPalette.yellow.shade600,
     success = colorPalette.green.shade600
 )

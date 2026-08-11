@@ -28,7 +28,8 @@ class AddEditDiaryViewModel(
     private val getDiaryEntryUseCase: GetDiaryEntryUseCase,
     private val editDiaryEntryUseCase: EditDiaryEntryUseCase,
     private val saveDiaryEntryUseCase: SaveDiaryEntryUseCase,
-    private val clearTempCacheUseCase: ClearTempCacheUseCase
+    private val clearTempCacheUseCase: ClearTempCacheUseCase,
+    private val deleteDiaryEntryUseCase: com.devbilal.domain.usecase.diary.DeleteDiaryEntryUseCase
 ) : BaseViewModel<AddEditDiaryState, AddEditDiaryIntent, AddEditDiaryEffect>(
     AddEditDiaryState(date = LocalDateTime.now().date)
 ) {
@@ -41,6 +42,9 @@ class AddEditDiaryViewModel(
         when (intent) {
             AddEditDiaryIntent.OnBackClicked -> sendEffect(AddEditDiaryEffect.NavigateBack)
             AddEditDiaryIntent.OnSaveClicked -> saveEntry()
+            AddEditDiaryIntent.OnDeleteClicked -> updateState { copy(isDeleteConfirmationDialogVisible = true) }
+            AddEditDiaryIntent.OnConfirmDelete -> deleteEntry()
+            AddEditDiaryIntent.OnCancelDelete -> updateState { copy(isDeleteConfirmationDialogVisible = false) }
             is AddEditDiaryIntent.OnTitleChanged -> updateState { copy(title = intent.title) }
             is AddEditDiaryIntent.OnContentChanged -> updateState { copy(content = intent.content) }
             is AddEditDiaryIntent.OnDateChanged -> updateState { copy(date = intent.date) }
@@ -217,6 +221,21 @@ class AddEditDiaryViewModel(
             isError = false
         )
         sendEffect(AddEditDiaryEffect.NavigateBack)
+    }
+
+    private fun deleteEntry() {
+        val id = currentState.id ?: return
+        safeExecute(
+            onStart = { updateState { copy(isLoading = true, isDeleteConfirmationDialogVisible = false) } },
+            onSuccess = { sendEffect(AddEditDiaryEffect.NavigateBack) },
+            onError = {
+                it.printStackTrace()
+                println("Error Deleting: ${it.message}")
+                showSnackBar(messageStringResource = Res.string.error) },
+            onCompleted = { updateState { copy(isLoading = false) } }
+        ) {
+            deleteDiaryEntryUseCase(Uuid.parse(id))
+        }
     }
 
     private fun showSnackBar(

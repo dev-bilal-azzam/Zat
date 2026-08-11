@@ -4,9 +4,7 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
-import com.devbilal.data.datasource.local.database.attachment.DiaryEntryAttachmentCrossRef
-import com.devbilal.data.datasource.local.database.attachment.DiaryVersionAttachmentCrossRef
+import com.devbilal.data.datasource.local.database.attachment.*
 import com.devbilal.data.datasource.local.database.diaryentry.DeletedDiaryEntryDto
 import com.devbilal.data.datasource.local.database.diaryentry.DiaryEntryDao
 import com.devbilal.data.datasource.local.database.diaryentry.DiaryEntryDto
@@ -22,15 +20,17 @@ import com.devbilal.data.datasource.local.database.diaryhistory.DiaryVersionDto
         DeletedDiaryVersionDto::class,
         AttachmentDto::class,
         DiaryEntryAttachmentCrossRef::class,
-        DiaryVersionAttachmentCrossRef::class
+        DiaryVersionAttachmentCrossRef::class,
+        DeletedDiaryEntryAttachmentCrossRef::class,
+        DeletedDiaryVersionAttachmentCrossRef::class
     ],
-    version = 3
+    version = 4
 )
 @ConstructedBy(ZatDatabaseConstructor::class)
 abstract class ZatDatabase : RoomDatabase() {
     abstract fun getDiaryEntryDao(): DiaryEntryDao
     abstract fun getDiaryHistoryDao(): DiaryHistoryDao
-    abstract fun getAttachmentDao(): com.devbilal.data.datasource.local.database.attachment.AttachmentDao
+    abstract fun getAttachmentDao(): AttachmentDao
 }
 
 @Suppress("KotlinNoActualForExpect")

@@ -30,7 +30,7 @@ internal val viewModelModule = module {
     viewModelOf(::UnlockViewModel)
 
     // Diary
-    viewModelOf(::HomeViewModel)
+    viewModel { HomeViewModel(get(), get()) }
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::CalendarViewModel)
@@ -42,6 +42,7 @@ internal val viewModelModule = module {
             editDiaryEntryUseCase = get(),
             saveDiaryEntryUseCase = get(),
             clearTempCacheUseCase = get(),
+            deleteDiaryEntryUseCase = get(),
         )
     }
     viewModel { (route: Route.Attachments) ->

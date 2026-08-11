@@ -4,25 +4,11 @@ package com.devbilal.presentation.features.diary.screens.addeditdiary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.datetime.DatePicker
+import com.devbilal.designsystem.component.dialog.ConfirmationDialog
 import com.devbilal.designsystem.component.indicator.DotsProgressIndicator
 import com.devbilal.designsystem.component.richtext.RichTextEditor
 import com.devbilal.designsystem.component.richtext.RichTextPanel
@@ -52,14 +39,7 @@ import com.devbilal.presentation.common.navigation.LocalNavigator
 import com.devbilal.presentation.common.permission.Permission
 import com.devbilal.presentation.common.permission.rememberPermissionHandler
 import com.devbilal.presentation.features.diary.common.navigation.navigateToAttachments
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryAppBar
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryAttachments
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryCategorize
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AddEditDiaryHeader
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentBottomSheet
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentOption
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AttachmentPreview
-import com.devbilal.presentation.features.diary.screens.addeditdiary.components.AudioRecordingDialog
+import com.devbilal.presentation.features.diary.screens.addeditdiary.components.*
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
@@ -70,29 +50,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import com.devbilal.domain.util.now
 import org.koin.compose.viewmodel.koinViewModel
-import zat.presentation.generated.resources.Res
-import zat.presentation.generated.resources.add_audio
-import zat.presentation.generated.resources.add_image
-import zat.presentation.generated.resources.add_video
-import zat.presentation.generated.resources.browse_your_existing_audio
-import zat.presentation.generated.resources.browse_your_existing_media
-import zat.presentation.generated.resources.capture_photo
-import zat.presentation.generated.resources.choose_from_gallery
-import zat.presentation.generated.resources.entry_title_hint
-import zat.presentation.generated.resources.how_was_your_day_hint
-import zat.presentation.generated.resources.ic_add_image
-import zat.presentation.generated.resources.ic_mic
-import zat.presentation.generated.resources.ic_video
-import zat.presentation.generated.resources.record_audio
-import zat.presentation.generated.resources.record_video
-import zat.presentation.generated.resources.select_audio_from_files
-import zat.presentation.generated.resources.select_from_existing_photos
-import zat.presentation.generated.resources.select_video_from_gallery
-import zat.presentation.generated.resources.take_new_photo_with_camera
-import zat.presentation.generated.resources.use_camera_to_capture_new_video
-import zat.presentation.generated.resources.use_mic_to_record_new_audio
+import zat.presentation.generated.resources.*
+import com.devbilal.domain.util.now
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -335,6 +295,17 @@ fun AddEditDiaryScreen(
         state = state,
         onIntent = viewModel::handleIntent
     )
+
+    if (state.isDeleteConfirmationDialogVisible) {
+        ConfirmationDialog(
+            title = stringResource(Res.string.delete_diary_title),
+            message = stringResource(Res.string.delete_diary_message),
+            confirmText = stringResource(Res.string.delete),
+            cancelText = stringResource(Res.string.cancel),
+            onConfirm = { viewModel.handleIntent(AddEditDiaryIntent.OnConfirmDelete) },
+            onCancel = { viewModel.handleIntent(AddEditDiaryIntent.OnCancelDelete) }
+        )
+    }
 }
 
 @Composable
@@ -362,6 +333,9 @@ private fun AddEditDiaryScreenContent(
                 isEditMode = state.isEditMode,
                 isSaveEnabled = !state.isPickingAttachments && !state.isRecordingAudio,
                 onBackClicked = { onIntent(AddEditDiaryIntent.OnBackClicked) },
+                onDeleteClicked = if (state.isEditMode) {
+                    { onIntent(AddEditDiaryIntent.OnDeleteClicked) }
+                } else null,
                 onSaveClick = {
                     onIntent(AddEditDiaryIntent.OnContentChanged(richTextState.toHtml()))
                     onIntent(AddEditDiaryIntent.OnSaveClicked)

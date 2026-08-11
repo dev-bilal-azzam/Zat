@@ -10,7 +10,8 @@ import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
 class HomeViewModel(
-    private val getAllDiaryEntriesUseCase: GetAllDiaryEntriesUseCase
+    private val getAllDiaryEntriesUseCase: GetAllDiaryEntriesUseCase,
+    private val deleteDiaryEntryUseCase: com.devbilal.domain.usecase.diary.DeleteDiaryEntryUseCase
 ) : BaseViewModel<HomeState, HomeIntent, HomeEffect>(
     HomeState()
 ) {
@@ -33,6 +34,13 @@ class HomeViewModel(
             HomeIntent.OnBackClicked -> sendEffect(HomeEffect.NavigateBack)
             HomeIntent.OnAddEntryClicked -> sendEffect(HomeEffect.NavigateToAddEntry)
             is HomeIntent.OnEntryClicked -> sendEffect(HomeEffect.NavigateToEditEntry(intent.id))
+            is HomeIntent.OnSwipeToDelete -> updateState { copy(pendingDeleteEntryId = intent.id) }
+            HomeIntent.OnConfirmDelete -> {
+                val id = currentState.pendingDeleteEntryId ?: return
+                updateState { copy(pendingDeleteEntryId = null) }
+                safeExecute { deleteDiaryEntryUseCase(id) }
+            }
+            HomeIntent.OnCancelDelete -> updateState { copy(pendingDeleteEntryId = null) }
         }
     }
 }

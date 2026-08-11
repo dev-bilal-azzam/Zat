@@ -33,6 +33,7 @@ data class AddEditDiaryState(
     val amplitudeList: List<Float> = emptyList(),
     val isPickingAttachments: Boolean = false,
     val isSaving: Boolean = false,
+    val isDeleteConfirmationDialogVisible: Boolean = false,
     val pickingProgress: Float? = null,
     val pendingAttachments: List<PendingAttachmentUiState> = emptyList()
 ) : UiState
@@ -40,6 +41,9 @@ data class AddEditDiaryState(
 sealed interface AddEditDiaryIntent : UiIntent {
     data object OnBackClicked : AddEditDiaryIntent
     data object OnSaveClicked : AddEditDiaryIntent
+    data object OnDeleteClicked : AddEditDiaryIntent
+    data object OnConfirmDelete : AddEditDiaryIntent
+    data object OnCancelDelete : AddEditDiaryIntent
     data class OnTitleChanged(val title: String) : AddEditDiaryIntent
     data class OnContentChanged(val content: String) : AddEditDiaryIntent
     data class OnDateChanged(val date: LocalDate) : AddEditDiaryIntent

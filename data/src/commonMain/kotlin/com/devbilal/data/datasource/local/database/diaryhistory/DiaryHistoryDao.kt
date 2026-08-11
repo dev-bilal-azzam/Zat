@@ -10,6 +10,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
 import com.devbilal.data.datasource.local.database.attachment.DiaryVersionAttachmentCrossRef
+import com.devbilal.data.datasource.local.database.attachment.DeletedDiaryVersionAttachmentCrossRef
 import com.devbilal.domain.util.now
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -41,10 +42,18 @@ interface DiaryHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDeletedVersions(versions: List<DeletedDiaryVersionDto>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDeletedVersionCrossRefs(crossRefs: List<DeletedDiaryVersionAttachmentCrossRef>)
+
+    @Query("SELECT attachmentHash FROM diary_version_attachment_cross_ref WHERE versionId = :versionId")
+    suspend fun getAttachmentHashesForVersion(versionId: String): List<String>
+
     @Transaction
     suspend fun softDeleteVersion(versionId: String) {
         val versionWithAttachments = getVersionWithAttachmentsById(versionId) ?: return
         val version = versionWithAttachments.version
+        val hashes = getAttachmentHashesForVersion(versionId)
+        
         val deletedVersion = DeletedDiaryVersionDto(
             id = version.id,
             primaryEntryId = version.primaryEntryId,
@@ -56,7 +65,14 @@ interface DiaryHistoryDao {
             versionCreatedAt = version.versionCreatedAt,
             deletedAt = LocalDateTime.now().toString()
         )
+        
         insertDeletedVersion(deletedVersion)
+        
+        if (hashes.isNotEmpty()) {
+            val deletedRefs = hashes.map { DeletedDiaryVersionAttachmentCrossRef(versionId, it) }
+            insertDeletedVersionCrossRefs(deletedRefs)
+        }
+        
         deleteVersion(versionId)
     }
 
@@ -79,7 +95,18 @@ interface DiaryHistoryDao {
                 deletedAt = now
             )
         }
+        
         insertDeletedVersions(deletedVersions)
+        
+        // Move attachments for each version
+        versions.forEach { version ->
+            val hashes = getAttachmentHashesForVersion(version.id)
+            if (hashes.isNotEmpty()) {
+                val deletedRefs = hashes.map { DeletedDiaryVersionAttachmentCrossRef(version.id, it) }
+                insertDeletedVersionCrossRefs(deletedRefs)
+            }
+        }
+
         deleteHistoryByEntryId(entryId)
     }
 
