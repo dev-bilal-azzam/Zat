@@ -16,6 +16,7 @@ import com.devbilal.presentation.features.diary.screens.home.HomeViewModel
 import com.devbilal.presentation.features.diary.screens.search.SearchViewModel
 import com.devbilal.presentation.features.diary.screens.security.SecurityViewModel
 import com.devbilal.presentation.features.diary.screens.settings.SettingsViewModel
+import com.devbilal.presentation.features.diary.screens.trash.TrashViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -51,5 +52,6 @@ internal val viewModelModule = module {
             getDiaryEntryUseCase = get()
         )
     }
+    viewModelOf(::TrashViewModel)
 
 }
