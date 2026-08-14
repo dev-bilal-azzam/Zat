@@ -23,18 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.LayoutDirection
+import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-
 @Composable
 fun SwipeToDelete(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Theme.colorScheme.error,
     actionContent: @Composable BoxScope.() -> Unit = {
-        com.devbilal.designsystem.component.text.Text(
+        Text(
             text = "Delete",
             color = Color.White,
             style = Theme.typography.label.medium
@@ -45,6 +47,9 @@ fun SwipeToDelete(
     val scope = rememberCoroutineScope()
     val offsetX = remember { Animatable(0f) }
     var actionWidth by remember { mutableStateOf(0f) }
+
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val directionMultiplier = if (isRtl) -1f else 1f
 
     val maxDrag = -actionWidth
 
@@ -69,12 +74,13 @@ fun SwipeToDelete(
         // Foreground Content
         Box(
             modifier = Modifier
-                .offset { IntOffset(offsetX.value.roundToInt(), 0) }
+                .offset { IntOffset((offsetX.value).roundToInt(), 0) }
                 .draggable(
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
                         scope.launch {
-                            val newValue = (offsetX.value + delta).coerceIn(maxDrag, 0f)
+                            val adjustedDelta = delta * directionMultiplier
+                            val newValue = (offsetX.value + adjustedDelta).coerceIn(maxDrag, 0f)
                             offsetX.snapTo(newValue)
                         }
                     },
@@ -83,7 +89,6 @@ fun SwipeToDelete(
                             if (offsetX.value < maxDrag / 2) {
                                 offsetX.animateTo(maxDrag)
                                 onDelete()
-                                // Reset position after action (usually dialog will show)
                                 offsetX.animateTo(0f)
                             } else {
                                 offsetX.animateTo(0f)

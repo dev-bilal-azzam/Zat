@@ -5,6 +5,6 @@ package com.devbilal.domain.entity
  */
 data class DiaryColor(val value: Long) {
     companion object {
-        val Default = DiaryColor(0xFFFFFFFF) // White
+        val Default = DiaryColor(0xFF327285) // Navy
     }
 }

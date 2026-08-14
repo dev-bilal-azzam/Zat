@@ -30,7 +30,7 @@ internal val viewModelModule = module {
     viewModelOf(::UnlockViewModel)
 
     // Diary
-    viewModel { HomeViewModel(get(), get()) }
+    viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::CalendarViewModel)

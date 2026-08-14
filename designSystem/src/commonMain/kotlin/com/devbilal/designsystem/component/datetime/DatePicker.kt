@@ -60,11 +60,22 @@ fun DatePicker(
             DatePicker(
                 state = datePickerState,
                 colors = DatePickerDefaults.colors(
+                    titleContentColor = Theme.colorScheme.primary.primary,
+                    headlineContentColor = Theme.colorScheme.primary.primary,
+                    navigationContentColor = Theme.colorScheme.primary.primary,
+                    subheadContentColor = Theme.colorScheme.primary.primary,
+                    weekdayContentColor = Theme.colorScheme.primary.primary,
+                    dayContentColor = Theme.colorScheme.primary.primary,
+                    disabledDayContentColor = Theme.colorScheme.primary.primary,
+                    selectedDayContentColor = Theme.colorScheme.background.surface,
                     selectedDayContainerColor = Theme.colorScheme.primary.primary,
                     todayDateBorderColor = Theme.colorScheme.primary.primary,
                     todayContentColor = Theme.colorScheme.primary.primary,
+                    yearContentColor = Theme.colorScheme.primary.primary,
+                    selectedYearContentColor = Theme.colorScheme.background.surface,
+                    selectedYearContainerColor = Theme.colorScheme.primary.primary,
+                    currentYearContentColor = Theme.colorScheme.primary.primary,
                     containerColor = Theme.colorScheme.background.surface,
-
                 )
             )
         }

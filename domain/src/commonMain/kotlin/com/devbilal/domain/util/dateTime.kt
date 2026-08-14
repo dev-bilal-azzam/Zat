@@ -7,11 +7,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
-
-const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
-
 fun LocalDateTime.Companion.now(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-fun LocalDate.today() = LocalDateTime.now().date
+fun LocalDate.Companion.today(): LocalDate = LocalDateTime.now().date
 
-fun LocalTime.now() = LocalDateTime.now().time
+fun LocalTime.Companion.now(): LocalTime = LocalDateTime.now().time

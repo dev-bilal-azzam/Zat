@@ -25,6 +25,9 @@ sealed interface Route: NavKey {
     data object Search: Route, NavKey
 
     @Serializable
+    data object Trash: Route, NavKey
+
+    @Serializable
     data object Settings: Route, NavKey
 
     @Serializable

@@ -14,6 +14,7 @@ import com.devbilal.domain.usecase.diary.EditDiaryEntryUseCase
 import com.devbilal.domain.usecase.diary.GetAllDiaryEntriesUseCase
 import com.devbilal.domain.usecase.diary.GetDiaryEntryUseCase
 import com.devbilal.domain.usecase.diary.GetDiaryHistoryUseCase
+import com.devbilal.domain.usecase.diary.GetStreakCountUseCase
 import com.devbilal.domain.usecase.diary.SaveDiaryEntryUseCase
 import com.devbilal.domain.usecase.settings.AppLanguageUseCase
 import com.devbilal.domain.usecase.settings.AppThemeUseCase
@@ -43,6 +44,7 @@ internal val useCaseModule = module {
     singleOf(::EditDiaryEntryUseCase)
     singleOf(::GetDiaryEntryUseCase)
     singleOf(::GetAllDiaryEntriesUseCase)
+    singleOf(::GetStreakCountUseCase)
     singleOf(::GetDiaryHistoryUseCase)
     singleOf(::SaveDiaryEntryUseCase)
     singleOf(::ClearTempCacheUseCase)

@@ -16,8 +16,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
+import com.devbilal.designsystem.component.uitext.asString
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.presentation.common.utils.formatDisplay
+import com.devbilal.presentation.common.utils.localizedFormat
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -42,7 +43,7 @@ fun AddEditDiaryHeader(
                 color = Theme.colorScheme.shadeTertiary
             )
             ReadOnlyField(
-                text = date.formatDisplay(),
+                text = date.localizedFormat().asString(),
                 icon = Res.drawable.ic_calendar,
                 onClick = onDateClicked
             )
