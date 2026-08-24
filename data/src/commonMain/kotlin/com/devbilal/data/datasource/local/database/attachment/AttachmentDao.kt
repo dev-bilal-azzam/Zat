@@ -23,9 +23,6 @@ interface AttachmentDao {
     @Query("SELECT * FROM attachments JOIN diary_entry_attachment_cross_ref ON attachments.hash = diary_entry_attachment_cross_ref.attachmentHash WHERE entryId = :entryId")
     suspend fun getAttachmentsForEntry(entryId: String): List<AttachmentDto>
 
-    @Query("SELECT * FROM attachments JOIN diary_version_attachment_cross_ref ON attachments.hash = diary_version_attachment_cross_ref.attachmentHash WHERE versionId = :versionId")
-    suspend fun getAttachmentsForVersion(versionId: String): List<AttachmentDto>
-
     @Query("DELETE FROM diary_entry_attachment_cross_ref WHERE entryId = :entryId")
     suspend fun deleteEntryCrossRefs(entryId: String)
 
@@ -54,6 +51,8 @@ interface AttachmentDao {
         SELECT * FROM attachments 
         WHERE hash NOT IN (SELECT attachmentHash FROM diary_entry_attachment_cross_ref)
         AND hash NOT IN (SELECT attachmentHash FROM diary_version_attachment_cross_ref)
+        AND hash NOT IN (SELECT attachmentHash FROM deleted_diary_entry_attachment_cross_ref)
+        AND hash NOT IN (SELECT attachmentHash FROM deleted_diary_version_attachment_cross_ref)
         AND hash NOT IN (SELECT thumbnailHash FROM attachments WHERE thumbnailHash IS NOT NULL)
     """)
     suspend fun getOrphanedAttachments(): List<AttachmentDto>

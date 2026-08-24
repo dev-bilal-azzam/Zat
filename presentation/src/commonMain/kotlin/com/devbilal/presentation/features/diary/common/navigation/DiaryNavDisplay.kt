@@ -23,6 +23,7 @@ import com.devbilal.presentation.features.diary.screens.home.HomeScreen
 import com.devbilal.presentation.features.diary.screens.search.SearchScreen
 import com.devbilal.presentation.features.diary.screens.security.SecurityScreen
 import com.devbilal.presentation.features.diary.screens.settings.SettingsScreen
+import com.devbilal.presentation.features.diary.screens.trash.TrashScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -103,6 +104,10 @@ fun DiaryNavDisplay(
                     SetupPatternScreen(
                         onSuccessfulSetup = it.onSuccessfulSetup ?: {}
                     )
+                }
+
+                entry<Route.Trash> {
+                    TrashScreen()
                 }
             }
         )

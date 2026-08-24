@@ -14,6 +14,9 @@ internal fun Navigator.navigateToSettings() = navigate(Route.Settings)
 // Search
 internal fun Navigator.navigateToSearch() = navigate(Route.Search)
 
+// Trash
+internal fun Navigator.navigateToTrash() = navigate(Route.Trash)
+
 // Calendar
 internal fun Navigator.navigateToCalendar() = navigate(Route.Calendar)
 

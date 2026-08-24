@@ -10,19 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.devbilal.designsystem.component.icon.Icon
 import com.devbilal.designsystem.component.text.Text
 import com.devbilal.designsystem.theme.theme.Theme
-import com.devbilal.designsystem.theme.theme.ZatTheme
 import com.devbilal.domain.entity.AttachmentType
 import com.devbilal.domain.entity.DiaryEntrySummary
 import org.jetbrains.compose.resources.painterResource
-import zat.presentation.generated.resources.Res
 import zat.presentation.generated.resources.*
 
 @Composable
-fun DiaryEntryItem(
+fun RecentEntryCard(
     entry: DiaryEntrySummary,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -33,22 +30,22 @@ fun DiaryEntryItem(
             .clip(RoundedCornerShape(Theme.radius.md))
             .background(Theme.colorScheme.background.surface)
             .clickable { onClick() }
-            .padding(16.dp),
+            .padding(Theme.spacing._16),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(Theme.spacing._16)
     ) {
         // Color indicator
         Box(
             modifier = Modifier
-                .width(4.dp)
-                .height(40.dp)
+                .width(Theme.spacing._4)
+                .height(Theme.spacing._32 + Theme.spacing._8)
                 .clip(RoundedCornerShape(Theme.radius.full))
                 .background(Color(entry.color.value))
         )
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(Theme.spacing._4)
         ) {
             Text(
                 text = entry.title,
@@ -66,21 +63,21 @@ fun DiaryEntryItem(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(Theme.spacing._8)
         ) {
             if (entry.historyCount > 0) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(Theme.spacing._4)
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_clock),
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(Theme.spacing._16),
                         tint = Theme.colorScheme.shadeTertiary
                     )
                     Text(
                         text = entry.historyCount.toString(),
-                        style = Theme.typography.label.small,
+                        style = Theme.typography.label.medium,
                         color = Theme.colorScheme.shadeTertiary
                     )
                 }
@@ -94,39 +91,10 @@ fun DiaryEntryItem(
                 }
                 Icon(
                     painter = painterResource(icon),
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(Theme.spacing._16),
                     tint = Theme.colorScheme.shadeTertiary
                 )
             }
         }
-
-        if (entry.firstImageUrl != null) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(RoundedCornerShape(Theme.radius.sm))
-                    .background(Theme.colorScheme.background.surfaceLow)
-            )
-        }
-    }
-}
-
-@OptIn(kotlin.uuid.ExperimentalUuidApi::class)
-@androidx.compose.ui.tooling.preview.Preview
-@Composable
-private fun DiaryEntryItemPreview() {
-    ZatTheme {
-        DiaryEntryItem(
-            entry = DiaryEntrySummary(
-                id = kotlin.uuid.Uuid.random(),
-                title = "My Secret Diary Entry",
-                date = kotlinx.datetime.LocalDate(2023, 10, 27),
-                historyCount = 3,
-                attachmentTypes = listOf(AttachmentType.IMAGE, AttachmentType.AUDIO),
-                firstImageUrl = null,
-                color = com.devbilal.domain.entity.DiaryColor(0xFF4285F4)
-            ),
-            onClick = {}
-        )
     }
 }

@@ -40,7 +40,7 @@ internal val DarkColorScheme = ColorScheme(
     stroke = colorPalette.gray.shade700,
     textDisabled = colorPalette.gray.shade500,
     disabled = colorPalette.gray.shade600,
-    error = colorPalette.red.shade300,
+    error = colorPalette.red.shade400,
     warning = colorPalette.yellow.shade300,
     success = colorPalette.green.shade300
 )

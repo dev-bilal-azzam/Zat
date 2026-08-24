@@ -62,3 +62,49 @@ data class DiaryVersionAttachmentCrossRef(
     val versionId: String,
     val attachmentHash: String
 )
+
+@Entity(
+    tableName = "deleted_diary_entry_attachment_cross_ref",
+    primaryKeys = ["entryId", "attachmentHash"],
+    foreignKeys = [
+        ForeignKey(
+            entity = com.devbilal.data.datasource.local.database.diaryentry.DeletedDiaryEntryDto::class,
+            parentColumns = ["id"],
+            childColumns = ["entryId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = AttachmentDto::class,
+            parentColumns = ["hash"],
+            childColumns = ["attachmentHash"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
+data class DeletedDiaryEntryAttachmentCrossRef(
+    val entryId: String,
+    val attachmentHash: String
+)
+
+@Entity(
+    tableName = "deleted_diary_version_attachment_cross_ref",
+    primaryKeys = ["versionId", "attachmentHash"],
+    foreignKeys = [
+        ForeignKey(
+            entity = com.devbilal.data.datasource.local.database.diaryhistory.DeletedDiaryVersionDto::class,
+            parentColumns = ["id"],
+            childColumns = ["versionId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = AttachmentDto::class,
+            parentColumns = ["hash"],
+            childColumns = ["attachmentHash"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
+data class DeletedDiaryVersionAttachmentCrossRef(
+    val versionId: String,
+    val attachmentHash: String
+)

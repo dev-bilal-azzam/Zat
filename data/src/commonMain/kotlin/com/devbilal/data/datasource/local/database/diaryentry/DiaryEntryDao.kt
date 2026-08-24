@@ -11,6 +11,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.devbilal.data.datasource.local.database.attachment.AttachmentDto
 import com.devbilal.data.datasource.local.database.attachment.DiaryEntryAttachmentCrossRef
+import com.devbilal.data.datasource.local.database.attachment.DeletedDiaryEntryAttachmentCrossRef
 import com.devbilal.domain.util.now
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -36,10 +37,18 @@ interface DiaryEntryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDeletedEntry(entry: DeletedDiaryEntryDto)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDeletedEntryCrossRefs(crossRefs: List<DeletedDiaryEntryAttachmentCrossRef>)
+
+    @Query("SELECT attachmentHash FROM diary_entry_attachment_cross_ref WHERE entryId = :entryId")
+    suspend fun getAttachmentHashesForEntry(entryId: String): List<String>
+
     @Transaction
     suspend fun softDeleteEntry(id: String) {
         val entryWithAttachments = getEntryWithAttachmentsById(id) ?: return
         val entry = entryWithAttachments.entry
+        val hashes = getAttachmentHashesForEntry(id)
+        
         val deletedEntry = DeletedDiaryEntryDto(
             id = entry.id,
             title = entry.title,
@@ -49,7 +58,14 @@ interface DiaryEntryDao {
             color = entry.color,
             deletedAt = LocalDateTime.now().toString()
         )
+        
         insertDeletedEntry(deletedEntry)
+        
+        if (hashes.isNotEmpty()) {
+            val deletedRefs = hashes.map { DeletedDiaryEntryAttachmentCrossRef(id, it) }
+            insertDeletedEntryCrossRefs(deletedRefs)
+        }
+
         deleteEntry(id)
     }
 
